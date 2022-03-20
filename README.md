@@ -11,14 +11,14 @@ The general idea of "GADA"which means gift is to create a web application where 
 
 For this project we will have 3 type of users;
 
-Administrators
+1. Administrators
       1. that have full previlages to all CRUD cpabilities towards all feature like adding/removing clients, donations and posts
       2. will have managing page which includes authentication and authorization
-clients
+2. clients
       1  have privillages to CRUD posts
       2. login into their accounts
       3. have their own profiles and can manage it
-users
+3. users
       1. login(sign up if first time)
       2. can only see the posts and provide donations
       3. will have their own profile pages and can manage it
