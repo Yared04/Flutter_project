@@ -15,7 +15,7 @@ For this project we will have 3 type of users;
       1. that have full previlages to all CRUD cpabilities towards all feature like adding/removing clients, donations and posts
       2. will have managing page which includes authentication and authorization
 2. clients
-      1  have privillages to CRUD posts
+      1. have privillages to CRUD posts
       2. login into their accounts
       3. have their own profiles and can manage it
 3. users
