@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import '../../posts/post.dart';
+import '../posts.dart';
 
 
 class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {

@@ -219,7 +219,6 @@ class CreateCampaign extends StatelessWidget {
 
                                 post.add(CreatePost(
                                     title: title_ct.text,
-                                    thyme: thyme_ct.text,
                                     description: description_ct.text,
                                     goal: int.parse(goal_ct.text),
                                     image: uploaded));

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gada_ethiopia_mobile/Admin/Screens/list_of_posts.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
 import 'package:gada_ethiopia_mobile/posts/screens/post_detail.dart';
 
@@ -21,7 +22,7 @@ class Gada extends StatelessWidget {
        MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Gada Ethipoia',
-      home: PostDetail(),
+      home: listPosts(),
       // home: MyHomePage(),
 
     ),

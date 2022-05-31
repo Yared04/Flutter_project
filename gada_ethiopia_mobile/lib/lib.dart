@@ -1,4 +1,4 @@
-export 'posts/post.dart';
+export 'posts/posts.dart';
 export 'donation/donations.dart';
 export 'homepage.dart';
 export 'drawer.dart';
