@@ -9,6 +9,7 @@ class CreatePost extends CampaignEvent {
   final String thyme;
   final String description;
   final int goal;
+  
   File? image;
   CreatePost(
       {required this.title,

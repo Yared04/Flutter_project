@@ -84,27 +84,6 @@ class CreateCampaign extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  // TextFormField(
-                  //   controller: thyme_ct,
-                  //   decoration: InputDecoration(
-                  //       hintText: "Thyme",
-                  //       focusColor: Colors.green,
-                  //       prefixIcon: Icon(Icons.title_sharp),
-                  //       border: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.all(Radius.circular(10)),
-                  //       )),
-                  //   validator: (String? thyme) {
-                  //     // if (thyme == null || thyme.isEmpty) {
-                  //     //   return "Title is required!";
-                  //     // }
-                  //     if (thyme!.length > 200) {
-                  //       return "Title Must be less than 200 characters!";
-                  //     }
-                  //   },
-                  // ),
-                  // SizedBox(
-                  //   height: 20,
-                  // ),
                   TextFormField(
                     controller: description_ct,
                     decoration: const InputDecoration(
@@ -135,7 +114,7 @@ class CreateCampaign extends StatelessWidget {
                     decoration: const InputDecoration(
                         hintText: "Goal",
                         focusColor: Colors.green,
-                        prefixIcon: Icon(Icons.title_sharp),
+                        prefixIcon: Icon(Icons.sports_basketball_sharp),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         )),
@@ -179,7 +158,7 @@ class CreateCampaign extends StatelessWidget {
                           "Create Faild",
                         );
                       }
-                      if (state is PickSuccess) {
+                      if (state is PickSuccess || uploaded != null) {
                         imagePlace = Text("image Uploaded $uploaded");
                       }
                       if (state is PickFail) {
@@ -218,11 +197,12 @@ class CreateCampaign extends StatelessWidget {
                                     BlocProvider.of<CampaignBloc>(context);
 
                                 post.add(CreatePost(
-                                    title: title_ct.text,
-                                    thyme: thyme_ct.text,
-                                    description: description_ct.text,
-                                    goal: int.parse(goal_ct.text),
-                                    image: uploaded));
+                                  title: title_ct.text,
+                                  thyme: thyme_ct.text,
+                                  description: description_ct.text,
+                                  goal: int.parse(goal_ct.text),
+                                  image: uploaded,
+                                ));
                               } else {
                                 return;
                               }
@@ -235,8 +215,10 @@ class CreateCampaign extends StatelessWidget {
                     listenWhen: (previous, current) =>
                         (current is CreateSuccess),
                     listener: (_, CampaignState state) {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => const MyHomePage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const MyHomePage()));
                     },
                   ),
 

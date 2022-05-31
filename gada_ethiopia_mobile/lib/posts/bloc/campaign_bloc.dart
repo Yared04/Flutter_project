@@ -1,22 +1,39 @@
 import 'package:bloc/bloc.dart';
+import 'package:gada_ethiopia_mobile/posts/repo/post_repo.dart';
 import '../../posts/post.dart';
 
-
 class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
-  CampaignBloc() : super(Idle()) {
+  final PostRepository postRepository;
+
+  CampaignBloc({required this.postRepository}) : super(Idle()) {
     on<CreatePost>(_createcampaign);
     on<PickImage>(_showImage);
   }
+
   //
   void _createcampaign(CreatePost event, Emitter emit) async {
     print(event.title);
     print(event.goal);
-    emit(CreatingPost());
-    await Future.delayed(const Duration(seconds: 5));
-    if (event.image != null) {
-      emit(CreateSuccess());
-    } else {
+    if (event.image == null) {
       emit(CreateFailed());
+      return;
+    }
+    emit(CreatingPost());
+
+    final instance = Post(
+        description: event.description,
+        title: event.title,
+        goal: event.goal,
+        image: event.image);
+    var post = null;
+    try {
+      post = await postRepository.createPost(instance);
+    } catch (e) {
+      print(e);
+      emit(CreateFailed());
+    }
+    if (post != null) {
+      emit(CreateSuccess());
     }
   }
 
