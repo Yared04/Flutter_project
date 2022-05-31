@@ -22,8 +22,8 @@ class Gada extends StatelessWidget {
        MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Gada Ethipoia',
-      home: listPosts(),
-      // home: MyHomePage(),
+      // home: ListPosts(),
+      home: MyHomePage(),
 
     ),
     );

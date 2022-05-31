@@ -6,8 +6,8 @@ import 'package:gada_ethiopia_mobile/lib.dart';
 // import 'package:gada_ethiopia_mobile/lib.dart';
 
 
-class listPosts extends StatelessWidget {
- listPosts({Key? key}) : super(key: key);
+class ListPosts extends StatelessWidget {
+ ListPosts({Key? key}) : super(key: key);
   
 
   Widget _buildPopup(BuildContext context) {
@@ -23,6 +23,8 @@ class listPosts extends StatelessWidget {
     actions: [
        TextButton(
         onPressed: () {
+          final admin =  BlocProvider.of<AdminBloc>(context);
+          admin.add(DeletePost(3));
                   
         },
         child: const Text('Yes'),
@@ -41,46 +43,57 @@ class listPosts extends StatelessWidget {
   Widget build(BuildContext context) {
     // const size = 3;
     // Widget status = 
+    var error = '';
     List posts = [{"title" : " thet" , "id" : 3},{"title" : " thet" , "id" : 3},{"title" : " thet" , "id" : 3}];
-    return BlocConsumer<AdminBloc , AdminState>(
-      listener: ((context, state) => {
-        if(state is DeleteSuccess){
-                      
-        }
+    return BlocProvider(create: (_) => AdminBloc(),
+     child : BlocConsumer<AdminBloc , AdminState>(
+      
+      listener: ((_, state) => {
+         
       }),
       builder: (_,AdminState state) {
-        
+       if(state is DeleteSuccess){
+              // posts = datapro.getposs()
+        }
         if (state is DeleteFailure){
-          
+          error = "delete unsuccessful";
         }
 
         return Scaffold(
         appBar: AppBar(title: const Text("List of Posts"),),
-        body: ListView.builder(
-        padding: EdgeInsets.all(8.0),
-        itemCount: posts.length,
-        itemBuilder: (context, index) => 
-          Card(
-            child: ListTile(
-              onTap: () {
-    
-                },
-              subtitle: Text(posts[index]['title']),
-              trailing: GestureDetector(
-                child: Icon(Icons.delete,),
-                onTap: (){
-                showDialog(
-                context: context,
-                builder: (BuildContext context) => _buildPopup(context));
-                },),
-              title: Text("Post Name")),
+        body: SingleChildScrollView(
+
+          child: Container(
+            height: 500,
+            child: 
+                ListView.builder(
+                padding: EdgeInsets.all(8.0),
+                itemCount: posts.length,
+                itemBuilder: (context, index) => 
+                  Card(
+                    child: ListTile(
+                      onTap: () {
+              
+                        },
+                      subtitle: Text(posts[index]['title']),
+                      trailing: GestureDetector(
+                        child: Icon(Icons.delete,),
+                        onTap: (){
+                        showDialog(
+                        context: context,
+                        builder: (_) => _buildPopup(context));
+                        },),
+                      title: Text("Post Name")),
+                  ),
+               
+            ),
           ),
-            
-             )
+        )
         
       
     
       );}
+    )
     );
     }
 }

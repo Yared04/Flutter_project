@@ -4,11 +4,14 @@ import '../admin.dart';
 
 class AdminBloc extends Bloc<AdminEvents, AdminState> {
   AdminBloc() : super(Idle()) {
-    on<Confirmation>(_confirm);
+    on<DeletePost>(_confirm);
   }
-  void _confirm(Confirmation event, Emitter emit){
-      if(event.sure == true){
+  void _confirm(DeletePost event, Emitter emit){
+    print(event.id);
+      // try { awiat da.derl}
+      if(event.id != null){
         emit(DeleteSuccess());
+        
       }
       else{
         emit(DeleteFailure());

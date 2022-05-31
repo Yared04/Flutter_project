@@ -2,7 +2,7 @@
 abstract class AdminEvents{}
 
 class DeletePost extends AdminEvents{
-  final String id;
+  final int id;
 
   DeletePost(this.id);
 }
