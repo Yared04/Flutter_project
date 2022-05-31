@@ -12,7 +12,7 @@ class CreateCampaign extends StatelessWidget {
 
   final form_key = GlobalKey<FormState>();
   final title_ct = TextEditingController();
-  final thyme_ct = TextEditingController();
+
   final description_ct = TextEditingController();
   final goal_ct = TextEditingController();
   final account_ct = TextEditingController();
@@ -197,12 +197,10 @@ class CreateCampaign extends StatelessWidget {
                                     BlocProvider.of<CampaignBloc>(context);
 
                                 post.add(CreatePost(
-                                  title: title_ct.text,
-                                  thyme: thyme_ct.text,
-                                  description: description_ct.text,
-                                  goal: int.parse(goal_ct.text),
-                                  image: uploaded,
-                                ));
+                                    title: title_ct.text,
+                                    description: description_ct.text,
+                                    goal: int.parse(goal_ct.text),
+                                    image: uploaded));
                               } else {
                                 return;
                               }

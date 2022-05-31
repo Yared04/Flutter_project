@@ -5,19 +5,6 @@ import 'package:percent_indicator/percent_indicator.dart';
 
 class PostDetail extends StatelessWidget {
  PostDetail({Key? key}) : super(key: key);
-   bool isReadmore = true;
-  // Widget buildText(String text){
-  //             // if read more is false then show only 3 lines from text
-  //             // else show full text
-  //             final lines = isReadmore ? null : 3;
-  //             return Text(
-  //               text,
-  //               style: TextStyle(),
-  //               maxLines: lines,
-  //               // overflow pbuildText("Lorem ipsumLorem ipsumLorem Lorem ipsumLorem ipsumLorem ipsumipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsum")roperties is used to show 3 dot in text widget
-  //               // so that user can understand there are few more line to read.
-  //               overflow: isReadmore ? TextOverflow.visible: TextOverflow.ellipsis,
-  //             );}
 
   @override
   Widget build(BuildContext context) {
@@ -131,17 +118,7 @@ class PostDetail extends StatelessWidget {
                 child: Text("Description", style:TextStyle(color: Colors.green))),
                 
                 Text("Lorem ipsumLorem ipsumLorem Lorem ipsumLorem ipsumLorem ipsumipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsum"),
-                // TextButton(
-                //   style: ElevatedButton.styleFrom(
-                //     primary: Colors.transparent,
-                //     onPrimary: Colors.green,
-                //   ),
-                //   onPressed: (){
-                //   setState((){
-                //     isReadmore = !isReadmore;
-                //   });
-                // }, 
-                // child: Text((isReadmore? 'Read Less': 'Read More')),)
+                
           ]),
           const SizedBox(height: 10,),
             ElevatedButton(
