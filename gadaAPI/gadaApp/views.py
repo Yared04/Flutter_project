@@ -1,48 +1,93 @@
 
-from email.mime import image
 from django.shortcuts import render
 from django.http import HttpResponse , JsonResponse
-from rest_framework.parsers import JSONParser
+from requests import delete
+from rest_framework.parsers import JSONParser , MultiPartParser , FormParser
 from django.views.decorators.csrf import csrf_exempt
 import json
+from rest_framework.views import APIView
+from .serializers import UserSerializer
 from gadaApp.serializers import PostSerializer
 from .models import Post
+from django.contrib.auth.models import User
 
-# Create your views here.
-@csrf_exempt
-def posts(request):
-    if request.method == 'GET':
-        serializer = PostSerializer(Post.objects.all() , many = True) 
-        return JsonResponse(serializer.data, safe=False)
-    
-    if request.method == 'POST':
-    
-        serializer = PostSerializer(data=request.POST)
-        serializer.is_valid()
-        print(request.FILES)
-        serializer.data['image'] = request.FILES['image']
+
+class PostViewCreate(APIView):
+    serializer_class = PostSerializer
+    parser_classes = [MultiPartParser, FormParser]
+    def get(self, request):
+        posts = Post.objects.all()
+        serializer = self.serializer_class(instance=posts , many = True)
+        return JsonResponse(serializer.data , status = 200 , safe=False)
+       
+    def post(self, request, format=None):
+        data = request.data
+        serialized = PostSerializer(data=data)
+        if serialized.is_valid():
+            serialized.save()
+            
+            return JsonResponse(serialized.data, status=201)
         
-        print(serializer,'sjj')
-        if serializer.is_valid():
-            print(serializer.data)
-            # serializer.save()
-            return JsonResponse(serializer.data , status= 201)
-        return JsonResponse(serializer.data,status = 400)
-
-@csrf_exempt
-def post_detail(request , pk):
-    if request.method == 'GET':
+        return JsonResponse(serialized.errors, status=400)
+    
+class DetailPost(APIView):
+    serializer_class = PostSerializer
+    parser_classes = [MultiPartParser, FormParser]
+    def get(self , request , pk):
         try:
-            post = Post.objects.get(id = pk)
+            post = Post.objects.get(pk = pk)
         except:
+
             return HttpResponse(status = 404)
 
-        serialized = PostSerializer(post)
-        return(JsonResponse(serialized.data))
+        serializer = self.serializer_class(instance= post)
 
-        pass
-   
-    elif request.method == 'PUT':
-        pass
-    elif request.method == 'DELETE':
-        pass
+        return JsonResponse(serializer.data , status = 200)
+
+    def put(self , request , pk):
+        data = request.data
+        try:
+            post = Post.objects.get(pk = pk)
+        except:
+            return HttpResponse(status = 400)
+
+        serialized = PostSerializer(instance = post , data=data)
+        if serialized.is_valid():
+            serialized.save()
+            
+            return JsonResponse(serialized.data, status=201)
+        
+        return JsonResponse(serialized.errors, status=400)
+        
+
+    def delete(self , request , pk):
+        try:
+            post = Post.objects.get(pk = pk)
+        except:
+            return HttpResponse(status = 204)
+        post.delete()
+        return HttpResponse(status = 200)
+        
+class ViewUser(APIView):
+    serializer_class = UserSerializer
+
+    parser_classes = [JSONParser]
+
+    def get(self , request):
+        users = User.objects.all()
+
+        serializer = self.serializer_class(instance=users, many = True)
+        return JsonResponse(serializer.data , status = 200 , safe=False)
+
+class DeleteUser(APIView):
+    def delete(self , request , pk):
+        try:
+            user = User.objects.get(pk = pk)
+        except:
+            return HttpResponse(status = 204)
+        user.delete()
+        return HttpResponse(status = 200)
+    
+
+
+        
