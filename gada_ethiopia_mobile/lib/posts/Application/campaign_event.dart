@@ -8,6 +8,7 @@ class CreatePost extends CampaignEvent {
   final String title;
   final String description;
   final int goal;
+  
   File? image;
   CreatePost(
       {required this.title,

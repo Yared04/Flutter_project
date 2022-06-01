@@ -4,15 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
+import 'package:gada_ethiopia_mobile/posts/Application/bloc.dart';
 
 import 'package:image_picker/image_picker.dart';
+
+import 'screens.dart';
 
 class CreateCampaign extends StatelessWidget {
   CreateCampaign({Key? key}) : super(key: key);
 
   final form_key = GlobalKey<FormState>();
   final title_ct = TextEditingController();
-  final thyme_ct = TextEditingController();
+
   final description_ct = TextEditingController();
   final goal_ct = TextEditingController();
   final account_ct = TextEditingController();
@@ -84,27 +87,6 @@ class CreateCampaign extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  // TextFormField(
-                  //   controller: thyme_ct,
-                  //   decoration: InputDecoration(
-                  //       hintText: "Thyme",
-                  //       focusColor: Colors.green,
-                  //       prefixIcon: Icon(Icons.title_sharp),
-                  //       border: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.all(Radius.circular(10)),
-                  //       )),
-                  //   validator: (String? thyme) {
-                  //     // if (thyme == null || thyme.isEmpty) {
-                  //     //   return "Title is required!";
-                  //     // }
-                  //     if (thyme!.length > 200) {
-                  //       return "Title Must be less than 200 characters!";
-                  //     }
-                  //   },
-                  // ),
-                  // SizedBox(
-                  //   height: 20,
-                  // ),
                   TextFormField(
                     controller: description_ct,
                     decoration: const InputDecoration(
@@ -135,7 +117,7 @@ class CreateCampaign extends StatelessWidget {
                     decoration: const InputDecoration(
                         hintText: "Goal",
                         focusColor: Colors.green,
-                        prefixIcon: Icon(Icons.title_sharp),
+                        prefixIcon: Icon(Icons.sports_basketball_sharp),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         )),
@@ -179,7 +161,7 @@ class CreateCampaign extends StatelessWidget {
                           "Create Faild",
                         );
                       }
-                      if (state is PickSuccess) {
+                      if (state is PickSuccess || uploaded != null) {
                         imagePlace = Text("image Uploaded $uploaded");
                       }
                       if (state is PickFail) {
@@ -234,8 +216,10 @@ class CreateCampaign extends StatelessWidget {
                     listenWhen: (previous, current) =>
                         (current is CreateSuccess),
                     listener: (_, CampaignState state) {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => const MyHomePage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const MyHomePage()));
                     },
                   ),
 

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import 'screens.dart';
+
 class PostDetail extends StatelessWidget {
  PostDetail({Key? key}) : super(key: key);
 

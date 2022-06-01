@@ -1,31 +1,35 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gada_ethiopia_mobile/Admin/Screens/list_of_posts.dart';
+import 'package:gada_ethiopia_mobile/Admin/presentation/list_of_users.dart';
+import 'package:gada_ethiopia_mobile/Admin/presentation/list_of_posts.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
-import 'package:gada_ethiopia_mobile/posts/screens/post_detail.dart';
+import 'package:gada_ethiopia_mobile/posts/infrastructure/post_data_provider.dart';
+import 'package:gada_ethiopia_mobile/posts/infrastructure/post_repo.dart';
+import 'package:gada_ethiopia_mobile/posts/presentation/pages/post_detail.dart';
+import 'package:http/http.dart';
+// import 'package:gada_ethiopia_mobile/posts/screens/post_detail.dart';
 
 void main() {
-  runApp( const Gada());
-  
+  runApp(const Gada());
 }
 
 class Gada extends StatelessWidget {
-   const Gada({Key? key}) : super(key: key);
+  const Gada({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: ( _ ) => CampaignBloc(),
-
-      child:
-       MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Gada Ethipoia',
-      // home: ListPosts(),
-      home: MyHomePage(),
-
-    ),
+      create: (_) => CampaignBloc(
+          postRepository:
+        PostRepository(dataProvider: PostDataProvider(request: MultipartRequest("Post" ,Uri.parse('http://192.168.56.1:3000/posts') )))),
+              child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Gada Ethipoia',
+       home: ListUsers(),
+        // home: MyHomePage(),
+      ),
     );
   }
 }
