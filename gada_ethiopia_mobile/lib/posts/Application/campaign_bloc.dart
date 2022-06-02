@@ -14,8 +14,8 @@ class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
 
   //
   void _createcampaign(CreatePost event, Emitter emit) async {
-    print(event.title);
-    print(event.goal);
+    // print(event.title);
+    // print(event.goal);
     if (event.image == null) {
       emit(CreateFailed());
       return;
@@ -31,7 +31,7 @@ class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
     try {
       post = await postRepository.createPost(instance);
     } catch (e) {
-      print(e);
+      // print(e);
       emit(CreateFailed());
     }
     if (post != null) {

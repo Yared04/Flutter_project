@@ -9,66 +9,58 @@ class AdminBloc extends Bloc<AdminEvents, AdminState> {
   final PostRepository postRepo;
   final UserRepository userRepo;
 
-  AdminBloc({required this.postRepo, required this.userRepo}) : super(Loading());
+  AdminBloc({required this.postRepo, required this.userRepo}) : super(Loading()){
+      on<LoadPost>(_loading_posts);
+      on<DeletePost>(_delete_post);
+      on<LoadUsers>(_loading_users);
+      on<DeleteUser>(_delete_user);
+  
+  }
 
-
-  @override
-  Stream<AdminState> event_to_state(AdminEvents event) async*{
-    if(event is LoadPost){
-      yield Loading();
-      try{
-        final posts =  await postRepo.getPosts();
-        yield PostLoaded();
-      }
-      catch(_){
-        yield PostLoadFailure();
-      }
-    }
-    if(event is DeletePost){
-      try{
-        await postRepo.deletePost(event.id);
-        final posts = await postRepo.getPosts();
-        yield PostLoaded();
-      }
-      catch(_){
-        yield PostLoadFailure();
-      }
-
-
-    if(event is LoadUsers){
-      yield Loading();
-      try{
-        final users =  await userRepo.getUsers();
-        yield UsersLoaded();
-      }
-      catch(_){
-        yield UsersLoadFailure();
-      }
-    }
-    }
-    if(event is DeleteUser){
+void _delete_user(DeleteUser event, Emitter emit) async{
       try{
         await userRepo.deletePost(event.id);
         final users = await userRepo.getUsers();
-        yield UsersLoaded();
+        emit(UsersLoaded());
       }
       catch(_){
-        yield UsersLoadFailure();
+        emit(UsersLoadFailure());
       }
-    }
-    
-  }
- 
-  // void _confirm(DeletePost event, Emitter emit){
-  //   print(event.id);
-  //     // try { awiat da.derl}
-  //     if(event.id != null){
-  //       emit(DeleteSuccess());
-        
-  //     }
-  //     else{
-  //       emit(DeleteFailure());
-  //     }
-  // }
+}
 
+  void _loading_users(LoadUsers event, Emitter emit) async{
+      emit(Loading());
+      try{
+        final users =  await userRepo.getUsers();
+        emit(UsersLoaded());
+      }
+      catch(_){
+        emit(UsersLoadFailure());
+      }
+
+  }
+
+  void _loading_posts(LoadPost event, Emitter emit) async{
+
+      emit(Loading());
+      try{
+        final posts =  await postRepo.getPosts();
+        emit(PostLoaded());
+      }
+      catch(_){
+        emit(PostLoadFailure());
+      }
+  }
+
+  void _delete_post(DeletePost event, Emitter emit) async{
+    try{
+        await postRepo.deletePost(event.id);
+        final posts = await postRepo.getPosts();
+        emit(PostLoaded());
+      }
+      catch(_){
+        emit(PostLoadFailure());
+      }
+  }
+  
 }

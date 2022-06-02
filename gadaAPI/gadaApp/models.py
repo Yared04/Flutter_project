@@ -20,12 +20,13 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-class Doantion(models.Model):
+class Donation(models.Model):
     user = models.ManyToManyField(User)
     donated_amount = models.IntegerField(null = False)
-    post =  models.ManyToOneRel(ForeignKey = Post)
-    account_number = models.CharField(null=False)
+    post =  models.ManyToOneRel(field = Post,to= Post, field_name= "post")
+    account_number = models.CharField(null=False, max_length=20)
 
     def __str__(self):
         return 
+
 

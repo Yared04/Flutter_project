@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse , JsonResponse
 from requests import delete
 from rest_framework.parsers import JSONParser , MultiPartParser , FormParser
@@ -9,7 +7,7 @@ import json
 from rest_framework.views import APIView
 from .serializers import UserSerializer
 from gadaApp.serializers import PostSerializer
-from .models import Post
+from .models import Post,Donation
 from django.contrib.auth.models import User
 
 
@@ -90,23 +88,6 @@ class DeleteUser(APIView):
         return HttpResponse(status = 200)
     
 
-
-        
-=======
-from email.mime import image
-from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponse , JsonResponse
-from grpc import StatusCode
-from rest_framework.parsers import JSONParser
-from rest_framework import APIView
-from django.views.decorators.csrf import csrf_exempt
-import json
-
-from yaml import serialize
-from gadaApp.serializers import PostSerializer
-from .models import Post, Donation
-
-# Create your views here.
 class DonationCreate(APIView):
 
     def get(self, request):
@@ -139,4 +120,3 @@ class DonationDetail(APIView):
         donation.delete() 
         return JsonResponse(None, status= 200)
 
->>>>>>> ad8f3f8f8906f3547f19d31d4d197e68df50ad15

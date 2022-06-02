@@ -9,8 +9,6 @@ abstract class AdminEvents extends Equatable{
 
 class DeleteUser extends AdminEvents{
   final int id;
-  
-
   const DeleteUser(this.id);
 
   @override

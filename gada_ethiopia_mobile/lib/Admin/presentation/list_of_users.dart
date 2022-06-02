@@ -4,25 +4,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/Admin/application/bloc.dart';
 
 
-class ListPosts extends StatelessWidget {
- const ListPosts({Key? key}) : super(key: key);
+class ListUsers extends StatelessWidget {
+ const ListUsers({Key? key}) : super(key: key);
   
 
   Widget _buildPopup(BuildContext context) {
   return  AlertDialog(
-    title: const Text('Delete Post'),
+    title: const Text('Delete User'),
     content: Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: const [
-         Text("Are you sure you want to delete this post?"),
+         Text("Are you sure you want to delete this user?"),
       ],
     ),
     actions: [
        TextButton(
         onPressed: () {
-          final admin =  BlocProvider.of<AdminBloc>(context);
-          admin.add(DeletePost(3));
+          // final admin =  BlocProvider.of<AdminBloc>(context);
+          // admin.add(DeleteUser(3));
                   
         },
         child: const Text('Yes'),
@@ -39,25 +39,25 @@ class ListPosts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
         return Scaffold(
-        appBar: AppBar(title: const Text("List of Posts")
+        appBar: AppBar(title: const Text("List of Users")
         ),
         body: BlocBuilder<AdminBloc, AdminState>(
         builder:(_, state){
-          if(state is PostLoadFailure){
+          if(state is UsersLoadFailure){
             return const Text("Failed.");
           }
-          if(state is PostLoaded){
-            final posts = state.posts;
+          if(state is UsersLoaded){
+            final users = state.users;
         return ListView.builder(
           padding: const EdgeInsets.all(8.0),
-          itemCount: posts.length,
+          itemCount: users.length,
           itemBuilder: (context, index) => 
             Card(
               child: ListTile(
               onTap: () {
             
                 },
-              subtitle: Text("Goal: ${posts[index].goal}"),
+              subtitle: Text("Goal: ${users[index].goal}"),
               trailing: GestureDetector(
                 child: const Icon(Icons.delete,),
                 onTap: (){
@@ -65,7 +65,7 @@ class ListPosts extends StatelessWidget {
                 context: context,
                 builder: (_) => _buildPopup(context));
                 },),
-              title: Text(posts[index].title)),
+              title: Text(users[index].title)),
           ),
              
           );
