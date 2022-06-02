@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
+
 import 'package:gada_ethiopia_mobile/lib.dart';
 
 class PostDataProvider {
-  final _baseUri = 'http://192.168.56.1:3000/posts';
+  final _baseUri = 'http://192.168.56.1:3000/';
   final Client client;
   final MultipartRequest request;
 
@@ -37,7 +38,7 @@ class PostDataProvider {
   }
 
   Future<List<Post>?> getPost() async {
-    var response = await client.get(Uri.parse(_baseUri));
+    var response = await client.get(Uri.parse("$_baseUri/posts"));
     print(response.statusCode);
     if (response.statusCode == 200) {
       final posts = jsonDecode(response.body) as List;
@@ -54,6 +55,17 @@ class PostDataProvider {
       return ret;
     } else {
       throw Exception('Failed to load courses');
+    }
+  }
+  Future<void> deletePost(int id) async {
+    final Response res = await client.delete(
+      Uri.parse('$_baseUri/post-detail/$id'),
+      headers: <String, String>{
+        'Type': 'application/json; charset = UTF-8',
+      },
+    );
+    if (res.statusCode != 204) {
+      throw Exception('Failed');
     }
   }
 }

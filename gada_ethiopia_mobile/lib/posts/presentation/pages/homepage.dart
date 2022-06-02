@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
 
+import 'package:gada_ethiopia_mobile/widgets/home.dart';
+
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
 

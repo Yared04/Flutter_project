@@ -1,5 +1,5 @@
-export 'bloc/bloc.dart';
-export 'data_provider/data_provider.dart';
-export 'models/models.dart';
-export 'repo/repo.dart';
-export 'screens/screens.dart';
+export 'Application/bloc.dart';
+export 'infrastructure/data_provider.dart';
+export 'domain/models.dart';
+export 'infrastructure/post_repo.dart';
+export 'presentation/pages/screens.dart';
