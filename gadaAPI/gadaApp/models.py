@@ -21,6 +21,17 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+class Member(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100, unique=True)
+    password = models.TextField()
+    is_client = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
+
+    def str(self):
+        return self.first_name
+
 class Donation(models.Model):
     user = models.ManyToManyField(User)
     donated_amount = models.IntegerField(null = False)
@@ -29,5 +40,6 @@ class Donation(models.Model):
 
     def __str__(self):
         return 
+
 
 

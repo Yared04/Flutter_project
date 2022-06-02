@@ -6,9 +6,9 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from rest_framework.views import APIView
 from .serializers import UserSerializer
-from gadaApp.serializers import PostSerializer
+from gadaApp.serializers import PostSerializer, MemberSerializer
 
-from .models import Donation, Post
+from .models import Donation, Post, Member
 from django.contrib.auth.models import User
 
 
@@ -88,7 +88,62 @@ class DeleteUser(APIView):
         user.delete()
         return HttpResponse(status = 200)
 
+class ViewUser(APIView):
+    serializer_class = MemberSerializer
 
+    parser_classes = [JSONParser]
+
+    def get(self , request):
+        users = Member.objects.all()
+
+        serializer = self.serializer_class(instance=users, many = True)
+        return JsonResponse(serializer.data , status = 200 , safe=False)
+
+    def post(self,request):
+        data = request.data
+        serialized = MemberSerializer(data=data)
+        if serialized.is_valid():
+            serialized.save()
+            return JsonResponse(serialized.data, status= 201)
+        return JsonResponse(serialized.errors, status=400)
+
+
+class MemberDetail(APIView):
+    serializer_class = MemberSerializer
+    parser_classes = [JSONParser]
+    def get(self, request , pk):
+        print("getting")
+        try:
+            users = Member.objects.get(id = pk)
+        except:
+            return HttpResponse(status = 404)
+
+        serializer = self.serializer_class(instance=users)
+        return JsonResponse(serializer.data , status = 200 )
+
+    def put(self , request, pk):
+        data = request.data
+        try:
+            mem = Member.objects.get(pk = pk)
+        except:
+            return HttpResponse(status = 400)
+
+        serialized = MemberSerializer(instance = mem , data=data)
+        if serialized.is_valid():
+            serialized.save()
+            
+            return JsonResponse(serialized.data, status=201)
+        
+        return JsonResponse(serialized.errors, status=400)
+
+    def delete(self , request , pk):
+        print("hehe")
+        try:
+            user = Member.objects.get(id = pk)
+        except:
+            return HttpResponse(status = 204)
+        user.delete()
+        return HttpResponse(status = 200)
 
 class DonationCreate(APIView):
 
