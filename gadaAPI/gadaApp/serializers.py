@@ -8,7 +8,8 @@ from gadaApp.models import Post
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ['title' , 'description' , 'goal' , 'image' ]
+        # fields = ['title' , 'description' , 'goal' , 'image' ]
+        fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

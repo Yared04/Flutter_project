@@ -9,10 +9,10 @@ class Post extends Equatable {
   final String title;
   final String description;
   final int goal;
-  final File? image;
+  final File image;
   final int? donated;
   final int? donator_count;
-  final int? created;
+  final DateTime created;
   Post(
       { this.id,
       required this.title,
@@ -20,7 +20,7 @@ class Post extends Equatable {
       required this.goal,
       required this.image,
       this.donated,
-      this.created,
+      required this.created,
       this.donator_count});
 
   @override
@@ -30,4 +30,18 @@ class Post extends Equatable {
   @override
   List<Object?> get props =>
       [id, title, description, goal, image, donated, donator_count, created];
+
+  static fromJson(Map<String, dynamic> json) {
+    return Post(
+
+      id: json['id'],
+      title: json['title'],
+      goal: json['goal'],
+      description: json['description'],
+      image: File(json['image']),
+      donated: json['donated'],
+      donator_count: json['donator_count'],
+      created: DateTime.parse(json['created'])
+    );
+  }
 }

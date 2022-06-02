@@ -22,6 +22,7 @@ void _delete_user(DeleteUser event, Emitter emit) async{
         await userRepo.deletePost(event.id);
         final users = await userRepo.getUsers();
         emit(UsersLoaded());
+
       }
       catch(_){
         emit(UsersLoadFailure());
@@ -33,6 +34,7 @@ void _delete_user(DeleteUser event, Emitter emit) async{
       try{
         final users =  await userRepo.getUsers();
         emit(UsersLoaded());
+
       }
       catch(_){
         emit(UsersLoadFailure());

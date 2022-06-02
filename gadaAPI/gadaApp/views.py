@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse , JsonResponse
 from requests import delete
 from rest_framework.parsers import JSONParser , MultiPartParser , FormParser
@@ -7,7 +7,8 @@ import json
 from rest_framework.views import APIView
 from .serializers import UserSerializer
 from gadaApp.serializers import PostSerializer
-from .models import Post,Donation
+
+from .models import Donation, Post
 from django.contrib.auth.models import User
 
 
@@ -86,7 +87,8 @@ class DeleteUser(APIView):
             return HttpResponse(status = 204)
         user.delete()
         return HttpResponse(status = 200)
-    
+
+
 
 class DonationCreate(APIView):
 

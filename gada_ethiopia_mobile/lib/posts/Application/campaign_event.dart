@@ -9,15 +9,16 @@ class CreatePost extends CampaignEvent {
   final String description;
   final int goal;
   
-  File? image;
+  File image;
   CreatePost(
       {required this.title,
       required this.description,
       required this.goal,
-      this.image});
+      required this.image});
 }
 
 class PickImage extends CampaignEvent {
-  final XFile? image;
+  final File image;
   PickImage({required this.image});
 }
+class GetPosts extends CampaignEvent {}
