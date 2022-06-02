@@ -27,5 +27,5 @@ class PostLoaded extends AdminState{
 }
 class PostLoadFailure extends AdminState{} 
 class Loading extends AdminState{}
-class DeleteSuccess extends AdminState{}
-class DeleteFailure extends AdminState{}
+// class DeleteSuccess extends AdminState{}
+// class DeleteFailure extends AdminState{}

@@ -1,4 +1,3 @@
-
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse , JsonResponse
 from requests import delete
@@ -8,6 +7,7 @@ import json
 from rest_framework.views import APIView
 from .serializers import UserSerializer
 from gadaApp.serializers import PostSerializer
+
 from .models import Donation, Post
 from django.contrib.auth.models import User
 
@@ -89,7 +89,7 @@ class DeleteUser(APIView):
         return HttpResponse(status = 200)
 
 
-# Create your views here.
+
 class DonationCreate(APIView):
 
     def get(self, request):

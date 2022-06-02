@@ -1,22 +1,18 @@
 import 'package:bloc/bloc.dart';
-import 'bloc.dart';
 import '../posts.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
 
-import '../infrastructure/post_repo.dart';
 class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
   final PostRepository postRepository;
 
   CampaignBloc({required this.postRepository}) : super(LoadingHome()) {
     on<CampaignEvent>(_createcampaign);
-    // on<PickImage>(_showImage);
   }
 
-  //
   void _createcampaign(CampaignEvent event, Emitter emit) async {
     if (event is CreatePost) {
-      print(event.title);
-      print(event.goal);
+      // print(event.title);
+      // print(event.goal);
       if (event.image == null) {
         emit(CreateFailed());
         return;
@@ -50,12 +46,12 @@ class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
     }
 
     if (event is GetPosts) {
-      print("been here");
+      // print("been here");
       var posts = null;
       try {
         posts = await postRepository.getPost();
       } catch (e) {
-        print("failed?");
+        // print("failed?");
         emit(LoadFailed());
       }
       if (posts != null) {
@@ -65,8 +61,4 @@ class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
     }
   }
 }
-
-//   void _showImage(PickImage event, Emitter emit) {
-   
-//   }
-// }
+  
