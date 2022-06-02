@@ -1,4 +1,5 @@
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/Admin/Screens/list_of_posts.dart';
@@ -22,12 +23,12 @@ class Gada extends StatelessWidget {
     return BlocProvider(
       create: (_) => CampaignBloc(
           postRepository:
-              PostRepository(dataProvider: PostDataProvider(client: Client()))),
+              PostRepository(dataProvider: PostDataProvider(request: MultipartRequest("Post" ,Uri.parse('http://192.168.56.1:3000/posts') ) ,client: Client()))),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Gada Ethipoia',
-       home: CreateCampaign(),
-        // home: MyHomePage(),
+      //  home: CreateCampaign(),
+        home: MyHomePage(),
       ),
     );
   }

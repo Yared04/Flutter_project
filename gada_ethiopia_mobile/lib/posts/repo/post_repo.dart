@@ -10,6 +10,10 @@ class PostRepository {
   Future<Post?> createPost(Post post) async {
     return await dataProvider.createPost(post);
   }
+
+  Future<List<Post>?> getPost() async {
+    return await dataProvider.getPost();
+  }
 }
 // class CourseRepository {
 //   final CourseDataProvider dataProvider;

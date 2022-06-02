@@ -175,7 +175,7 @@ class CreateCampaign extends StatelessWidget {
                               }
                               uploaded = File(image.path);
                               final im = BlocProvider.of<CampaignBloc>(context);
-                              im.add(PickImage(image: image));
+                              im.add(PickImage(image: File(image.path)));
                             },
                             icon: const Icon(Icons.image_outlined),
                             label: imagePlace,
@@ -200,7 +200,7 @@ class CreateCampaign extends StatelessWidget {
                                     title: title_ct.text,
                                     description: description_ct.text,
                                     goal: int.parse(goal_ct.text),
-                                    image: uploaded));
+                                    image: File(uploaded!.path)));
                               } else {
                                 return;
                               }
