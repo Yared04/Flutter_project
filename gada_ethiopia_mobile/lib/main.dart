@@ -2,14 +2,17 @@
 // import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gada_ethiopia_mobile/infrastructure/post/post_data_provider.dart';
+import 'package:gada_ethiopia_mobile/infrastructure/post/post_repo.dart';
 // import 'package:gada_ethiopia_mobile/Admin/presentation/list_of_users.dart';
 // import 'package:gada_ethiopia_mobile/Admin/presentation/list_of_posts.dart';
-import 'package:gada_ethiopia_mobile/lib.dart';
-import 'package:gada_ethiopia_mobile/posts/presentation/pages/post_detail.dart';
 // import 'package:gada_ethiopia_mobile/posts/infrastructure/post_data_provider.dart';
 // import 'package:gada_ethiopia_mobile/posts/infrastructure/post_repo.dart';
 // import 'package:gada_ethiopia_mobile/posts/presentation/pages/post_detail.dart';
 import 'package:http/http.dart';
+
+import 'application/post/post.dart';
+import 'presentation/post/post_detail.dart';
 // import 'package:gada_ethiopia_mobile/posts/screens/post_detail.dart';
 
 void main() {
