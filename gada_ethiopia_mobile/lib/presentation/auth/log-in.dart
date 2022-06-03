@@ -209,7 +209,7 @@ class Login extends StatelessWidget {
                                    passwordController.text));
                              },
                        style: ElevatedButton.styleFrom(
-                           primary: Color.fromARGB(255, 24, 18, 26),
+                           primary: Colors.purple,
                            onPrimary: Colors.white,
                            fixedSize: Size(200, 20)),
                        child: buttonChild,
