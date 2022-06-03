@@ -1,20 +1,26 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'donation.dart';
+import 'package:gada_ethiopia_mobile/lib.dart';
 
-class DonationBloc extends Bloc<DonationEvents,DonationStates>{
-  DonationBloc() : super(Normal()){
+class DonationBloc extends Bloc<DonationEvents, DonationStates> {
+  final DonationRepository donationRepo;
+  DonationBloc({required this.donationRepo}) : super(Normal()) {
     on<Donate>(onDonate);
-  } 
-
-  onDonate(Donate event, Emitter emit)async{
-    print(event.CreditCardNumber);
+  }
+  onDonate(Donate event, Emitter emit) async {
     emit(Donating());
-    await Future.delayed(Duration(seconds: 3));
-
-
-    emit(DonationSuccessfull());
-    await Future.delayed(Duration(seconds: 1));
-    emit(Normal());
-
+    print(event.account_number.toString()+"- account num amount -"+event.donated_amount.toString() + " " + event.post.toString()+ " " +event.user.toString());
+    try {
+      await donationRepo.createDonation(Donation(
+          donated_amount: event.donated_amount,
+          user: event.user,
+          account_number: event.account_number.toString(),
+          post: event.post));
+      emit(DonationSuccessfull());
+      await Future.delayed(Duration(seconds: 1));
+      emit(Normal());
+    } catch (e) {
+      print(e);
+      emit(DonationFailed());
+    }
   }
 }
