@@ -8,17 +8,10 @@ from rest_framework.parsers import JSONParser , MultiPartParser , FormParser
 from django.views.decorators.csrf import csrf_exempt
 import json
 from rest_framework.views import APIView
-<<<<<<< HEAD
-from gadaApp.serializers import PostSerializer, MemberSerializer
+from .serializers import DonationSerializer, PostSerializer, MemberSerializer
 
 from .models import Donation, Post, Member
 from django.contrib.auth.models import User
-=======
-from .serializers import  DonationSerializer, MemberSerializer
-from gadaApp.serializers import PostSerializer
-from .models import Donation, Member, Post
-# from django.contrib.auth.models import User
->>>>>>> e12886337c8191064ffa53e3c91106d581a4c569
 
 
 class PostViewCreate(APIView):
@@ -78,7 +71,6 @@ class DetailPost(APIView):
         post.delete()
         return HttpResponse(status = 200)
         
-<<<<<<< HEAD
 class DeleteUser(APIView):
     def delete(self , request , pk):
         try:
@@ -88,8 +80,6 @@ class DeleteUser(APIView):
         user.delete()
         return HttpResponse(status = 200)
 
-=======
->>>>>>> e12886337c8191064ffa53e3c91106d581a4c569
 class ViewUser(APIView):
     serializer_class = MemberSerializer
 

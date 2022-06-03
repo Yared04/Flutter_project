@@ -40,7 +40,9 @@ class DonationScafold extends StatelessWidget {
                 showSearch(context: context, delegate: MySearchDelegete());
               },
               icon: const Icon(Icons.search)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+          IconButton(onPressed: () {
+                context.pushNamed('create-post');
+          }, icon: const Icon(Icons.add)),
          GestureDetector(
             onTap: (){context.pushNamed('profile');},
             child: const CircleAvatar(
