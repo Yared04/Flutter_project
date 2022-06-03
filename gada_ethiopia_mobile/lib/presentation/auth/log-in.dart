@@ -97,7 +97,7 @@ class Login extends StatelessWidget {
                              ),
                              floatingLabelBehavior:
                                  FloatingLabelBehavior.auto,
-                             label: Text("User Name"),
+                             label: Text("Email"),
                              prefixIcon: Icon(Icons.person),
                            ),
                            validator: (username) {
@@ -113,65 +113,51 @@ class Login extends StatelessWidget {
                          SizedBox(
                            height: 30,
                          ),
-                         BlocBuilder<PassBloc, PassState>(
-                           builder: (_, PassState state) {
-                             Widget buttonChild = Icon(Icons.visibility);
-                             if (state is Visible) {
-                               buttonChild = Icon(Icons.visibility_off);
-                             }
-                             if (state is Obscure) {
-                               buttonChild = Icon(Icons.visibility);
-                             }
-                             return TextFormField(
-                               controller: passwordController,
-                               obscureText:
-                                   BlocProvider.of<PassBloc>(context)
-                                       .isObscure,
-                               decoration: InputDecoration(
-                                 errorStyle: TextStyle(color: Colors.red),
-                                 border: OutlineInputBorder(
-                                     borderRadius:
-                                         BorderRadius.circular(10.0)),
-                                 labelStyle: TextStyle(
-                                     fontSize: 20, color: Colors.purple),
-                                 enabledBorder: OutlineInputBorder(
-                                   borderSide:
-                                       BorderSide(color: Colors.grey),
+                         Container(
+                           height: 60,
+                           child: TextFormField(
+                                 controller: passwordController,
+                                 obscureText: true,
+                                    //  BlocProvider.of<PassBloc>(context)
+                                    //      .isObscure,
+                                 decoration: InputDecoration(
+                                   errorStyle: TextStyle(color: Colors.red),
+                                   border: OutlineInputBorder(
+                                       borderRadius:
+                                           BorderRadius.circular(10.0)),
+                                   labelStyle: TextStyle(
+                                       fontSize: 20, color: Colors.purple),
+                                   enabledBorder: OutlineInputBorder(
+                                     borderSide:
+                                         BorderSide(color: Colors.grey),
+                                   ),
+                                   errorBorder: OutlineInputBorder(
+                                     borderSide:
+                                         BorderSide(color: Colors.redAccent),
+                                   ),
+                                   focusedErrorBorder: OutlineInputBorder(
+                                     borderSide: BorderSide(color: Colors.red),
+                                   ),
+                                   focusedBorder: OutlineInputBorder(
+                                     borderSide:
+                                         BorderSide(color: Colors.purple),
+                                   ),
+                                   floatingLabelBehavior:
+                                       FloatingLabelBehavior.auto,
+                                   label: Text("Password"),
+                                   prefixIcon: Icon(Icons.lock_outline),
+                                   
                                  ),
-                                 errorBorder: OutlineInputBorder(
-                                   borderSide:
-                                       BorderSide(color: Colors.redAccent),
-                                 ),
-                                 focusedErrorBorder: OutlineInputBorder(
-                                   borderSide: BorderSide(color: Colors.red),
-                                 ),
-                                 focusedBorder: OutlineInputBorder(
-                                   borderSide:
-                                       BorderSide(color: Colors.purple),
-                                 ),
-                                 floatingLabelBehavior:
-                                     FloatingLabelBehavior.auto,
-                                 label: Text("Password"),
-                                 prefixIcon: Icon(Icons.lock_outline),
-                                 suffixIcon: GestureDetector(
-                                   onTap: () {
-                                     final passBlock =
-                                         BlocProvider.of<PassBloc>(context);
-                                     passBlock.add(PassEvent());
-                                   },
-                                   child: buttonChild,
-                                 ),
+                                 validator: (value) {
+                                   if (value == null || value.length < 8) {
+                                     return 'minimum password length 8 ';
+                                   } else {
+                                     return null;
+                                   }
+                                 },
                                ),
-                               validator: (value) {
-                                 if (value == null || value.length < 8) {
-                                   return 'minimum password length 8 ';
-                                 } else {
-                                   return null;
-                                 }
-                               },
-                             );
-                           },
-                         ),
+                         )
+                  
                        ],
                      ),
                    ),
@@ -181,7 +167,7 @@ class Login extends StatelessWidget {
                  ),
                  Container(
                    child: Text(
-                     "Forgot password? ",
+                     "sign up ? ",
                      style: TextStyle(color: Colors.purple),
                    ),
                  ),

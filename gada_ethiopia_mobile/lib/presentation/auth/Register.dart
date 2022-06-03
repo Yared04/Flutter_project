@@ -191,20 +191,11 @@ class Register extends StatelessWidget {
                             ),
                             Container(
                               width: 275,
-                              child: BlocBuilder<PassBloc, PassState>(
-                                builder: (_, PassState state) {
-                                  Widget buttonChild = Icon(Icons.visibility);
-                                  if (state is Visible) {
-                                    buttonChild = Icon(Icons.visibility_off);
-                                  }
-                                  if (state is Obscure) {
-                                    buttonChild = Icon(Icons.visibility);
-                                  }
-                                  return TextFormField(
+                              child: TextFormField(
                                     controller: newPasswordController,
-                                    obscureText:
-                                        BlocProvider.of<PassBloc>(context)
-                                            .isObscure,
+                                    obscureText: true,
+                                        // BlocProvider.of<PassBloc>(context)
+                                        //     .isObscure,
                                     decoration: InputDecoration(
                                       isDense: true,
                                       contentPadding: EdgeInsets.symmetric(
@@ -228,15 +219,7 @@ class Register extends StatelessWidget {
                                         borderSide:
                                             BorderSide(color: Colors.red),
                                       ),
-                                      suffixIcon: GestureDetector(
-                                        onTap: () {
-                                          final passBlock =
-                                              BlocProvider.of<PassBloc>(
-                                                  context);
-                                          passBlock.add(PassEvent());
-                                        },
-                                        child: buttonChild,
-                                      ),
+                                      
                                     ),
                                     validator: (value) {
                                       if (value == null || value.length < 8) {
@@ -245,29 +228,19 @@ class Register extends StatelessWidget {
                                         return null;
                                       }
                                     },
-                                  );
-                                },
-                              ),
+                                  ),
+                               
                             ),
                             SizedBox(
                               height: 15,
                             ),
                             Container(
                               width: 275,
-                              child: BlocBuilder<PassBloc, PassState>(
-                                builder: (_, PassState state) {
-                                  Widget buttonChild = Icon(Icons.visibility);
-                                  if (state is Visible) {
-                                    buttonChild = Icon(Icons.visibility_off);
-                                  }
-                                  if (state is Obscure) {
-                                    buttonChild = Icon(Icons.visibility);
-                                  }
-                                  return TextFormField(
+                              child:  TextFormField(
                                     controller: confirmPasswordController,
-                                    obscureText:
-                                        BlocProvider.of<PassBloc>(context)
-                                            .isObscure,
+                                    obscureText: true,
+                                        // BlocProvider.of<PassBloc>(context)
+                                        //     .isObscure,
                                     decoration: InputDecoration(
                                       isDense: true,
                                       contentPadding: EdgeInsets.symmetric(
@@ -291,15 +264,7 @@ class Register extends StatelessWidget {
                                         borderSide:
                                             BorderSide(color: Colors.red),
                                       ),
-                                      suffixIcon: GestureDetector(
-                                        onTap: () {
-                                          final passBlock =
-                                              BlocProvider.of<PassBloc>(
-                                                  context);
-                                          passBlock.add(PassEvent());
-                                        },
-                                        child: buttonChild,
-                                      ),
+                                      
                                     ),
                                     validator: (value) {
                                       if (value == null || value.length < 8) {
@@ -311,8 +276,7 @@ class Register extends StatelessWidget {
                                         return null;
                                       }
                                     },
-                                  );
-                                },
+                              
                               ),
                             ),
                             SizedBox(

@@ -4,13 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/application/auth/login/bloc.dart';
 import 'package:gada_ethiopia_mobile/application/auth/password_bloc.dart';
+import 'package:gada_ethiopia_mobile/application/auth/registration/bloc.dart';
 import 'package:gada_ethiopia_mobile/infrastructure/post/post_data_provider.dart';
 import 'package:gada_ethiopia_mobile/infrastructure/post/post_repo.dart';
-// import 'package:gada_ethiopia_mobile/Admin/presentation/list_of_users.dart';
-// import 'package:gada_ethiopia_mobile/Admin/presentation/list_of_posts.dart';
-// import 'package:gada_ethiopia_mobile/posts/infrastructure/post_data_provider.dart';
-// import 'package:gada_ethiopia_mobile/posts/infrastructure/post_repo.dart';
-// import 'package:gada_ethiopia_mobile/posts/presentation/pages/post_detail.dart';
+
 import 'package:http/http.dart';
 import 'lib.dart';
 import 'application/post/post.dart';
@@ -27,25 +24,32 @@ class Gada extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      // create: (_) => LoginBloc(),
+    return MultiBlocProvider(
+
+      providers: [
+        BlocProvider(
+            create: (BuildContext context) => (CampaignBloc(
+                  postRepository: PostRepository(
+                    dataProvider: PostDataProvider(
+                      request: MultipartRequest(
+                          "Post", Uri.parse('http://192.168.56.1:3000/posts')),
+                      client: Client(),
+                    ),
+                  ),
+                )),),
+        BlocProvider(create: (BuildContext context) => LoginBloc()),
+        BlocProvider(create: (BuildContext context) => RegBloc(userRepository: UserRepository(dataProvider:UserDataProvider(client: Client()))))
+        
+        // BlocProvider(create: (BuildContext context) => PassBloc())
+      ],
       
-      create: (_) => CampaignBloc(
-          postRepository: PostRepository(
-              dataProvider: PostDataProvider(
-                  request: MultipartRequest(
-                      "Post", Uri.parse('http://192.168.56.1:3000/posts')),
-                  client: Client()))),
-      child: 
-      BlocProvider(
-        create: ((_) => LoginBloc()),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Gada Ethipoia',
           // home: Login(),
-          home: MyHomePage(),
+          home: Register(),
         ),
-      ),
+  
     );
   }
 }

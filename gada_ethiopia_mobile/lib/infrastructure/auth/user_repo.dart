@@ -7,7 +7,7 @@ class UserRepository{
 
   UserRepository({required this.dataProvider});
 
-  Future<User> createUser(User user) async{
+  Future<User?> createUser(User user) async{
     return await dataProvider.createUser(user);
 
   }

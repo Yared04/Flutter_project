@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class User extends Equatable {
   final int? id;
   final String first_name;
-  final String last_name;
+  final String? last_name;
   final String email;
   final String password;
   final bool? is_client;
@@ -15,12 +15,12 @@ class User extends Equatable {
   User(
       {this.id,
       required this.first_name,
-      required this.last_name,
+       this.last_name,
       required this.email,
      required this.password,
       this.is_client,
       this.is_admin });
-
+  
   @override
   String toString() =>
       'Course { id: $id, first_name: $first_name, last_name: $last_name , email: $email, is_client : $is_client, is_admin : $is_admin }';

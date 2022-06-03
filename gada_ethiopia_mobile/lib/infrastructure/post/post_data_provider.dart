@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:gada_ethiopia_mobile/domain/post/post_model.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
-
+import 'package:http/http.dart' as http;
 
 
 class PostDataProvider {
@@ -25,7 +26,7 @@ class PostDataProvider {
       //authorization reque
     });
     print(post.image.path);
-    request.files.add(await MultipartFile.fromPath("image", post.image.path));
+    request.files.add(await http.MultipartFile.fromPath("image", post.image.path));
 
     print('passed it');
     var response = await request.send();
@@ -37,7 +38,6 @@ class PostDataProvider {
     }
   }
 
-  
   Future<List<Post>> getPosts() async {
     var response = await get(Uri.parse("${_baseUri}posts"), headers: {
       "Accept": "application/json",
@@ -59,8 +59,9 @@ class PostDataProvider {
       throw Exception('Failed to load courses');
     }
   }
+
   Future<void> deletePost(int id) async {
-    final Response res = await client.delete(
+    final res = await client.delete(
       Uri.parse('$_baseUri/post-detail/$id'),
       headers: <String, String>{
         'Type': 'application/json; charset = UTF-8',
@@ -69,5 +70,13 @@ class PostDataProvider {
     if (res.statusCode != 204) {
       throw Exception('Failed');
     }
+  }
+
+  Future<Post?> getPostByUserId(int id) async {
+    final response = await client.get(Uri.parse("${_baseUri}posts/user/$id"));
+    if (response.statusCode == 200) {
+      return Post.fromJson(jsonDecode(response.body));
+    }
+    return null;
   }
 }
