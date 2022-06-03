@@ -16,14 +16,16 @@ class DonationDataProvider {
     print("herbefore");
     try {
       var response =
-          await client.post(Uri.parse("${_baseUri}/donations"), body: {
-        'donated_amount': donation.donated_amount.toString(),
-        'account_number': donation.account_number.toString(),
+          await client.post(Uri.parse("${_baseUri}donations"), body: jsonEncode({
+        'donated_amount': donation.donated_amount,
+        'account_number': donation.account_number,
         'post': [donation.post],
-        'user': [donation.user.toString()],
-      });
+        'user': [donation.user],
+      }));
+
     } catch (e) {
       print(e.toString() + "the exception is here");
+      rethrow;
     }
     print("here");
     var response;

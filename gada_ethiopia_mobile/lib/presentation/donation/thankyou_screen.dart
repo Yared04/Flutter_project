@@ -46,9 +46,15 @@ class Thankyou_Screen extends StatelessWidget {
                       ),
                     ),
                     Center(
-                      child: ElevatedButton(
-                        child: Text("Home"),
-                        onPressed: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              minimumSize: Size.fromHeight(50),
+                              primary: Colors.green),
+                          child: Text("Return Home"),
+                          onPressed: () {},
+                        ),
                       ),
                     )
                   ]),

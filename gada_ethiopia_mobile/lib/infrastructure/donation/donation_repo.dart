@@ -1,6 +1,5 @@
 import 'package:gada_ethiopia_mobile/lib.dart';
 
-
 class DonationRepository {
   final DonationDataProvider dataProvider;
 
@@ -21,7 +20,8 @@ class DonationRepository {
   Future<List<Donation>> getDonationsByUser(int id) async {
     return await dataProvider.getDonationsByUser(id);
   }
-  Future<Donation> updateDonation(int id,Donation donation) async {
+
+  Future<Donation> updateDonation(int id, Donation donation) async {
     return await dataProvider.updateDonation(id, donation);
   }
 }

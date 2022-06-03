@@ -1,12 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
 import 'package:http/http.dart';
 
 class Donation_screen extends StatelessWidget {
-  final donationBloc = DonationBloc(donationRepo:DonationRepository(dataProvider :DonationDataProvider(client:Client())));
+  
   @override
   Widget build(BuildContext context) {
+    final donationBloc = DonationBloc(
+      donationRepo: DonationRepository(
+          dataProvider: DonationDataProvider(client: Client())));
     return BlocProvider(
       create: (BuildContext context) => donationBloc,
       child: MaterialApp(
@@ -209,7 +214,11 @@ class DonationScafold extends StatelessWidget {
                                 final authBloc =
                                     BlocProvider.of<DonationBloc>(context);
                                 authBloc.add(
-                                  Donate(creditController.text.toString(), int.parse(amountController.text.toString()), 3,1),
+                                  Donate(
+                                      creditController.text,
+                                      int.parse(amountController.text),
+                                      3,
+                                      1),
                                 );
                               },
                         child: buttonChild,
