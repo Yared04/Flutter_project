@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/widgets/custom.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../application/donation/donation.dart';
+import '../../domain/post/post.dart';
 import 'screens.dart';
 
 class Donation extends StatelessWidget {
@@ -19,6 +21,8 @@ class DonationScafold extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   final creditController = TextEditingController();
   final amountController = TextEditingController();
+  // final Post post;
+  DonationScafold({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +45,12 @@ class DonationScafold extends StatelessWidget {
               },
               icon: const Icon(Icons.search)),
           IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
-          const CircleAvatar(
-            backgroundImage: AssetImage('assets/profile_picture.jpg'),
-            maxRadius: 20,
+         GestureDetector(
+            onTap: (){context.pushNamed('profile');},
+            child: const CircleAvatar(
+              backgroundImage: AssetImage('assets/profile_picture.jpg'),
+              maxRadius: 20,
+            ),
           ),
           const SizedBox(
             width: 10,

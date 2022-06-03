@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/application/auth/bloc.dart';
 import 'package:gada_ethiopia_mobile/application/auth/registration/bloc.dart';
+import 'package:get/get_utils/src/get_utils/get_utils.dart';
 import 'home.dart';
 
 

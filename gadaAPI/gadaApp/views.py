@@ -5,7 +5,6 @@ from rest_framework.parsers import JSONParser , MultiPartParser , FormParser
 from django.views.decorators.csrf import csrf_exempt
 import json
 from rest_framework.views import APIView
-from .serializers import UserSerializer
 from gadaApp.serializers import PostSerializer, MemberSerializer
 
 from .models import Donation, Post, Member
@@ -68,17 +67,6 @@ class DetailPost(APIView):
         post.delete()
         return HttpResponse(status = 200)
         
-class ViewUser(APIView):
-    serializer_class = UserSerializer
-
-    parser_classes = [JSONParser]
-
-    def get(self , request):
-        users = User.objects.all()
-
-        serializer = self.serializer_class(instance=users, many = True)
-        return JsonResponse(serializer.data , status = 200 , safe=False)
-
 class DeleteUser(APIView):
     def delete(self , request , pk):
         try:

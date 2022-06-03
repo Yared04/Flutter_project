@@ -2,12 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/application/auth/profile/bloc.dart';
+import 'package:gada_ethiopia_mobile/lib.dart';
+import 'package:gada_ethiopia_mobile/widgets/custom.dart';
 import 'Information.dart';
 
 class Profile extends StatelessWidget{
-
-
-  
 
   bool isEnabled=false;
   String profile_name="Betselot";
@@ -17,9 +16,36 @@ class Profile extends StatelessWidget{
      Information(icon: Icon(Icons.edit,color: Colors.purple,) , title:Text("Edit profile",style: TextStyle(fontSize: 18.7),)),
     Information(icon: Icon(Icons.logout, color: Colors.red,) , title:Text( "Logout",style: TextStyle(fontSize: 18.7,color: Colors.red),)),
   ];
+
+  Profile({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context){
     return Scaffold(
+      appBar: AppBar(
+        // leading: Icon(Icons.drafts),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        foregroundColor: Colors.black,
+        // backgroundColor: Color.fromARGB(68, 255, 255, 255),
+        // title: Text("ጋዳ"),
+        // centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                showSearch(context: context, delegate: MySearchDelegete());
+              },
+              icon: const Icon(Icons.search)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+          const CircleAvatar(
+            backgroundImage: AssetImage('assets/profile_picture.jpg'),
+            maxRadius: 20,
+          ),
+          const SizedBox(
+            width: 10,
+          )
+        ],
+      ),
+      // drawer:  const MyDrawer(),
       body: Stack(
       children:<Widget> [ Container(
             decoration: BoxDecoration(

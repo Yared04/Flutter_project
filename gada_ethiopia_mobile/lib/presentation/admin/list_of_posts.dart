@@ -68,7 +68,7 @@ class ListPosts extends StatelessWidget {
              
           );
           }
-          return const CircularProgressIndicator();
+          return Center(child: const CircularProgressIndicator());
         }
         
     )

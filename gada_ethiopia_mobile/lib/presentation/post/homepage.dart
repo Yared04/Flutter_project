@@ -5,6 +5,7 @@ import 'package:gada_ethiopia_mobile/lib.dart';
 import 'package:gada_ethiopia_mobile/widgets/custom.dart';
 
 import 'package:gada_ethiopia_mobile/widgets/home.dart';
+import 'package:go_router/go_router.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -32,10 +33,15 @@ class MyHomePage extends StatelessWidget {
                 showSearch(context: context, delegate: MySearchDelegete());
               },
               icon: const Icon(Icons.search)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
-          const CircleAvatar(
-            backgroundImage: AssetImage('assets/profile_picture.jpg'),
-            maxRadius: 20,
+          IconButton(onPressed: () {
+
+          }, icon: const Icon(Icons.add)),
+         GestureDetector(
+            onTap: (){context.pushNamed('profile');},
+            child: const CircleAvatar(
+              backgroundImage: AssetImage('assets/profile_picture.jpg'),
+              maxRadius: 20,
+            ),
           ),
           const SizedBox(
             width: 10,
@@ -106,7 +112,7 @@ class MyHomePage extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                        "http://192.168.56.1:3000/images/uploaded/${myListDict[index].image.uri.toString().split("/").last}"),
+                                        "http://10.5.232.114:3000/images/uploaded/${myListDict[index].image.uri.toString().split("/").last}"),
                                     fit: BoxFit.cover,
                                   ),
                                   borderRadius: BorderRadius.circular(40),

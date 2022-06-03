@@ -19,4 +19,8 @@ class PostRepository {
     return await dataProvider.deletePost(id);
   }
 
+  Future<Post> getPostDetail(int id) async{
+    return await dataProvider.getPostDetail(id);
+  }
+
 }
