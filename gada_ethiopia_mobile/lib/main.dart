@@ -1,6 +1,7 @@
 import 'dart:html';
 
 import 'package:gada_ethiopia_mobile/application/admin/admin.dart';
+import 'package:gada_ethiopia_mobile/application/auth/registration/register_bloc.dart';
 import 'package:gada_ethiopia_mobile/presentation/admin/list_of_donations.dart';
 import 'package:gada_ethiopia_mobile/presentation/admin/list_of_posts.dart';
 import 'package:gada_ethiopia_mobile/presentation/admin/list_of_users.dart';
@@ -79,7 +80,7 @@ class Gada extends StatelessWidget {
         name: 'profile',
         builder: (context, state) => Profile(),
         routes: [
-          GoRoute(path: 'rdonations',
+          GoRoute(path: 'donations',
           name: 'myDonations',
           builder: (context, state){
           return const ListDonations();
@@ -107,7 +108,8 @@ class Gada extends StatelessWidget {
                     ),
                   ),
                 )),),
-         BlocProvider(create: (BuildContext context) => LoginBloc()),
+        BlocProvider(create: (BuildContext context) => RegBloc()),
+        BlocProvider(create: (BuildContext context) => LoginBloc()),
         BlocProvider(create: (BuildContext context) => PassBloc()),
         BlocProvider(create: (BuildContext context) => AdminBloc(postRepo: PostRepository(
           dataProvider: PostDataProvider(request:MultipartRequest(

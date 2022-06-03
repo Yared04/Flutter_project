@@ -37,7 +37,7 @@ class ListDonations extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
         return Scaffold(
-        appBar: AppBar(title: const Text("List of Posts")
+        appBar: AppBar(title: const Text("My Donations")
         ),
         body: BlocBuilder<AdminBloc, AdminState>(
         builder:(_, state){
@@ -68,7 +68,7 @@ class ListDonations extends StatelessWidget {
              
           );
           }
-          return const CircularProgressIndicator();
+          return Center(child: const CircularProgressIndicator());
         }
         
     )

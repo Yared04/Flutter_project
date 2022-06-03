@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/application/auth/bloc.dart';
 import 'package:gada_ethiopia_mobile/application/auth/login/bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import 'home.dart';
 
@@ -179,9 +180,12 @@ class Login extends StatelessWidget{
                          SizedBox(
                           height: 25,
                         ),
-                        Container(
+                        GestureDetector(
+                          onTap: (){
+                            context.pushNamed('register');
+                          },
                           child: Text(
-                            "Forgot password? ", style: TextStyle(color: Colors.purple ),
+                            "Sign Up", style: TextStyle(color: Colors.purple ),
                           ),
                         ),
                         SizedBox(height: 20,),

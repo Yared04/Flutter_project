@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/application/auth/profile/bloc.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
 import 'package:gada_ethiopia_mobile/widgets/custom.dart';
+import 'package:go_router/go_router.dart';
 import 'Information.dart';
 
 class Profile extends StatelessWidget{
@@ -11,10 +12,9 @@ class Profile extends StatelessWidget{
   bool isEnabled=false;
   String profile_name="Betselot";
   List<Information> details = [
-    Information(icon:Icon(Icons.support,color: Colors.purple,) , title: Text("Donation",style: TextStyle(fontSize: 18.7),)),
-     Information(icon: Icon(Icons.edit_note, color: Colors.purple,) , title: Text("List of Posts",style: TextStyle(fontSize: 18.7),)),
-     Information(icon: Icon(Icons.edit,color: Colors.purple,) , title:Text("Edit profile",style: TextStyle(fontSize: 18.7),)),
-    Information(icon: Icon(Icons.logout, color: Colors.red,) , title:Text( "Logout",style: TextStyle(fontSize: 18.7,color: Colors.red),)),
+    Information(icon:Icon(Icons.support,color: Colors.purple,) , title: Text("Donation",style: TextStyle(fontSize: 18.7),), goto: "myDonations"),
+     Information(icon: Icon(Icons.edit_note, color: Colors.purple,) , title: Text("List of Posts",style: TextStyle(fontSize: 18.7),), goto: "ListOfPosts"),
+    Information(icon: Icon(Icons.logout, color: Colors.red,) , title:Text( "Logout",style: TextStyle(fontSize: 18.7,color: Colors.red),), goto: "login"),
   ];
 
   Profile({Key? key}) : super(key: key);
@@ -74,7 +74,7 @@ class Profile extends StatelessWidget{
                   borderRadius: BorderRadius.circular(40)
                 ),
                 child: ListTile(
-                  onTap: (){},
+                  onTap: (){context.pushNamed(details[index].goto);},
                   title: details[index].title,
                   leading: details[index].icon,
                   trailing: Icon(Icons.arrow_forward_ios_sharp),
