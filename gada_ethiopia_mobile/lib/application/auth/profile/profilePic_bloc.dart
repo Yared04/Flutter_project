@@ -12,7 +12,7 @@ class ProfileBloc extends Bloc<ProfileClicked,ProfileState>{
     on<ProfileClicked>(_pickProfile);}
 
     File?  profileImage;
-    void _pickProfile(ProfileClicked event, Emitter) async {
+    void _pickProfile(ProfileClicked event, Emitter emit) async {
       final image= await ImagePicker().pickImage(source:ImageSource.gallery);
     if(image==null){
        return

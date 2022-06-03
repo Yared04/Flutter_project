@@ -2,6 +2,7 @@
 import email
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from .models import *
 
 from gadaApp.models import Post,Member
 
@@ -15,3 +16,8 @@ class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
         fields = 'all'
+
+class DonationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Donation
+        fields= '__all__'

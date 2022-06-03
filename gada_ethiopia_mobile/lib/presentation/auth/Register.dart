@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/application/auth/bloc.dart';
 import 'package:gada_ethiopia_mobile/application/auth/registration/bloc.dart';
+import 'package:gada_ethiopia_mobile/lib.dart';
+import 'package:get/get.dart';
 import 'home.dart';
 
 
@@ -36,7 +38,7 @@ class Register extends StatelessWidget {
             Center(
               child: CircleAvatar(
                 radius: 45,
-                backgroundImage: AssetImage("assets/gadalogo.jpg"),
+                backgroundImage: AssetImage("assets/health2.png"),
               ),
             ),
             SizedBox(
@@ -324,7 +326,7 @@ class Register extends StatelessWidget {
                               listener: (_,RegState state){
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (_)=>HomeScreen()),
+                                  MaterialPageRoute(builder: (_)=>MyHomePage()),
                                 );
                               },
                               builder: (_,RegState state){

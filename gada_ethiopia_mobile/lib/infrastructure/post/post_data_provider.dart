@@ -3,6 +3,7 @@ import 'package:gada_ethiopia_mobile/domain/post/post_model.dart';
 import 'package:http/http.dart';
 
 
+
 class PostDataProvider {
   final _baseUri = 'http://192.168.56.1:3000/';
   final Client client;
@@ -36,19 +37,21 @@ class PostDataProvider {
     }
   }
 
-  Future<List<Post>?> getPosts() async {
-    var response = await client.get(Uri.parse("$_baseUri/posts"));
+  
+  Future<List<Post>> getPosts() async {
+    var response = await get(Uri.parse("${_baseUri}posts"), headers: {
+      "Accept": "application/json",
+      "Access-Control_Allow_Origin": "*"
+    });
+
     print(response.statusCode);
     if (response.statusCode == 200) {
+      print('inside');
       final posts = jsonDecode(response.body) as List;
       List<Post> ret = [];
 
       for (var post in posts) {
-        try {
-          ret.add(Post.fromJson(post));
-        } catch (e) {
-          throw Exception('Failed to load courses');
-        }
+        ret.add(Post.fromJson(post));
       }
 
       return ret;
