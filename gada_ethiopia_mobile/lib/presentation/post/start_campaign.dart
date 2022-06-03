@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/application/post/post.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:image_picker/image_picker.dart';
 
@@ -39,9 +40,12 @@ class CreateCampaign extends StatelessWidget {
               },
               icon: const Icon(Icons.search)),
           IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
-          const CircleAvatar(
-            backgroundImage: AssetImage('assets/profile_picture.jpg'),
-            maxRadius: 20,
+          GestureDetector(
+            onTap: (){context.pushNamed('profile');},
+            child: const CircleAvatar(
+              backgroundImage: AssetImage('assets/profile_picture.jpg'),
+              maxRadius: 20,
+            ),
           ),
           const SizedBox(
             width: 10,
@@ -105,7 +109,7 @@ class CreateCampaign extends StatelessWidget {
                         return "Description is required!";
                       }
                       if (desc.length < 10) {
-                        return "Minimum discription length 10 words!";
+                        return "Minimum discription lengt of 10 letters!";
                       }
                     },
                   ),

@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gada_ethiopia_mobile/application/auth/bloc.dart';
 import 'package:gada_ethiopia_mobile/application/auth/login/bloc.dart';
-import 'package:gada_ethiopia_mobile/lib.dart';
-import 'home.dart';
+import 'package:go_router/go_router.dart';
 
 class Login extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+
+  Login({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +165,10 @@ class Login extends StatelessWidget {
                  SizedBox(
                    height: 25,
                  ),
-                 Container(
+                 GestureDetector(
+                   onTap: (){
+                     context.goNamed('register');
+                   },
                    child: Text(
                      "sign up ? ",
                      style: TextStyle(color: Colors.purple),
@@ -179,10 +182,7 @@ class Login extends StatelessWidget {
                      return current is LoginSuccesful;
                    },
                    listener: (_, LoginState state) {
-                     Navigator.push(
-                       context,
-                       MaterialPageRoute(builder: (_) => MyHomePage()),
-                     );
+                   context.goNamed('home');
                    },
                    builder: (_, LoginState state) {
                      Widget buttonChild = Text("Login");

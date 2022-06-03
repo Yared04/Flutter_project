@@ -114,6 +114,16 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.6.5"
+<<<<<<< HEAD
+  go_router:
+    dependency: "direct main"
+    description:
+      name: go_router
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.1"
+=======
+>>>>>>> e12886337c8191064ffa53e3c91106d581a4c569
   http:
     dependency: transitive
     description:
@@ -177,6 +187,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  logging:
+    dependency: transitive
+    description:
+      name: logging
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   matcher:
     dependency: transitive
     description:

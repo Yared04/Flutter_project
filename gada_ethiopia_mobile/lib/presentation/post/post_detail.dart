@@ -1,36 +1,47 @@
 
 import 'package:flutter/material.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
+import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 import 'screens.dart';
 
 class PostDetail extends StatelessWidget {
- PostDetail({Key? key}) : super(key: key);
+  final Post post;
+ PostDetail({Key? key, required this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("PostDetail"),
-      // leading: Padding(padding: EdgeInsets.only(left:10),
-      // child: GestureDetector(
-      //   onTap: () {
-
-      //   },
-      //   child: Icon(Icons.arrow_back)),),
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.green,
-      actions: <Widget>[
-        Padding(padding: const EdgeInsets.only(right:10),
-        child: GestureDetector(
-          child: const Icon(Icons.favorite_outline_rounded),
-          onTap:() {}, ),),
-          Padding(padding: const EdgeInsets.only(right:10),
-          child: GestureDetector(
-            child: const Icon(Icons.more_vert),
-            onTap: (){},
-          ),)
-      ],),
+       appBar: AppBar(
+        // leading: Icon(Icons.drafts),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        foregroundColor: Colors.black,
+        // backgroundColor: Color.fromARGB(68, 255, 255, 255),
+        // title: Text("ጋዳ"),
+        // centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                showSearch(context: context, delegate: MySearchDelegete());
+              },
+              icon: const Icon(Icons.search)),
+          IconButton(onPressed: () {
+                        context.pushNamed('create-post');
+          }, icon: const Icon(Icons.add)),
+          GestureDetector(
+            onTap: (){context.pushNamed('profile');},
+            child: const CircleAvatar(
+              backgroundImage: AssetImage('assets/profile_picture.jpg'),
+              maxRadius: 20,
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          )
+        ],
+      ),
       drawer:  const MyDrawer(),
       body: SingleChildScrollView(
         child: Padding(
@@ -128,7 +139,9 @@ class PostDetail extends StatelessWidget {
               primary: Colors.green,
               fixedSize: const Size(1000, 40),
             ),
-            onPressed: (){}, 
+            onPressed: (){
+              context.goNamed('doante',params: {} );
+            }, 
             child: const Text("Donate Now", 
             style: TextStyle(color: Colors.white, fontSize: 20),)),
                   

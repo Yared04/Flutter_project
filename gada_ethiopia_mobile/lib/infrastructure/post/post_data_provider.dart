@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 
 class PostDataProvider {
-  final _baseUri = 'http://192.168.56.1:3000/';
+  final _baseUri = 'http://10.5.232.114:3000/';
   final Client client;
   final MultipartRequest request;
 
@@ -36,6 +36,18 @@ class PostDataProvider {
     } else {
       throw Exception('Failed to create Post.');
     }
+  }
+
+  Future<Post> getPostDetail(int id) async{
+    final response = await client.get(Uri.http(_baseUri, 'posts/$id'));
+    if(response.statusCode == 200){
+      final post = jsonDecode(response.body);
+      return Post.fromJson(post);
+    }
+    else{
+      throw Exception('Post not found.');
+    }
+
   }
 
   Future<List<Post>> getPosts() async {

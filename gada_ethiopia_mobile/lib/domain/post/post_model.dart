@@ -1,7 +1,10 @@
 import 'dart:io';
-
+import 'package:http/src/multipart_request.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:gada_ethiopia_mobile/infrastructure/infrastracture.dart';
+import 'package:http/src/client.dart';
+
 
 @immutable
 class Post extends Equatable {
@@ -49,4 +52,15 @@ class Post extends Equatable {
       return null;
     }
   }
+
+  static PostOfId(int id){
+   final postRepo = PostRepository(dataProvider: PostDataProvider(
+                    request: MultipartRequest(
+                          "Post", Uri.parse('http://10.5.232.114:3000/posts')),
+                      client: Client(),
+     ));
+    return postRepo.getPostDetail(id);
+  }
+
+ 
 }

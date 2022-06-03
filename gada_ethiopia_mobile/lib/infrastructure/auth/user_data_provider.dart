@@ -1,13 +1,14 @@
 import 'dart:convert';
-import 'dart:io';
-// import 'dart:html';
 // import 'dart:io';
 import 'package:http/http.dart' as http;
 // import 'package:gada_ethiopia_mobile/lib.dart';
 import '../../domain/auth/user_model.dart';
 
-class UserDataProvider {
-  final _baseUri = 'http://192.168.56.1:3000/';
+
+class UserDataProvider{
+  final _baseUri = 'http://10.5.232.114:3000/';
+// class UserDataProvider {
+//   final _baseUri = 'http://192.168.56.1:3000/';
   final http.Client client;
 
   UserDataProvider({required this.client});

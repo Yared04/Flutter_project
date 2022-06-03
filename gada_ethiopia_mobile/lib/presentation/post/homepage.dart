@@ -5,6 +5,8 @@ import 'package:gada_ethiopia_mobile/lib.dart';
 import 'package:gada_ethiopia_mobile/widgets/custom.dart';
 
 import 'package:gada_ethiopia_mobile/widgets/home.dart';
+import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -32,10 +34,16 @@ class MyHomePage extends StatelessWidget {
                 showSearch(context: context, delegate: MySearchDelegete());
               },
               icon: const Icon(Icons.search)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
-          const CircleAvatar(
-            backgroundImage: AssetImage('assets/profile_picture.jpg'),
-            maxRadius: 20,
+          IconButton(onPressed: () {
+            context.pushNamed('create-post');
+
+          }, icon: const Icon(Icons.add)),
+         GestureDetector(
+            onTap: (){context.pushNamed('profile');},
+            child: const CircleAvatar(
+              backgroundImage: AssetImage('assets/profile_picture.jpg'),
+              maxRadius: 20,
+            ),
           ),
           const SizedBox(
             width: 10,
@@ -96,53 +104,59 @@ class MyHomePage extends StatelessWidget {
                       itemCount: myListDict.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 300,
-                                width: 250,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                        "http://192.168.56.1:3000/images/uploaded/${myListDict[index].image.uri.toString().split("/").last}"),
-                                    fit: BoxFit.cover,
+                        
+                        return GestureDetector(
+                          onTap: (){
+                            context.goNamed('post-detail', params: {'id': myListDict[index].id.toString()});
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 300,
+                                  width: 250,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                          "http://10.5.232.114:3000/images/uploaded/${myListDict[index].image.uri.toString().split("/").last}"),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
                                   ),
-                                  borderRadius: BorderRadius.circular(40),
                                 ),
-                              ),
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text('Total Raised'),
-                                    ),
-                                    const SizedBox(
-                                      width: 50,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        myListDict[index].donated.toString() +
-                                            ' birr(' +
-                                            ((myListDict[index].donated! /
-                                                        myListDict[index]
-                                                            .goal) *
-                                                    100)
-                                                .floor()
-                                                .toString() +
-                                            '%)',
-                                        style: TextStyle(
-                                            color: Colors.green[700],
-                                            fontWeight: FontWeight.bold),
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text('Total Raised'),
                                       ),
-                                    )
-                                  ],
+                                      const SizedBox(
+                                        width: 50,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          myListDict[index].donated.toString() +
+                                              ' birr(' +
+                                              ((myListDict[index].donated! /
+                                                          myListDict[index]
+                                                              .goal) *
+                                                      100)
+                                                  .floor()
+                                                  .toString() +
+                                              '%)',
+                                          style: TextStyle(
+                                              color: Colors.green[700],
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         );
                       },
