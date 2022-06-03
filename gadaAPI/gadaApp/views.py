@@ -1,5 +1,6 @@
 
 import http
+from webbrowser import get
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse , JsonResponse
 
@@ -76,6 +77,7 @@ class ViewUser(APIView):
     parser_classes = [JSONParser]
 
     def get(self , request):
+      
         users = Member.objects.all()
 
         serializer = self.serializer_class(instance=users, many = True)

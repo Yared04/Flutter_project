@@ -21,7 +21,7 @@ class Post(models.Model):
 
 class Member(models.Model):
     first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100 , null = True)
     email = models.EmailField(max_length=100, unique=True)
     password = models.TextField()
     is_client = models.BooleanField(default=False)

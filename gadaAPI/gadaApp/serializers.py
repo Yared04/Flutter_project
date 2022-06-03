@@ -15,7 +15,7 @@ class PostSerializer(serializers.ModelSerializer):
 class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
-        fields = 'all'
+        fields = '__all__'
 
 class DonationSerializer(serializers.ModelSerializer):
     class Meta:
