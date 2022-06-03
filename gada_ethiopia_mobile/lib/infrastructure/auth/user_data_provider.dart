@@ -1,41 +1,63 @@
 import 'dart:convert';
-// ;
 // import 'dart:io';
 import 'package:http/http.dart' as http;
 // import 'package:gada_ethiopia_mobile/lib.dart';
 import '../../domain/auth/user_model.dart';
 
+
 class UserDataProvider{
   final _baseUri = 'http://10.5.232.114:3000/';
+// class UserDataProvider {
+//   final _baseUri = 'http://192.168.56.1:3000/';
   final http.Client client;
- 
 
   UserDataProvider({required this.client});
-   Future<User> createUser(User user) async {
-     final response = await client.post(
-       Uri.http(_baseUri, 'create-user'),
-       headers: <String, String>{
-         'Content-Type': 'application/json; charset=UTF-8',
-       },
-       body: jsonEncode(<String, dynamic>{
-         'first_name': user.first_name,
-         'last_name' : user.last_name,
-         'email' : user.email,
-         'password' : user.password,
-       })
-     );
 
-     if (response.statusCode == 200) {
-      return User.fromJson(jsonDecode(response.body));
+  Future<User?> createUser(User user) async {
+    print("here create usr");
+    var response = await client.post(Uri.parse("${_baseUri}users"),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode({
+          'first_name': user.first_name,
+          'last_name': user.last_name,
+          'email': user.email,
+          'password': user.password,
+        }));
+    // ))
+    print(response.statusCode);
+
+    if (response.statusCode == 201) {
+      print("finally");
+      return user;
+
     } else {
-      throw Exception('Failed to create user.');
+      return null;
     }
+
+    // try {
+    //   final response = await client
+    //       .post(Uri.parse("${_baseUri}users"), headers: <String, String>{
+    //     'Content-Type': 'application/json; charset=UTF-8',
+    //   }, body: {
+    //     'first_name': user.first_name,
+    //     'last_name': user.last_name,
+    //     'email': user.email,
+    //     'password': user.password,
+    //   });
+    // } catch (e) {
+    //   return null;
+
+    // }
+    // var response;
+    // print(response);
   }
 
-  Future<List<User>> getUsers() async{
+  Future<List<User>> getUsers() async {
     final response = await client.get(Uri.http(_baseUri, '/users'));
 
-    if( response.statusCode == 200){
+    if (response.statusCode == 200) {
       final users = jsonDecode(response.body) as List;
       List<User> ret = [];
 
@@ -46,14 +68,14 @@ class UserDataProvider{
           throw Exception('Failed to load courses');
         }
       }
-      return ret;}
-    else{
-      throw("Failed to load users.");
+      return ret;
+    } else {
+      throw ("Failed to load users.");
     }
   }
 
-  Future<void> deleteUser(int id) async{
-      final http.Response response = await client.delete(
+  Future<void> deleteUser(int id) async {
+    final http.Response response = await client.delete(
       Uri.parse('$_baseUri/user-detail/$id'),
       headers: <String, String>{
         'Type': 'application/json; charset = UTF-8',
@@ -62,21 +84,19 @@ class UserDataProvider{
     if (response.statusCode != 204) {
       throw Exception('Failed to delete user');
     }
-
   }
 
   Future<void> updateUser(User user) async {
     final http.Response response = await client.put(
       Uri.http(_baseUri, 'users/${user.id}'),
-
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
         'first_name': user.first_name,
-         'last_name' : user.last_name,
-         'email' : user.email,
-         'password' : user.password,
+        'last_name': user.last_name,
+        'email': user.email,
+        'password': user.password,
       }),
     );
 
@@ -84,9 +104,4 @@ class UserDataProvider{
       throw Exception('Operation Failed.');
     }
   }
-
-
-
-  
- 
 }

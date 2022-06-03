@@ -1,19 +1,30 @@
+
+import http
+from webbrowser import get
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse , JsonResponse
-from requests import delete
+
 from rest_framework.parsers import JSONParser , MultiPartParser , FormParser
 from django.views.decorators.csrf import csrf_exempt
 import json
 from rest_framework.views import APIView
+<<<<<<< HEAD
 from gadaApp.serializers import PostSerializer, MemberSerializer
 
 from .models import Donation, Post, Member
 from django.contrib.auth.models import User
+=======
+from .serializers import  DonationSerializer, MemberSerializer
+from gadaApp.serializers import PostSerializer
+from .models import Donation, Member, Post
+# from django.contrib.auth.models import User
+>>>>>>> e12886337c8191064ffa53e3c91106d581a4c569
 
 
 class PostViewCreate(APIView):
     serializer_class = PostSerializer
     parser_classes = [MultiPartParser, FormParser]
+    # header = http.header("Access-Control-Allow-Headers: Access-Control-Allow-Origin, Accept")
     def get(self, request):
         posts = Post.objects.all()
         serializer = self.serializer_class(instance=posts , many = True)
@@ -67,6 +78,7 @@ class DetailPost(APIView):
         post.delete()
         return HttpResponse(status = 200)
         
+<<<<<<< HEAD
 class DeleteUser(APIView):
     def delete(self , request , pk):
         try:
@@ -76,12 +88,15 @@ class DeleteUser(APIView):
         user.delete()
         return HttpResponse(status = 200)
 
+=======
+>>>>>>> e12886337c8191064ffa53e3c91106d581a4c569
 class ViewUser(APIView):
     serializer_class = MemberSerializer
 
     parser_classes = [JSONParser]
 
     def get(self , request):
+      
         users = Member.objects.all()
 
         serializer = self.serializer_class(instance=users, many = True)
@@ -133,26 +148,40 @@ class MemberDetail(APIView):
         user.delete()
         return HttpResponse(status = 200)
 
-class DonationCreate(APIView):
 
+
+class DonationCreate(APIView):
+    parser_classes = [JSONParser]
     def get(self, request):
         donations = Donation.objects.all()
-        serializer = PostSerializer(instance = donations, many = True)
+        serializer = DonationSerializer(instance = donations, many = True)
         return JsonResponse(serializer.data, status = 200, safe=False)
 
     def post(self,request):
         data = request.data
-        serialized = PostSerializer(data=data)
-        if serialized.is_valid:
+        serialized = DonationSerializer(data=data)
+        
+        if serialized.is_valid():
+            
             serialized.save()
+            post = Post.objects.get(id = serialized.data['post'][0])
+            Post.objects.filter(id = serialized.data['post'][0]).update(donated = post.donated + serialized.data['donated_amount'],donator_count = post.donator_count + 1 )
             return JsonResponse(serialized.data, status= 201)
         return JsonResponse(serialized.errors, status=400)
 
 class DonationDetail(APIView):
     def get(self,request, pk):
-        donation = Donation.objects.get(id = pk)
-        serializer = PostSerializer(donation)
-        return JsonResponse(serializer.data, status = 200, )
+        donation = Donation.objects.all()
+        print(donation, "donation")
+        li = []
+        for i in donation:
+            print(Member.objects.get(pk = pk),  i.user.all , "##")
+            if Member.objects.get(pk = pk) in list(i.user.all()):
+                li.append(i)
+        
+        serializer = DonationSerializer(li, many = True )
+        return JsonResponse(serializer.data, status = 200,safe= False )
+
     def put(self, request, pk):
         data = Donation.objects.get(id=pk)
         serializer = PostSerializer(data,request.data,partial=True)

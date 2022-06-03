@@ -1,2 +1,2 @@
-export 'donation_screen.dart';
-export 'thankyou.dart';
+export 'donate_screen.dart';
+export 'thankyou_screen.dart';

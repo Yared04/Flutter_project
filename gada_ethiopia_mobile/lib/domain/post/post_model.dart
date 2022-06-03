@@ -34,18 +34,23 @@ class Post extends Equatable {
   List<Object?> get props =>
       [id, title, description, goal, image, donated, donator_count, created];
 
+  
   static fromJson(Map<String, dynamic> json) {
-    return Post(
-
-      id: json['id'],
-      title: json['title'],
-      goal: json['goal'],
-      description: json['description'],
-      image: File(json['image']),
-      donated: json['donated'],
-      donator_count: json['donator_count'],
-      created: DateTime.parse(json['created'])
-    );
+    try {
+      var post = Post(
+          id: json['id'],
+          title: json['title'],
+          goal: json['goal'],
+          description: json['description'],
+          image: File(json['image']),
+          donated: json['donated'],
+          donator_count: json['donator_count'],
+          created: DateTime.parse(json['created']));
+      return post;
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 
   static PostOfId(int id){

@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gada_ethiopia_mobile/widgets/custom.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gada_ethiopia_mobile/lib.dart';
+import 'package:http/http.dart';
 
-import '../../application/donation/donation.dart';
-import '../../domain/post/post.dart';
-import 'screens.dart';
-
-class Donation extends StatelessWidget {
+class Donation_screen extends StatelessWidget {
+  final donationBloc = DonationBloc(donationRepo:DonationRepository(dataProvider :DonationDataProvider(client:Client())));
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => DonationBloc(),
-      child: MaterialApp(debugShowCheckedModeBanner: false, home: DonationScafold()),
+      create: (BuildContext context) => donationBloc,
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false, home: DonationScafold()),
     );
   }
 }
@@ -35,9 +34,6 @@ class DonationScafold extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         foregroundColor: Colors.black,
-        // backgroundColor: Color.fromARGB(68, 255, 255, 255),
-        // title: Text("ጋዳ"),
-        // centerTitle: true,
         actions: [
           IconButton(
               onPressed: () {
@@ -77,7 +73,7 @@ class DonationScafold extends StatelessWidget {
                       Container(
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage("assets/kids.jpg"),
+                                image: AssetImage("assets/all-logo.png"),
                                 fit: BoxFit.cover)),
                       ),
                       Container(
@@ -181,7 +177,7 @@ class DonationScafold extends StatelessWidget {
                     listener: (_, DonationStates state) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => Thankyou()),
+                        MaterialPageRoute(builder: (_) => Thankyou_Screen()),
                       );
                     },
                     builder: (_, DonationStates state) {
@@ -219,7 +215,7 @@ class DonationScafold extends StatelessWidget {
                                 final authBloc =
                                     BlocProvider.of<DonationBloc>(context);
                                 authBloc.add(
-                                  Donate(creditController.text, 2, 3),
+                                  Donate(creditController.text.toString(), int.parse(amountController.text.toString()), 3,1),
                                 );
                               },
                         child: buttonChild,

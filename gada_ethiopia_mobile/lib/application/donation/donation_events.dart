@@ -1,11 +1,13 @@
-
+import 'package:gada_ethiopia_mobile/lib.dart';
 
 class DonationEvents{}
 
 class Donate extends DonationEvents{
-  String CreditCardNumber;
-  int DonationAmout;
-  int UserId;
+  String account_number;
+  int donated_amount;
+  int user;
+  int post;
+  
 
-  Donate(this.CreditCardNumber,this.DonationAmout,this.UserId);
+  Donate(this.account_number,this.donated_amount,this.user,this.post);
 }

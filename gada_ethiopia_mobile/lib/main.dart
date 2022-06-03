@@ -1,23 +1,20 @@
-import 'dart:html';
 
-import 'package:gada_ethiopia_mobile/application/admin/admin.dart';
 import 'package:gada_ethiopia_mobile/application/auth/registration/register_bloc.dart';
 import 'package:gada_ethiopia_mobile/presentation/admin/list_of_donations.dart';
 import 'package:gada_ethiopia_mobile/presentation/admin/list_of_posts.dart';
 import 'package:gada_ethiopia_mobile/presentation/admin/list_of_users.dart';
 import 'package:gada_ethiopia_mobile/presentation/auth/Register.dart';
-// import 'package:gada_ethiopia_mobile/presentation/auth/home.dart';
-import 'package:gada_ethiopia_mobile/presentation/auth/log-in.dart';
-import 'package:gada_ethiopia_mobile/presentation/auth/profile_page.dart';
-import 'package:gada_ethiopia_mobile/presentation/donation/donation_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
-import 'application/auth/bloc.dart';
 import 'application/auth/login/bloc.dart';
-import 'application/post/post.dart';
+
+import 'package:gada_ethiopia_mobile/application/auth/login/bloc.dart';
+import 'package:gada_ethiopia_mobile/application/auth/registration/bloc.dart';
 import 'lib.dart';
+import 'application/post/post.dart';
 import 'presentation/post/post_detail.dart';
 
 void main() {
@@ -48,7 +45,7 @@ class Gada extends StatelessWidget {
                 name: 'donate',
                 builder: (context, state) {
                   final post = Post.PostOfId(int.parse(state.params['pid']!));
-                  return Donation();
+                  return Donation_screen();
                 }
                  )]),
         ]
@@ -94,7 +91,6 @@ class Gada extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    
     return MultiBlocProvider(
 
       providers: [
@@ -104,11 +100,12 @@ class Gada extends StatelessWidget {
                     dataProvider: PostDataProvider(
                       request: MultipartRequest(
                           "Post", Uri.parse('http://10.5.232.114:3000/posts')),
+                          // "Post", Uri.parse('http://192.168.56.1:3000/posts')),
                       client: Client(),
                     ),
                   ),
                 )),),
-        BlocProvider(create: (BuildContext context) => RegBloc()),
+        BlocProvider(create: (BuildContext context) => RegBloc(userRepository: UserRepository(dataProvider: UserDataProvider(client: Client())))),
         BlocProvider(create: (BuildContext context) => LoginBloc()),
         BlocProvider(create: (BuildContext context) => PassBloc()),
         BlocProvider(create: (BuildContext context) => AdminBloc(postRepo: PostRepository(

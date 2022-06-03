@@ -18,6 +18,9 @@ class PostRepository {
   Future<void> deletePost(int id) async{
     return await dataProvider.deletePost(id);
   }
+  Future<Post?> getPostByUserId(int id) async {
+    return await dataProvider.getPostByUserId(id);
+  }
 
   Future<Post> getPostDetail(int id) async{
     return await dataProvider.getPostDetail(id);
