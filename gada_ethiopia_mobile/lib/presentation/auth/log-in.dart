@@ -101,10 +101,9 @@ class Login extends StatelessWidget {
                              prefixIcon: Icon(Icons.person),
                            ),
                            validator: (username) {
-                             if (username == null || username.isEmpty) {
+                             if (username == null || !(username.contains('@') || username.contains('.'))) {
                                return 'Username cannot be empty';
-                             } else if (username.length > 20) {
-                               return 'Username too long';
+            
                              } else {
                                return null;
                              }

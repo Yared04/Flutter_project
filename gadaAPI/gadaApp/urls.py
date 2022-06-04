@@ -9,9 +9,10 @@ urlpatterns = [
     path('posts' , PostViewCreate.as_view(), name='posts'),
     path('post-detail/<str:pk>' , DetailPost.as_view(), name='posts-detail'),
     path('users' , ViewUser.as_view() , name = 'users'),
-    path('delete-user/<str:pk>' , DeleteUser.as_view() , name='delete-user'),
+    path('single-user/<str:pk>' , DeleteOrViewUser.as_view() , name='single-user'),
     path('donations' , DonationCreate.as_view() , name = 'donations'),
     path('donations/<str:pk>' , DonationDetail.as_view() , name = 'donation-detail'),
+    path('email-password' , Verify.as_view() , name ="verify")
     # path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     # path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
 

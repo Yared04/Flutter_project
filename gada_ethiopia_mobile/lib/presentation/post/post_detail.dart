@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
 import 'package:go_router/go_router.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+// import 'package:percent_indicator/percent_indicator.dart';
 
 import 'screens.dart';
 
@@ -78,16 +78,16 @@ class PostDetail extends StatelessWidget {
               heightFactor: 2,
               child: Text("20 people donated so far.",
               style:TextStyle(fontSize: 13, color: Colors.green),)),
-              LinearPercentIndicator(
-                width: MediaQuery.of(context).size.width - 40,
-                animation: true,
-                lineHeight: 15.0,
-                animationDuration: 2500,
-                percent: 0.8,
-                center: const Text("80.0%"),
-                barRadius: const Radius.circular(10),
-                progressColor: Colors.green,
-              ),
+              // LinearPercentIndicator(
+              //   width: MediaQuery.of(context).size.width - 40,
+              //   animation: true,
+              //   lineHeight: 15.0,
+              //   animationDuration: 2500,
+              //   percent: 0.8,
+              //   center: const Text("80.0%"),
+              //   barRadius: const Radius.circular(10),
+              //   progressColor: Colors.green,
+              // ),
                           
             Padding(
               padding: const EdgeInsets.only(top:10, bottom:10),

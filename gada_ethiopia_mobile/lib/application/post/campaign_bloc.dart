@@ -35,6 +35,18 @@ class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
       }
       if (post != null) {
         emit(CreateSuccess());
+        var posts = null;
+        try {
+          posts = await postRepository.getPosts();
+        } catch (e) {
+          // print("failed?");
+          emit(LoadFailed());
+        }
+        if (posts != null) {
+          // print(posts.toString());
+          emit(LoadSuccess(posts: posts));
+        }
+
       }
     }
     if (event is PickImage) {

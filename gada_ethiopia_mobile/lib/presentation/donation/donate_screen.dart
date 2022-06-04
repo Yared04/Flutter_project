@@ -60,10 +60,7 @@ class DonationScafold extends StatelessWidget {
           )
         ],
       ),
-      drawer: Container(
-        color: Colors.lightBlue,
-        width: 300,
-      ),
+      drawer: MyDrawer(),
       body: ListView(
         children: [
           Form(
@@ -225,7 +222,7 @@ class DonationScafold extends StatelessWidget {
                                   Donate(
                                       creditController.text,
                                       int.parse(amountController.text),
-                                      3,
+                                      1,
                                       1),
                                 );
                               },

@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:gada_ethiopia_mobile/domain/post/post_model.dart';
-import 'package:get/get.dart';
+
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
 
 class PostDataProvider {
-  final _baseUri = 'http://10.5.232.114:3000/';
+  final _baseUri = 'http://192.168.56.1:3000/';
   final Client client;
   final MultipartRequest request;
 

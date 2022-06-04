@@ -16,25 +16,32 @@ class DonationDataProvider {
     print("herbefore");
     try {
       var response =
-          await client.post(Uri.parse("${_baseUri}donations"), body: jsonEncode({
+          await client.post(Uri.parse("${_baseUri}donations"),
+          headers: {
+            "content-type" : "application/json"
+          },
+           body: jsonEncode({
         'donated_amount': donation.donated_amount,
         'account_number': donation.account_number,
         'post': [donation.post],
         'user': [donation.user],
+
       }));
 
-    } catch (e) {
-      print(e.toString() + "the exception is here");
-      rethrow;
-    }
-    print("here");
-    var response;
-    if (response.statusCode == 201) {
+      if (response.statusCode == 201) {
       print("good");
       return Donation.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to create Donation.');
     }
+
+    } catch (e) {
+
+      print(e.toString() + "the exception is here");
+      rethrow;
+    }
+  
+    
   }
 
   // Future<Donation?> getDonation(int id) async {

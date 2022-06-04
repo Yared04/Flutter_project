@@ -41,7 +41,9 @@ class CreateCampaign extends StatelessWidget {
               icon: const Icon(Icons.search)),
           IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
           GestureDetector(
-            onTap: (){context.pushNamed('profile');},
+            onTap: () {
+              context.pushNamed('profile');
+            },
             child: const CircleAvatar(
               backgroundImage: AssetImage('assets/profile_picture.jpg'),
               maxRadius: 20,
@@ -220,10 +222,7 @@ class CreateCampaign extends StatelessWidget {
                     listenWhen: (previous, current) =>
                         (current is CreateSuccess),
                     listener: (_, CampaignState state) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const MyHomePage()));
+                      context.pushNamed('home');
                     },
                   ),
 
