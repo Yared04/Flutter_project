@@ -22,3 +22,8 @@ class PickImage extends CampaignEvent {
   PickImage({required this.image});
 }
 class GetPosts extends CampaignEvent {}
+
+class FindPost extends CampaignEvent {
+  int id;
+  FindPost({required this.id});
+}

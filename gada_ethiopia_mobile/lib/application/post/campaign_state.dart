@@ -1,3 +1,5 @@
+import 'package:get/get_connect/http/src/request/request.dart';
+
 import '../../lib.dart';
 
 class CampaignState {}
@@ -24,3 +26,9 @@ class LoadSuccess extends CampaignState {
 class LoadFailed extends CampaignState {}
 
 class LoadingHome extends CampaignState {}
+
+class LoadFail extends CampaignState {}
+class LoadNotFail extends CampaignState{
+  Post? post;
+  LoadNotFail({required this.post});
+}

@@ -1,5 +1,6 @@
 
 import http
+from telnetlib import STATUS
 from webbrowser import get
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse , JsonResponse
@@ -71,10 +72,12 @@ class DetailPost(APIView):
         post.delete()
         return HttpResponse(status = 200)
         
-class DeleteUser(APIView):
+class DeleteOrViewUser(APIView):
+  
+
     def delete(self , request , pk):
         try:
-            user = User.objects.get(pk = pk)
+            user = Member.objects.get(pk = pk)
         except:
             return HttpResponse(status = 204)
         user.delete()
@@ -83,10 +86,10 @@ class DeleteUser(APIView):
 class ViewUser(APIView):
     serializer_class = MemberSerializer
 
-    parser_classes = [JSONParser]
+    # parser_classes = [JSONParser]
 
     def get(self , request):
-      
+        print("users?")
         users = Member.objects.all()
 
         serializer = self.serializer_class(instance=users, many = True)
@@ -141,22 +144,30 @@ class MemberDetail(APIView):
 
 
 class DonationCreate(APIView):
-    parser_classes = [JSONParser]
+    # parser_classes = [JSONParser]
     def get(self, request):
+        print("here")
         donations = Donation.objects.all()
         serializer = DonationSerializer(instance = donations, many = True)
         return JsonResponse(serializer.data, status = 200, safe=False)
 
     def post(self,request):
         data = request.data
+        print("hehe#######")
+    
         serialized = DonationSerializer(data=data)
         
         if serialized.is_valid():
             
             serialized.save()
-            post = Post.objects.get(id = serialized.data['post'][0])
-            Post.objects.filter(id = serialized.data['post'][0]).update(donated = post.donated + serialized.data['donated_amount'],donator_count = post.donator_count + 1 )
-            return JsonResponse(serialized.data, status= 201)
+            print(serialized)
+            try:
+                post = Post.objects.get(id = serialized.data['post'][0])
+                Post.objects.filter(id = serialized.data['post'][0]).update(donated = post.donated + serialized.data['donated_amount'],donator_count = post.donator_count + 1 )
+                return JsonResponse(serialized.data, status= 201)
+            except:
+                return HttpResponse(status = 400)
+           
         return JsonResponse(serialized.errors, status=400)
 
 class DonationDetail(APIView):
@@ -173,14 +184,42 @@ class DonationDetail(APIView):
         return JsonResponse(serializer.data, status = 200,safe= False )
 
     def put(self, request, pk):
-        data = Donation.objects.get(id=pk)
-        serializer = PostSerializer(data,request.data,partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status = 201)
-        return JsonResponse(serializer.errors, status = 400)
+        data = request.data
+        try:
+            mem = Donation.objects.get(pk = pk)
+        except:
+            return HttpResponse(status = 400)
+
+        serialized = DonationSerializer(instance = mem , data=data)
+        if serialized.is_valid():
+            serialized.save()
+            
+            return JsonResponse(serialized.data, status=201)
+        
+        return JsonResponse(serialized.errors, status=400)
+
     def delete(self, request, pk):
-        donation = get_object_or_404(Donation, id =pk)
-        donation.delete() 
-        return JsonResponse(None, status= 200)
+        print("hehe")
+        try:
+            user = Donation.objects.get(id = pk)
+        except:
+            return HttpResponse(status = 204)
+        user.delete()
+        return HttpResponse(status = 200)
+
+class Verify(APIView):
+    def post(self , request):
+        email = request.data['email']
+        password = request.data['password']
+        mem = None
+        try:
+            mem = Member.objects.get(email = email , password = password)
+        except:
+            return HttpResponse(status = 404)
+        if mem: 
+            return HttpResponse(status = 200)
+        return HttpResponse(status = 400)
+
+
+
 

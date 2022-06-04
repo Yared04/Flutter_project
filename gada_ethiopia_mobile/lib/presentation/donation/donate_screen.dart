@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -7,27 +8,33 @@ import 'package:gada_ethiopia_mobile/lib.dart';
 import 'package:http/http.dart';
 
 class Donation_screen extends StatelessWidget {
-  
+  final donationBloc = DonationBloc(donationRepo:DonationRepository(dataProvider :DonationDataProvider(client:Client())));
+  final int pid;
+  final String post; 
+  Donation_screen({Key? key, required this.post, required this.pid}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final donationBloc = DonationBloc(
-      donationRepo: DonationRepository(
-          dataProvider: DonationDataProvider(client: Client())));
     return BlocProvider(
       create: (BuildContext context) => donationBloc,
       child: MaterialApp(
-          debugShowCheckedModeBanner: false, home: DonationScafold()),
+          debugShowCheckedModeBanner: false, 
+          home: DonationScafold(pid, jsonDecode(post))),
     );
   }
 }
 
 class DonationScafold extends StatelessWidget {
+  final  post;
+  final int post_id;
+  
   final formKey = GlobalKey<FormState>();
   final creditController = TextEditingController();
   final amountController = TextEditingController();
-  // final Post post;
-  DonationScafold({Key? key}) : super(key: key);
-
+  
+ 
+  DonationScafold(this.post_id, this.post, {Key? key}) : super(key: key);
+  
+  // final postt = jsonDecode(post);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,6 +45,11 @@ class DonationScafold extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         elevation: 0,
+        leading: GestureDetector(
+          onTap: (){
+            context.pop();
+          },
+          child: Icon(Icons.arrow_back_rounded)),
         foregroundColor: Colors.black,
         actions: [
           IconButton(
@@ -60,10 +72,7 @@ class DonationScafold extends StatelessWidget {
           )
         ],
       ),
-      drawer: Container(
-        color: Colors.lightBlue,
-        width: 300,
-      ),
+
       body: ListView(
         children: [
           Form(
@@ -80,7 +89,7 @@ class DonationScafold extends StatelessWidget {
                       Container(
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage("assets/all-logo.png"),
+                                image:  NetworkImage("http://10.5.232.114:3000/images/uploaded/${post['image'].split('/').last.split("'").first}"),
                                 fit: BoxFit.cover)),
                       ),
                       Container(
@@ -89,7 +98,7 @@ class DonationScafold extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Text(
-                          "this donation",
+                          "${post['title']}",
                           style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
@@ -111,7 +120,7 @@ class DonationScafold extends StatelessWidget {
                   child: TextFormField(
                     controller: creditController,
                     decoration: InputDecoration(
-                      labelText: 'Credit card no',
+                      labelText: 'Credit card number',
                       enabledBorder: OutlineInputBorder(
                         borderSide:
                             const BorderSide(width: 1, color: Colors.grey),
@@ -125,11 +134,11 @@ class DonationScafold extends StatelessWidget {
                     ),
                     validator: (String? creditCardNo) {
                       if (creditCardNo == null || creditCardNo.isEmpty) {
-                        return "enter credit card number";
+                        return "Enter credit card number";
                       }
                       final creditCardTest = RegExp('[0-9]');
                       if (creditCardTest.hasMatch(creditCardNo) == false) {
-                        return "credit card can only be digits";
+                        return "Credit card number can only be digits";
                       }
                       return null;
                     },
@@ -222,11 +231,9 @@ class DonationScafold extends StatelessWidget {
                                 final authBloc =
                                     BlocProvider.of<DonationBloc>(context);
                                 authBloc.add(
-                                  Donate(
-                                      creditController.text,
-                                      int.parse(amountController.text),
-                                      3,
-                                      1),
+
+                                  Donate(creditController.text.toString(), int.parse(amountController.text.toString()), post_id,1),
+
                                 );
                               },
                         child: buttonChild,

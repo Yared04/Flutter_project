@@ -6,9 +6,9 @@ import '../../domain/auth/user_model.dart';
 
 
 class UserDataProvider{
-  final _baseUri = 'http://10.5.232.114:3000/';
+  // final _baseUri = 'http://10.5.232.114:3000/';
 // class UserDataProvider {
-//   final _baseUri = 'http://192.168.56.1:3000/';
+  final _baseUri = 'http://192.168.56.1:3000/';
   final http.Client client;
 
   UserDataProvider({required this.client});
@@ -102,6 +102,27 @@ class UserDataProvider{
 
     if (response.statusCode != 204) {
       throw Exception('Operation Failed.');
+    }
+  }
+  
+  Future<User?> searchUser(User user) async {
+    print("search usr");
+    var response = await client.post(Uri.parse("${_baseUri}email-password"),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode({
+          'email': user.email,
+          'password': user.password,
+        }));
+    // ))
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      print("finally");
+      return user;
+    } else {
+      return null;
     }
   }
 }
