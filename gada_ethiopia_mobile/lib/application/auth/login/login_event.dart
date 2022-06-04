@@ -1,5 +1,5 @@
-class LoginEvent{
-  String username;
+class LoginEvent {
+  String email;
   String password;
-  LoginEvent(this.username, this.password);
+  LoginEvent(this.email, this.password);
 }

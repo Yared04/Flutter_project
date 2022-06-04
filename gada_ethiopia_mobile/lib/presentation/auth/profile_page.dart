@@ -10,14 +10,14 @@ import 'Information.dart';
 class Profile extends StatelessWidget{
 
   bool isEnabled=false;
-  String profile_name="Betselot";
+  // String profile_name;
   List<Information> details = [
     Information(icon:Icon(Icons.support,color: Colors.purple,) , title: Text("Donation",style: TextStyle(fontSize: 18.7),), goto: "myDonations"),
      Information(icon: Icon(Icons.edit_note, color: Colors.purple,) , title: Text("List of Posts",style: TextStyle(fontSize: 18.7),), goto: "ListOfPosts"),
     Information(icon: Icon(Icons.logout, color: Colors.red,) , title:Text( "Logout",style: TextStyle(fontSize: 18.7,color: Colors.red),), goto: "login"),
   ];
 
-  Profile({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -87,48 +87,26 @@ class Profile extends StatelessWidget{
       ),
 
       ),
-      BlocBuilder<ProfileBloc,ProfileState>(
-        builder: (_,ProfileState state){
-          Widget buttonchild=CircleAvatar(radius: 60,);
-          if(state is NotClicked){
-            buttonchild=CircleAvatar(child: Text(
-             profile_name[0].toUpperCase(),style: TextStyle(
-             fontSize: 40,fontWeight: FontWeight.bold),),backgroundColor: Colors.blueGrey,
-
-            radius: 60,
-          );
-          }
-          else if (state is Clicked){
-            buttonchild=CircleAvatar( child:  ClipOval(child: Image.file(BlocProvider.of<ProfileBloc>(context).profileImage!,width:120,height: 120,fit: BoxFit.cover,)),radius: 60, );
-          }
-          return 
+      
           Positioned(
 
             top: 135,
            right:MediaQuery.of(context).size.width * (0.5-(60/MediaQuery.of(context).size.width)),
-           child:buttonchild,
-          );},),
+           child:Container(),
+          ),
          Positioned(
            top: 260,
            right: 0,
            left:0,
-             child: Center(child: Text(profile_name, style: TextStyle(fontSize: 24,color: Colors.black),
+             child: Container(),
                 ),
-         ),)
+         
 
-        ,Positioned(
+        Positioned(
           top: 200,
           right:0,
           left:60,
-          child:Center(
-            child:IconButton(
-              onPressed:() {
-               final profileBloc=BlocProvider.of<ProfileBloc>(context);
-               profileBloc.add(ProfileClicked());
-              },
-              icon: Icon(Icons.camera_alt,color: Colors.purple,),
-            )
-          )
+          child:Container()
         ),
     ],),
     );

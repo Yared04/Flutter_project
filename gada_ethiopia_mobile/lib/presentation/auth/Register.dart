@@ -1,21 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gada_ethiopia_mobile/application/auth/bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gada_ethiopia_mobile/application/auth/registration/bloc.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
-import 'package:get/get.dart';
 
 
-
+import 'home.dart';
 
 class Register extends StatelessWidget {
- 
-  final firstnameController=TextEditingController();
-  final lastnameController=TextEditingController();
-  final emailController=TextEditingController();
-  final newPasswordController=TextEditingController();
-  final confirmPasswordController=TextEditingController();
+  final firstnameController = TextEditingController();
+  final lastnameController = TextEditingController();
+  final emailController = TextEditingController();
+  final newPasswordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool isObscure = true;
   bool _isObscure = true;
@@ -102,7 +99,7 @@ class Register extends StatelessWidget {
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'This filed can not be empty';
-                                  } else if (GetUtils.isAlphabetOnly(value) == false) {
+                                  } else if (value.contains(' ')) {
                                     return 'Please use alphabetic letters only ';
                                   } else {
                                     return null;
@@ -177,7 +174,8 @@ class Register extends StatelessWidget {
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'This field can not be empty ';
-                                  } else if (GetUtils.isEmail(value) == false) {
+                                  } else if (!((value.contains('@') &&
+                                      value.contains('.')))) {
                                     return 'Invalid E-MAIL';
                                   } else {
                                     return null;
@@ -191,136 +189,136 @@ class Register extends StatelessWidget {
                             Container(
                               width: 275,
                               child: TextFormField(
-                                    controller: newPasswordController,
-                                    obscureText: true,
-                                        // BlocProvider.of<PassBloc>(context)
-                                        //     .isObscure,
-                                    decoration: InputDecoration(
-                                      isDense: true,
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 2, horizontal: 0),
-                                      labelText: "New Password",
-                                      labelStyle: TextStyle(fontSize: 16),
-                                      border: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.grey),
-                                      ),
-                                      errorBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.redAccent),
-                                      ),
-                                      focusedErrorBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.red),
-                                      ),
-                                      
+                                controller: newPasswordController,
+                                obscureText: true,
+                                // BlocProvider.of<PassBloc>(context)
+                                //     .isObscure,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 2, horizontal: 0),
+                                  labelText: "New Password",
+                                  labelStyle: TextStyle(fontSize: 16),
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
                                     ),
-                                    validator: (value) {
-                                      if (value == null || value.length < 8) {
-                                        return 'minimum password length 8 ';
-                                      } else {
-                                        return null;
-                                      }
-                                    },
                                   ),
-                               
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                  ),
+                                  errorBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.redAccent),
+                                  ),
+                                  focusedErrorBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.red),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.length < 8) {
+                                    return 'minimum password length 8 ';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
                             ),
                             SizedBox(
                               height: 15,
                             ),
                             Container(
                               width: 275,
-                              child:  TextFormField(
-                                    controller: confirmPasswordController,
-                                    obscureText: true,
-                                        // BlocProvider.of<PassBloc>(context)
-                                        //     .isObscure,
-                                    decoration: InputDecoration(
-                                      isDense: true,
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 2, horizontal: 0),
-                                      labelText: "Confirm Password",
-                                      labelStyle: TextStyle(fontSize: 16),
-                                      border: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.grey),
-                                      ),
-                                      errorBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.redAccent),
-                                      ),
-                                      focusedErrorBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.red),
-                                      ),
-                                      
+                              child: TextFormField(
+                                controller: confirmPasswordController,
+                                obscureText: true,
+                                // BlocProvider.of<PassBloc>(context)
+                                //     .isObscure,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 2, horizontal: 0),
+                                  labelText: "Confirm Password",
+                                  labelStyle: TextStyle(fontSize: 16),
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
                                     ),
-                                    validator: (value) {
-                                      if (value == null || value.length < 8) {
-                                        return 'minimum password length 8 ';
-                                      } else if(newPasswordController.text!=confirmPasswordController.text) {
-                                        return 'Unmatching confirmation password';
-                                      }
-                                      else{
-                                        return null;
-                                      }
-                                    },
-                              
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                  ),
+                                  errorBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.redAccent),
+                                  ),
+                                  focusedErrorBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.red),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.length < 8) {
+                                    return 'minimum password length 8 ';
+                                  } else if (newPasswordController.text !=
+                                      confirmPasswordController.text) {
+                                    return 'Unmatching confirmation password';
+                                  } else {
+                                    return null;
+                                  }
+                                },
                               ),
                             ),
                             SizedBox(
                               height: 20,
                             ),
-                            BlocConsumer<RegBloc,RegState>(
-                              listenWhen:(_,current){
+                            BlocConsumer<RegBloc, RegState>(
+                              listenWhen: (_, current) {
                                 return current is Registerd;
                               },
+                              listener: (_, RegState state) {
+                                context.pushNamed("home");
+                              },
+                              builder: (_, RegState state) {
+                                Widget buttonChild = Text("Register");
+                                if (state is NoAttempt) {
+                                  buttonChild = Text(
+                                    "Register",
+                                  );
+                                }
+                                if (state is Registration) {
+                                  buttonChild = Text("Registering");
+                                }
+                                if (state is NotRegisterd) {
+                                  buttonChild = Text(
+                                    "Registration Failed",
+                                    style: TextStyle(color: Colors.red),
+                                  );
+                                }
 
-                              listener: (_,RegState state){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (_)=>MyHomePage()),
+                                return ElevatedButton(
+                                  onPressed: state is Registration
+                                      ? null
+                                      : () {
+                                          final formValid =
+                                              formKey.currentState!.validate();
+                                          if (!formValid) return;
+                                          final regbloc =
+                                              context.read<RegBloc>();
+                                          regbloc.add(RegEvent(
+                                              firstnameController.text,
+                                              lastnameController.text,
+                                              emailController.text,
+                                              newPasswordController.text));
+                                        },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.purple,
+                                    onPrimary: Colors.white,
+                                    fixedSize: Size(275, 20),
+                                  ),
+                                  child: buttonChild,
                                 );
                               },
-                              builder: (_,RegState state){
-                                Widget buttonChild=Text("Register");
-                                if(state is NoAttempt){
-                                  buttonChild=Text("Register",);
-                                }
-                                if(state is Registration){
-                                  buttonChild=Text("Registering");
-                                }
-                                 if(state is NotRegisterd){
-                                  buttonChild=Text("Registration Failed",style: TextStyle(color: Colors.red),);
-                                }
-                              
-                              return ElevatedButton(
-                                onPressed: state is Registration
-                                    ?null:() {
-                                  final formValid = formKey.currentState!.validate();
-                                  if (!formValid) return;
-                                  final regbloc=context.read<RegBloc>();
-                                  regbloc.add(RegEvent(firstnameController.text, lastnameController.text, emailController.text, newPasswordController.text));
-
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.purple,
-                                  onPrimary: Colors.white,
-                                  fixedSize: Size(275, 20),
-                                ),
-                                child: buttonChild,
-                              );
-                              },),
+                            ),
                           ],
                         ),
                       ),
