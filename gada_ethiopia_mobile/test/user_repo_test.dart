@@ -1,17 +1,82 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gada_ethiopia_mobile/domain/auth/user_model.dart';
 import 'package:gada_ethiopia_mobile/infrastructure/auth/data_provider.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'user_repo_test.mocks.dart';
 
-class MockUserRepository extends Mock implements UserDataProvider{}
+@GenerateMocks([],customMocks: [MockSpec<UserDataProvider>(as: #MockUserRepository )])
 void main() {
-  final MockUserRepository mockUserRepository=MockUserRepository();
-  final UserRepository userRepository=UserRepository(dataProvider: mockUserRepository);
+  late MockUserRepository mockUserRepository;
+  late UserRepository userRepository;
+  setUp((){
+    mockUserRepository=MockUserRepository();
+    userRepository=UserRepository(dataProvider: mockUserRepository);
+  });
+  
 
-  User user=User(first_name: 'Ayele', email: 'Ayele@gmail.com', password: 'Ayele1234');
+  final user=User(first_name: 'Ayele', email: 'Ayele@gmail.com', password: 'Ayele1234');
   test("if user is created", ()async {
+    //arrange
     when(mockUserRepository.createUser(user)).thenAnswer((_) async=>user );
-    expect(await userRepository.createUser(user), user);
-  } );  
+    //act
+    final obtain=await userRepository.createUser(user);
+    //assert
+     expect(obtain, user);
+    // verifyNoMoreInteractions(mockUserRepository);
+  } ); 
+  
+  test("if user is not created", ()async {
+    //arrange
+    when(mockUserRepository.createUser(user)).thenAnswer((_) async=>null );
+    //act
+    final obtain=await userRepository.createUser(user);
+    //assert
+     expect(obtain, null);
+     //verifyNoMoreInteractions(mockUserRepository);
+  } ); 
 
+  final user2=User(first_name: "Kinfe",email: "kinfe@yahoo.com", password: "kinfe11c12c");
+  List<User> temp=[user,user2];
+  test("if it return list of users in the system", ()async{
+    //arrange
+    when(mockUserRepository.getUsers()).thenAnswer((_) async => temp);
+
+    //act
+    final obtain=await mockUserRepository.getUsers();
+
+    //assert
+     expect(obtain, temp);
+     
+  } );
+
+  //  test("if it failed return list of users in the system", ()async{
+  //   //assert
+  //    expect(throwsA(Exception('Failed to load courses')),throwsException );
+     
+  // } );
+
+//  test("if it deletes a user in the system", ()async{
+//     //arrange
+//     when(mockUserRepository.deleteUser(10)).thenAnswer((_)async => Void);
+
+//     //act
+//     final obtain= mockUserRepository.deleteUser(10);
+
+//     //assert
+//      expect(obtain, Void);
+     
+//   } );
+
+//  test("if it updates a users in the system", ()async{
+//     //arrange
+//     when(mockUserRepository.updateUser(user)).thenAnswer((_) async => Void);
+
+//     //act
+//     final obtain=await mockUserRepository.getUsers();
+
+//     //assert
+//      expect(obtain, Void);
+     
+//   } );
 }
