@@ -8,8 +8,8 @@ class PostDataProvider {
   final _baseUri = 'http://192.168.56.1:3000/';
   final Client client;
   final MultipartRequest request;
- final req = MultipartRequest(
-                          "PUT", Uri.parse('http://10.5.232.114:3000/posts'));
+  final req =
+      MultipartRequest("PUT", Uri.parse('http://192.168.56.1:3000/posts'));
   PostDataProvider({required this.request, required this.client});
 
   Future<Post?> createPost(Post post) async {
@@ -39,11 +39,9 @@ class PostDataProvider {
     }
   }
 
-
-  Future<Post> getPostDetail(int id) async{
+  Future<Post> getPostDetail(int id) async {
     final response = await client.get(Uri.parse("${_baseUri}posts/$id"));
-    if(response.statusCode == 200){
-
+    if (response.statusCode == 200) {
       final post = jsonDecode(response.body);
       return Post.fromJson(post);
     } else {
@@ -77,15 +75,14 @@ class PostDataProvider {
   Future<void> deletePost(int id) async {
     print('here');
     final res = await client.delete(
-      Uri.parse('${_baseUri}post-detail/$id'),
-
+      Uri.parse('${_baseUri}posts/$id'),
       headers: <String, String>{
         'Type': 'application/json; charset = UTF-8',
       },
     );
-    if (res.statusCode != 204 && res.statusCode != 200) {
-      throw Exception('Failed');
-    }
+    // if (res.statusCode != 204 && res.statusCode != 200) {
+    //   throw Exception('Failed');
+    // }
   }
 
   Future<Post?> getPostByUserId(int id) async {
@@ -96,7 +93,7 @@ class PostDataProvider {
     return null;
   }
 
-   Future<Post?> updatePost(int id,Post post) async {
+  Future<Post?> updatePost(int id, Post post) async {
     // final uri = Uri.parse(_baseUri);
     // var request = MultipartRequest("POST", uri);
     req.fields.addAll({

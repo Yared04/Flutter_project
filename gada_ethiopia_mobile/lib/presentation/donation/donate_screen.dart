@@ -8,32 +8,34 @@ import 'package:gada_ethiopia_mobile/lib.dart';
 import 'package:http/http.dart';
 
 class Donation_screen extends StatelessWidget {
-  final donationBloc = DonationBloc(donationRepo:DonationRepository(dataProvider :DonationDataProvider(client:Client())));
+  final donationBloc = DonationBloc(
+      donationRepo: DonationRepository(
+          dataProvider: DonationDataProvider(client: Client())));
   final int pid;
-  final String post; 
-  Donation_screen({Key? key, required this.post, required this.pid}) : super(key: key);
+  final String post;
+  Donation_screen({Key? key, required this.post, required this.pid})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => donationBloc,
       child: MaterialApp(
-          debugShowCheckedModeBanner: false, 
+          debugShowCheckedModeBanner: false,
           home: DonationScafold(pid, jsonDecode(post))),
     );
   }
 }
 
 class DonationScafold extends StatelessWidget {
-  final  post;
+  final post;
   final int post_id;
-  
+
   final formKey = GlobalKey<FormState>();
   final creditController = TextEditingController();
   final amountController = TextEditingController();
-  
- 
+
   DonationScafold(this.post_id, this.post, {Key? key}) : super(key: key);
-  
+
   // final postt = jsonDecode(post);
   @override
   Widget build(BuildContext context) {
@@ -46,10 +48,10 @@ class DonationScafold extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-          onTap: (){
-            context.pop();
-          },
-          child: Icon(Icons.arrow_back_rounded)),
+            onTap: () {
+              context.pop();
+            },
+            child: Icon(Icons.arrow_back_rounded)),
         foregroundColor: Colors.black,
         actions: [
           IconButton(
@@ -57,11 +59,15 @@ class DonationScafold extends StatelessWidget {
                 showSearch(context: context, delegate: MySearchDelegete());
               },
               icon: const Icon(Icons.search)),
-          IconButton(onPressed: () {
+          IconButton(
+              onPressed: () {
                 context.pushNamed('create-post');
-          }, icon: const Icon(Icons.add)),
-         GestureDetector(
-            onTap: (){context.pushNamed('profile');},
+              },
+              icon: const Icon(Icons.add)),
+          GestureDetector(
+            onTap: () {
+              context.pushNamed('profile');
+            },
             child: const CircleAvatar(
               backgroundImage: AssetImage('assets/profile_picture.jpg'),
               maxRadius: 20,
@@ -72,7 +78,6 @@ class DonationScafold extends StatelessWidget {
           )
         ],
       ),
-
       body: ListView(
         children: [
           Form(
@@ -89,7 +94,8 @@ class DonationScafold extends StatelessWidget {
                       Container(
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image:  NetworkImage("http://10.5.232.114:3000/images/uploaded/${post['image'].split('/').last.split("'").first}"),
+                                image: NetworkImage(
+                                    "http://192.168.56.1:3000/images/uploaded/${post['image'].split('/').last.split("'").first}"),
                                 fit: BoxFit.cover)),
                       ),
                       Container(
@@ -231,9 +237,12 @@ class DonationScafold extends StatelessWidget {
                                 final authBloc =
                                     BlocProvider.of<DonationBloc>(context);
                                 authBloc.add(
-
-                                  Donate(creditController.text.toString(), int.parse(amountController.text.toString()), post_id,1),
-
+                                  Donate(
+                                      creditController.text.toString(),
+                                      int.parse(
+                                          amountController.text.toString()),
+                                      post_id,
+                                      1),
                                 );
                               },
                         child: buttonChild,

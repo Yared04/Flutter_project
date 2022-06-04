@@ -15,10 +15,10 @@ class MyHomePage extends StatelessWidget {
   final SharedPreference sharedPreference = SharedPreference();
   @override
   Widget build(BuildContext context) {
-    // var launch = BlocProvider.of<CampaignBloc>(context);
-    // launch.add(GetPosts());
+    var launch = BlocProvider.of<CampaignBloc>(context);
+    launch.add(GetPosts());
     var myListDict = [];
-    List<MyContainer> postsList = [];
+    var postsList = [];
 
     return Scaffold(
       drawer: const MyDrawer(),
@@ -36,12 +36,17 @@ class MyHomePage extends StatelessWidget {
                 showSearch(context: context, delegate: MySearchDelegete());
               },
               icon: const Icon(Icons.search)),
-          IconButton(onPressed: () {
-            context.pushNamed('create-post');
-
-          }, icon: sharedPreference.getCatch() != null ? Icon(Icons.add) : Icon(Icons.mail) ),
-         GestureDetector(
-            onTap: (){context.push('/profile');},
+          IconButton(
+              onPressed: () {
+                context.pushNamed('create-post');
+              },
+              icon: sharedPreference.getCatch() != null
+                  ? Icon(Icons.add)
+                  : Icon(Icons.mail)),
+          GestureDetector(
+            onTap: () {
+              context.push('/profile');
+            },
             child: const CircleAvatar(
               backgroundImage: AssetImage('assets/profile_picture.jpg'),
               maxRadius: 20,
@@ -56,24 +61,22 @@ class MyHomePage extends StatelessWidget {
         child: BlocConsumer<CampaignBloc, CampaignState>(
             listener: ((_, state) {}),
             builder: (_, state) {
-              if (state is LoadingHome) {
-                var launch = BlocProvider.of<CampaignBloc>(context);
-                launch.add(GetPosts());
-              }
               if (state is LoadFailed) {
                 return Center(
-                  child: Image(image: AssetImage('assets/ngoImage.png')),
+                  child: Image(image: AssetImage('assets/donate.jpg')),
                 );
               }
+
               if (state is LoadSuccess) {
                 for (var post in state.posts) {
-                  postsList.add(MyContainer(
-                      pic: post.image,
-                      goal: post.goal,
-                      raised: post.donated,
-                      created: post.created,
-                      donatorCount: post.donator_count,
-                      title: post.title));
+                  // postsList.add(MyContainer(
+                  //     pic: post.image,
+                  //     goal: post.goal,
+                  //     raised: post.donated,
+                  //     created: post.created,
+                  //     donatorCount: post.donator_count,
+                  //     title: post.title));
+                  postsList.add(post);
                   myListDict.add(post);
                 }
                 myListDict = myListDict.reversed.toList();
@@ -93,92 +96,174 @@ class MyHomePage extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.fromLTRB(0, 4, 4, 4),
                     child: Text(
-                      'Trending Campaigns',
+                      'All Campaigns',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(
-                    height: 350,
-                    width: double.maxFinite,
-                    child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: myListDict.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, int index) {
-                        
-                        return GestureDetector(
-                          onTap: (){
-                            context.goNamed('post-detail', params: {'id': myListDict[index].id.toString()});
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 300,
-                                  width: 250,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                          "http://192.168.56.1:3000/images/uploaded/${myListDict[index].image.uri.toString().split("/").last}"),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      const Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text('Total Raised'),
-                                      ),
-                                      const SizedBox(
-                                        width: 50,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          myListDict[index].donated.toString() +
-                                              ' birr(' +
-                                              ((myListDict[index].donated! /
-                                                          myListDict[index]
-                                                              .goal) *
-                                                      100)
-                                                  .floor()
-                                                  .toString() +
-                                              '%)',
-                                          style: TextStyle(
-                                              color: Colors.green[700],
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  const Text(
-                    'All Campaigns',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
                   Column(
-                    children: postsList,
-                  )
+                    children: [
+                      SizedBox(
+                        height: 350,
+                        width: double.maxFinite,
+                        child: ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: myListDict.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                              onTap: () {
+                                context.pushNamed('post-detail', params: {
+                                  'id': myListDict[index].id.toString()
+                                });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height: 300,
+                                      width: 250,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                              "http://192.168.56.1:3000/images/uploaded/${myListDict[index].image.uri.toString().split("/").last}"),
+                                          fit: BoxFit.cover,
+                                        ),
+                                        borderRadius: BorderRadius.circular(40),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text('Total Raised'),
+                                          ),
+                                          const SizedBox(
+                                            width: 50,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              myListDict[index]
+                                                      .donated
+                                                      .toString() +
+                                                  ' birr(' +
+                                                  ((myListDict[index].donated! /
+                                                              myListDict[index]
+                                                                  .goal) *
+                                                          100)
+                                                      .floor()
+                                                      .toString() +
+                                                  '%)',
+                                              style: TextStyle(
+                                                  color: Colors.green[700],
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(0, 4, 4, 4),
+                        child: Text(
+                          'Trending',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 350,
+                        width: double.maxFinite,
+                        child: ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: myListDict.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                              onTap: () {
+                                context.goNamed('post-detail', params: {
+                                  'id': postsList[index].id.toString()
+                                });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height: 300,
+                                      width: 250,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                              "http://192.168.56.1:3000/images/uploaded/${postsList[index].image.uri.toString().split("/").last}"),
+                                          fit: BoxFit.cover,
+                                        ),
+                                        borderRadius: BorderRadius.circular(40),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text('Total Raised'),
+                                          ),
+                                          const SizedBox(
+                                            width: 50,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              myListDict[index]
+                                                      .donated
+                                                      .toString() +
+                                                  ' birr(' +
+                                                  ((postsList[index].donated! /
+                                                              postsList[index]
+                                                                  .goal) *
+                                                          100)
+                                                      .floor()
+                                                      .toString() +
+                                                  '%)',
+                                              style: TextStyle(
+                                                  color: Colors.green[700],
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ]);
               } else {
+                print(state);
+
                 return Container(
                   height: 500,
-                  child: Center(child: CircularProgressIndicator()),
+                  child: Center(
+                      child: ElevatedButton(
+                    child: Text("Relod"),
+                    onPressed: () {
+                      context.goNamed('home');
+                    },
+                  )),
                 );
               }
             }),

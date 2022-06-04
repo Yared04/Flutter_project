@@ -33,10 +33,8 @@ class Thankyou_Screen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8.0, 0, 8, 20),
                       child: Text(
-                        "You have successfully donated " +
-                            num +
-                            " birr to " +
-                            name,
+                        "You have successfully donated thank you"
+                         ,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontStyle: FontStyle.italic,
@@ -54,7 +52,7 @@ class Thankyou_Screen extends StatelessWidget {
                               primary: Colors.green),
                           child: Text("Return Home"),
                           onPressed: () {
-                            context.go('home');
+                            context.go('/posts');
                           },
                         ),
                       ),

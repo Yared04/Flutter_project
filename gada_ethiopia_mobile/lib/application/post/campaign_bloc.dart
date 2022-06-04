@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'campaign_event.dart';
 import 'post.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
 

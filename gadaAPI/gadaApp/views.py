@@ -110,7 +110,7 @@ class MemberDetail(APIView):
     def get(self, request , pk):
         print("getting")
         try:
-            users = Member.objects.get(id = pk)
+            users = Member.objects.get(email = pk)
         except:
             return HttpResponse(status = 404)
 
@@ -218,7 +218,6 @@ class Verify(APIView):
             return HttpResponse(status = 404)
         if mem: 
             return HttpResponse(status = 200)
-        return HttpResponse(status = 400)
 
 
 

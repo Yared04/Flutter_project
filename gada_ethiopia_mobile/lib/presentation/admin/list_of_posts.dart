@@ -23,7 +23,7 @@ class ListPosts extends StatelessWidget {
         TextButton(
           onPressed: () {
             try {
-              context.read<AdminBloc>().add(DeletePost(id));
+              BlocProvider.of<AdminBloc>(context).add(DeletePost(id));
             } catch (e) {
               print(e);
             }
@@ -81,7 +81,7 @@ class ListPosts extends StatelessWidget {
                           },
                         ),
                         title: Text(posts[index].title)),
-                  ) : Center(child: Image(image: AssetImage('assets/creative2.png'))) ,
+                  ) : Center(child: Image(image: AssetImage('assets/donate.jpg'))) ,
                 );
               } else if (state is LoadFailed) {
                 return Center(child:Text("Failed."));
