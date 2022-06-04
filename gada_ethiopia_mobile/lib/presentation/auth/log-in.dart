@@ -1,15 +1,14 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:gada_ethiopia_mobile/application/auth/login/bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:gada_ethiopia_mobile/lib.dart';
 
 class Login extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
-  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
-  Login({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +73,9 @@ class Login extends StatelessWidget {
                      child: Column(
                        crossAxisAlignment: CrossAxisAlignment.start,
                        children: <Widget>[
+                         
                          TextFormField(
-                           controller: usernameController,
+                           controller: emailController,
                            decoration: InputDecoration(
                              errorStyle: TextStyle(color: Colors.red),
                              border: OutlineInputBorder(
@@ -98,11 +98,11 @@ class Login extends StatelessWidget {
                              floatingLabelBehavior:
                                  FloatingLabelBehavior.auto,
                              label: Text("Email"),
-                             prefixIcon: Icon(Icons.person),
+                             prefixIcon: Icon(Icons.email),
                            ),
                            validator: (username) {
                              if (username == null || !(username.contains('@') || username.contains('.'))) {
-                               return 'Username cannot be empty';
+                               return "invalid email";
             
                              } else {
                                return null;
@@ -164,10 +164,7 @@ class Login extends StatelessWidget {
                  SizedBox(
                    height: 25,
                  ),
-                 GestureDetector(
-                   onTap: (){
-                     context.goNamed('register');
-                   },
+                 Container(
                    child: Text(
                      "sign up ? ",
                      style: TextStyle(color: Colors.purple),
@@ -181,7 +178,10 @@ class Login extends StatelessWidget {
                      return current is LoginSuccesful;
                    },
                    listener: (_, LoginState state) {
-                   context.goNamed('home');
+                     Navigator.push(
+                       context,
+                       MaterialPageRoute(builder: (_) => MyHomePage()),
+                     );
                    },
                    builder: (_, LoginState state) {
                      Widget buttonChild = Text("Login");
@@ -203,7 +203,7 @@ class Login extends StatelessWidget {
                                final loginBloc =
                                    BlocProvider.of<LoginBloc>(context);
                                loginBloc.add(LoginEvent(
-                                   usernameController.text,
+                                   emailController.text,
                                    passwordController.text));
                              },
                        style: ElevatedButton.styleFrom(
