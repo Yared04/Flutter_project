@@ -9,7 +9,8 @@ class PostDataProvider {
   final _baseUri = 'http://10.5.232.114:3000/';
   final Client client;
   final MultipartRequest request;
-
+ final req = MultipartRequest(
+                          "PUT", Uri.parse('http://10.5.232.114:3000/posts'));
   PostDataProvider({required this.request, required this.client});
 
   Future<Post?> createPost(Post post) async {
@@ -90,5 +91,30 @@ class PostDataProvider {
       return Post.fromJson(jsonDecode(response.body));
     }
     return null;
+  }
+
+   Future<Post?> updatePost(int id,Post post) async {
+    // final uri = Uri.parse(_baseUri);
+    // var request = MultipartRequest("POST", uri);
+    req.fields.addAll({
+      'title': post.title,
+      'description': post.description,
+      'goal': post.goal.toString(),
+    });
+    req.headers.addAll({
+      'Content-Type': 'multipart/form-data',
+      //authorization reque
+    });
+    print(post.image.path);
+    req.files.add(await http.MultipartFile.fromPath("image", post.image.path));
+
+    print('passed it');
+    var response = await req.send();
+    print(response);
+    if (response.statusCode == 201) {
+      return post;
+    } else {
+      throw Exception('Failed to create Post.');
+    }
   }
 }

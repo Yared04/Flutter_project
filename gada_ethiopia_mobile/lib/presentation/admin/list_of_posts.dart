@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/application/admin/admin.dart';
+import 'package:go_router/go_router.dart';
 
 
 class ListPosts extends StatelessWidget {
@@ -53,7 +54,7 @@ class ListPosts extends StatelessWidget {
             Card(
               child: ListTile(
               onTap: () {
-            
+                  context.pushNamed("edit-post",params:{'id':"2"});
                 },
               subtitle: Text("Goal: ${posts[index].goal}"),
               trailing: GestureDetector(
