@@ -4,7 +4,6 @@ import 'package:gada_ethiopia_mobile/domain/post/post_model.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
-
 class PostDataProvider {
   final _baseUri = 'http://192.168.56.1:3000/';
   final Client client;
@@ -26,7 +25,8 @@ class PostDataProvider {
       //authorization reque
     });
     print(post.image.path);
-    request.files.add(await http.MultipartFile.fromPath("image", post.image.path));
+    request.files
+        .add(await http.MultipartFile.fromPath("image", post.image.path));
 
     print('passed it');
     var response = await request.send();
@@ -38,19 +38,18 @@ class PostDataProvider {
     }
   }
 
-  Future<Post> getPostDetail(int id) async{
+  Future<Post> getPostDetail(int id) async {
     final response = await client.get(Uri.http(_baseUri, 'posts/$id'));
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       final post = jsonDecode(response.body);
       return Post.fromJson(post);
-    }
-    else{
+    } else {
       throw Exception('Post not found.');
     }
-
   }
 
   Future<List<Post>> getPosts() async {
+    print("tried");
     var response = await get(Uri.parse("${_baseUri}posts"), headers: {
       "Accept": "application/json",
       "Access-Control_Allow_Origin": "*"
@@ -73,13 +72,11 @@ class PostDataProvider {
   }
 
   Future<void> deletePost(int id) async {
+    print('here');
     final res = await client.delete(
-      Uri.parse('$_baseUri/post-detail/$id'),
-      headers: <String, String>{
-        'Type': 'application/json; charset = UTF-8',
-      },
+      Uri.parse('${_baseUri}post-detail/$id'),
     );
-    if (res.statusCode != 204) {
+    if (res.statusCode != 204 && res.statusCode != 200) {
       throw Exception('Failed');
     }
   }
