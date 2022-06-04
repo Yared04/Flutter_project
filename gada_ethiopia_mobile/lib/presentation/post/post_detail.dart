@@ -8,12 +8,14 @@ import 'package:gada_ethiopia_mobile/lib.dart';
 import 'package:go_router/go_router.dart';
 
 
+
 class PostDetail extends StatelessWidget {
   final int id;
  PostDetail({Key? key, required this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
 
     return BlocConsumer<CampaignBloc ,CampaignState>(
        builder: (_,CampaignState state) {
@@ -76,6 +78,7 @@ class PostDetail extends StatelessWidget {
                       SizedBox(width: 6,),
                       Text('Created ${(-state.post!.created.difference(DateTime.now()).inDays).toString()} days ago', style: TextStyle(color: Colors.white),)])
                   )
+
                 ],
               ),
               Align(

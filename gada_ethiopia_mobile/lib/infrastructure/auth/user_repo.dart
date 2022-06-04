@@ -1,16 +1,19 @@
-
 import '../../domain/auth/user_model.dart';
 import 'data_provider.dart';
 
-class UserRepository{
+class UserRepository {
   final UserDataProvider dataProvider;
 
   UserRepository({required this.dataProvider});
 
-  Future<User?> createUser(User user) async{
+  Future<User?> createUser(User user) async {
     return await dataProvider.createUser(user);
-
   }
+
+  Future<User?> searchUser(User user) async {
+    return await dataProvider.searchUser(user);
+  }
+
   Future<List<User>> getUsers() async {
     return await dataProvider.getUsers();
   }

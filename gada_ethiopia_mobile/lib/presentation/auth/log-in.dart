@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gada_ethiopia_mobile/application/auth/bloc.dart';
+
 import 'package:gada_ethiopia_mobile/application/auth/login/bloc.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
-import 'package:get/get.dart';
+
 
 class Login extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
@@ -101,11 +101,11 @@ class Login extends StatelessWidget {
                              label: Text("Email"),
                              prefixIcon: Icon(Icons.email),
                            ),
-                           validator: (email) {
-                             if (email == null || GetUtils.isEmail(email)==false) {
-                               return 'Invalid Email';
-                             } 
-                             else {
+                           validator: (username) {
+                             if (username == null || !(username.contains('@') || username.contains('.'))) {
+                               return "invalid email";
+            
+                             } else {
                                return null;
                              }
                            },

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gada_ethiopia_mobile/lib.dart';
+import 'package:go_router/go_router.dart';
 
 class Thankyou_Screen extends StatelessWidget {
   String name = "this donation";
@@ -8,16 +10,14 @@ class Thankyou_Screen extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
+          
           appBar: AppBar(
             backgroundColor: Colors.grey[50],
             foregroundColor: Colors.green,
             elevation: 0,
             iconTheme: IconThemeData(color: Colors.black),
           ),
-          drawer: Container(
-            width: 200,
-            color: Colors.blue,
-          ),
+          drawer: MyDrawer(),
           body: ListView(
             children: [
               Column(
@@ -53,7 +53,9 @@ class Thankyou_Screen extends StatelessWidget {
                               minimumSize: Size.fromHeight(50),
                               primary: Colors.green),
                           child: Text("Return Home"),
-                          onPressed: () {},
+                          onPressed: () {
+                            context.go('home');
+                          },
                         ),
                       ),
                     )

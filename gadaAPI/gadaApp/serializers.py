@@ -1,5 +1,4 @@
 
-import email
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import *
@@ -20,4 +19,4 @@ class MemberSerializer(serializers.ModelSerializer):
 class DonationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Donation
-        fields= '__all__'
+        fields = '__all__'

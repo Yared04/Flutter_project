@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'package:gada_ethiopia_mobile/domain/post/post_model.dart';
-import 'package:get/get.dart';
+
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
-
 class PostDataProvider {
-  final _baseUri = 'http://10.5.232.114:3000/';
+  final _baseUri = 'http://192.168.56.1:3000/';
   final Client client;
   final MultipartRequest request;
-
+ final req = MultipartRequest(
+                          "PUT", Uri.parse('http://10.5.232.114:3000/posts'));
   PostDataProvider({required this.request, required this.client});
 
   Future<Post?> createPost(Post post) async {
@@ -26,7 +26,8 @@ class PostDataProvider {
       //authorization reque
     });
     print(post.image.path);
-    request.files.add(await http.MultipartFile.fromPath("image", post.image.path));
+    request.files
+        .add(await http.MultipartFile.fromPath("image", post.image.path));
 
     print('passed it');
     var response = await request.send();
@@ -38,19 +39,20 @@ class PostDataProvider {
     }
   }
 
+
   Future<Post> getPostDetail(int id) async{
     final response = await client.get(Uri.parse("${_baseUri}posts/$id"));
     if(response.statusCode == 200){
+
       final post = jsonDecode(response.body);
       return Post.fromJson(post);
-    }
-    else{
+    } else {
       throw Exception('Post not found.');
     }
-
   }
 
   Future<List<Post>> getPosts() async {
+    print("tried");
     var response = await get(Uri.parse("${_baseUri}posts"), headers: {
       "Accept": "application/json",
       "Access-Control_Allow_Origin": "*"
@@ -73,13 +75,15 @@ class PostDataProvider {
   }
 
   Future<void> deletePost(int id) async {
+    print('here');
     final res = await client.delete(
       Uri.parse('${_baseUri}post-detail/$id'),
+
       headers: <String, String>{
         'Type': 'application/json; charset = UTF-8',
       },
     );
-    if (res.statusCode != 204) {
+    if (res.statusCode != 204 && res.statusCode != 200) {
       throw Exception('Failed');
     }
   }
@@ -90,5 +94,30 @@ class PostDataProvider {
       return Post.fromJson(jsonDecode(response.body));
     }
     return null;
+  }
+
+   Future<Post?> updatePost(int id,Post post) async {
+    // final uri = Uri.parse(_baseUri);
+    // var request = MultipartRequest("POST", uri);
+    req.fields.addAll({
+      'title': post.title,
+      'description': post.description,
+      'goal': post.goal.toString(),
+    });
+    req.headers.addAll({
+      'Content-Type': 'multipart/form-data',
+      //authorization reque
+    });
+    print(post.image.path);
+    req.files.add(await http.MultipartFile.fromPath("image", post.image.path));
+
+    print('passed it');
+    var response = await req.send();
+    print(response);
+    if (response.statusCode == 201) {
+      return post;
+    } else {
+      throw Exception('Failed to create Post.');
+    }
   }
 }

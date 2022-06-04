@@ -72,6 +72,7 @@ class DonationScafold extends StatelessWidget {
           )
         ],
       ),
+
       body: ListView(
         children: [
           Form(
@@ -230,7 +231,9 @@ class DonationScafold extends StatelessWidget {
                                 final authBloc =
                                     BlocProvider.of<DonationBloc>(context);
                                 authBloc.add(
+
                                   Donate(creditController.text.toString(), int.parse(amountController.text.toString()), post_id,1),
+
                                 );
                               },
                         child: buttonChild,

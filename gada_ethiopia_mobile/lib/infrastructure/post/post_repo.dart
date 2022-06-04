@@ -12,7 +12,7 @@ class PostRepository {
   Future<Post?> createPost(Post post) async {
     return await dataProvider.createPost(post);
   }
-  Future<List<Post>?> getPosts() async {
+  Future<List<Post>> getPosts() async {
     return await dataProvider.getPosts();
   }
   Future<void> deletePost(int id) async{
@@ -26,4 +26,7 @@ class PostRepository {
     return await dataProvider.getPostDetail(id);
   }
 
+  Future<Post?> updatePost(int id,Post post) async {
+    return await dataProvider.updatePost(id, post);
+  }
 }

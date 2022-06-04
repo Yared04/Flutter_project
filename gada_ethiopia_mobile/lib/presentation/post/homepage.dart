@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gada_ethiopia_mobile/application/auth/login/shared_preferences.dart';
 import 'package:gada_ethiopia_mobile/application/post/post.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
 import 'package:gada_ethiopia_mobile/widgets/custom.dart';
 
 import 'package:gada_ethiopia_mobile/widgets/home.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
+  MyHomePage({Key? key}) : super(key: key);
+  final SharedPreference sharedPreference = SharedPreference();
   @override
   Widget build(BuildContext context) {
     // var launch = BlocProvider.of<CampaignBloc>(context);
@@ -37,9 +39,9 @@ class MyHomePage extends StatelessWidget {
           IconButton(onPressed: () {
             context.pushNamed('create-post');
 
-          }, icon: const Icon(Icons.add)),
+          }, icon: sharedPreference.getCatch() != null ? Icon(Icons.add) : Icon(Icons.mail) ),
          GestureDetector(
-            onTap: (){context.pushNamed('profile');},
+            onTap: (){context.push('/profile');},
             child: const CircleAvatar(
               backgroundImage: AssetImage('assets/profile_picture.jpg'),
               maxRadius: 20,
@@ -119,7 +121,7 @@ class MyHomePage extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                          "http://10.5.232.114:3000/images/uploaded/${myListDict[index].image.uri.toString().split("/").last}"),
+                                          "http://192.168.56.1:3000/images/uploaded/${myListDict[index].image.uri.toString().split("/").last}"),
                                       fit: BoxFit.cover,
                                     ),
                                     borderRadius: BorderRadius.circular(40),
