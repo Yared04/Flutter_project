@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/application/admin/admin.dart';
-// import 'package:gada_ethiopia_mobile/application/post/campaign_event.dart';
+
 import 'package:gada_ethiopia_mobile/application/post/campaign_state.dart';
 import 'package:go_router/go_router.dart';
+
 
 class ListPosts extends StatelessWidget {
   const ListPosts({Key? key}) : super(key: key);
@@ -42,6 +43,7 @@ class ListPosts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
         final post = BlocProvider.of<AdminBloc>(context);
       post.add(LoadPost());
     return Scaffold(

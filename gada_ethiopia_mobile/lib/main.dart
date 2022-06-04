@@ -4,6 +4,7 @@ import 'package:gada_ethiopia_mobile/presentation/auth/list_of_donations.dart';
 import 'package:gada_ethiopia_mobile/presentation/admin/list_of_posts.dart';
 import 'package:gada_ethiopia_mobile/presentation/admin/list_of_users.dart';
 import 'package:gada_ethiopia_mobile/presentation/auth/Register.dart';
+import 'package:gada_ethiopia_mobile/presentation/post/screens.dart';
 import 'package:gada_ethiopia_mobile/presentation/post/start_campaign.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
@@ -47,9 +48,11 @@ class Gada extends StatelessWidget {
                 path:'donate/:post',
                 name: 'donate',
                 builder: (context, state) {
+
                   final pid = (int.parse(state.params['id']!));
                   final post = state.params['post']!;
                   return Donation_screen(pid: pid, post: post);
+
                 },
                 routes:[
                   GoRoute(path: 'thanks',
@@ -71,7 +74,17 @@ class Gada extends StatelessWidget {
       GoRoute(
         path: '/posts-list',
         name:'ListOfPosts',
-        builder: (context, state) => const ListPosts() ),
+        builder: (context, state) => const ListPosts(),
+        routes:[
+          GoRoute(
+            path:':id',
+            name:'edit-post',
+            builder:(context, state){
+              final pid = int.parse(state.params['id']!);
+              return UpdateCampaign(id: pid,);
+            }
+          )
+        ] ),
       
       GoRoute(
         path: '/login',

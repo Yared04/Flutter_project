@@ -26,4 +26,7 @@ class PostRepository {
     return await dataProvider.getPostDetail(id);
   }
 
+  Future<Post?> updatePost(int id,Post post) async {
+    return await dataProvider.updatePost(id, post);
+  }
 }
