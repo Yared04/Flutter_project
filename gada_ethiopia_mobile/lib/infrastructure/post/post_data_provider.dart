@@ -38,9 +38,11 @@ class PostDataProvider {
     }
   }
 
-  Future<Post> getPostDetail(int id) async {
-    final response = await client.get(Uri.http(_baseUri, 'posts/$id'));
-    if (response.statusCode == 200) {
+
+  Future<Post> getPostDetail(int id) async{
+    final response = await client.get(Uri.parse("${_baseUri}posts/$id"));
+    if(response.statusCode == 200){
+
       final post = jsonDecode(response.body);
       return Post.fromJson(post);
     } else {
@@ -75,6 +77,10 @@ class PostDataProvider {
     print('here');
     final res = await client.delete(
       Uri.parse('${_baseUri}post-detail/$id'),
+
+      headers: <String, String>{
+        'Type': 'application/json; charset = UTF-8',
+      },
     );
     if (res.statusCode != 204 && res.statusCode != 200) {
       throw Exception('Failed');

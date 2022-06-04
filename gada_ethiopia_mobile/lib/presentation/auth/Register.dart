@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gada_ethiopia_mobile/application/auth/registration/bloc.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
 
+
 import 'home.dart';
 
 class Register extends StatelessWidget {

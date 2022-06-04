@@ -20,10 +20,10 @@ class MyDrawer extends StatelessWidget {
                     image: AssetImage("assets/gada_logo.jpg"), fit: BoxFit.fitWidth)),
           ),
           const Divider(),
-          const NavItem(title: "List Of Users", icon: Icons.roofing_rounded, widget: 'ListOfUsers' ),
+          const NavItem(title: "Home", icon: Icons.home, widget: 'home'),
+          const NavItem(title: "List Of Users", icon: Icons.people_alt, widget: 'ListOfUsers' ),
           const NavItem(
-              title: "List Of Posts", icon: Icons.account_balance_sharp, widget: 'ListOfPosts'),
-          // const NavItem(title: "Profile", icon: Icons.person, widget: 'profile'),
+              title: "List Of Posts", icon: Icons.note_rounded, widget: 'ListOfPosts'),
           const NavItem(title: "Log Out", icon: Icons.logout, widget: 'login')
         ],
       ),
