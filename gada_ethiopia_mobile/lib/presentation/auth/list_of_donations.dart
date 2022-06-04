@@ -10,12 +10,12 @@ class ListDonations extends StatelessWidget {
 
   Widget _buildPopup(BuildContext context, id) {
   return  AlertDialog(
-    title: const Text('Delete Post'),
+    title: const Text('Delete donation'),
     content: Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: const [
-         Text("Are you sure you want to delete this post?"),
+         Text("Are you sure you want to delete this donation?"),
       ],
     ),
     actions: [
@@ -55,7 +55,7 @@ class ListDonations extends StatelessWidget {
               onTap: () {
             
                 },
-              subtitle: Text("Goal: ${posts[index].goal}"),
+              subtitle: Text("Amount: ${posts[index].goal}"),
               trailing: GestureDetector(
                 child: const Icon(Icons.delete,),
                 onTap: (){

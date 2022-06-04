@@ -59,6 +59,22 @@ class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
         emit(LoadSuccess(posts: posts));
       }
     }
+
+    if (event is FindPost) {
+      Post? post;
+      try {
+        post = await postRepository.getPostDetail(event.id);
+
+      }
+      catch (e) {
+        emit(LoadFail());
+
+      }
+      if (post != null){
+          emit(LoadNotFail(post: post));
+      }
+ 
+    }
   }
 }
   

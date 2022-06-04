@@ -1,6 +1,8 @@
 
+import 'dart:convert';
+
 import 'package:gada_ethiopia_mobile/application/auth/registration/register_bloc.dart';
-import 'package:gada_ethiopia_mobile/presentation/admin/list_of_donations.dart';
+import 'package:gada_ethiopia_mobile/presentation/auth/list_of_donations.dart';
 import 'package:gada_ethiopia_mobile/presentation/admin/list_of_posts.dart';
 import 'package:gada_ethiopia_mobile/presentation/admin/list_of_users.dart';
 import 'package:gada_ethiopia_mobile/presentation/auth/Register.dart';
@@ -38,15 +40,17 @@ class Gada extends StatelessWidget {
             path:':id',
             name: "post-detail",
             builder: (context, state){
-              final post = Post.PostOfId(int.parse(state.params['pid']!));
-              return PostDetail(post: post);},
+              final pid = int.parse(state.params['id']!);
+              return PostDetail(id: pid);},
               routes: [
+                
               GoRoute(
-                path:'donate',
+                path:'donate/:post',
                 name: 'donate',
                 builder: (context, state) {
-                  final post = Post.PostOfId(int.parse(state.params['pid']!));
-                  return Donation_screen();
+                  final pid = (int.parse(state.params['id']!));
+                  final post = state.params['post']!;
+                  return Donation_screen(pid: pid, post: post);
                 },
                 routes:[
                   GoRoute(path: 'thanks',
@@ -56,6 +60,7 @@ class Gada extends StatelessWidget {
                  )]),
         ]
         ),
+
       GoRoute(
         path: '/create-post', 
         name:'create-post',

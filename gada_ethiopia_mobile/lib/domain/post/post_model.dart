@@ -28,8 +28,9 @@ class Post extends Equatable {
 
   @override
   String toString() =>
-      'Course { id: $id, title: $title, description: $description , donated : $donated , donator_count : $donator_count, created : $created, image : $image }';
+      '{"id" : "$id", "title": "$title", "goal": "$goal", "description": "$description" , "donated": "$donated" , "donator_count": "$donator_count", "created": "$created", "image": "$image" }';
 
+  
   @override
   List<Object?> get props =>
       [id, title, description, goal, image, donated, donator_count, created];
