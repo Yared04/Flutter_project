@@ -6,7 +6,7 @@ class UserRepository {
 
   UserRepository({required this.dataProvider});
 
-  Future<User?> createUser(User user) async {
+  Future<User> createUser(User user) async {
     return await dataProvider.createUser(user);
   }
 
@@ -24,5 +24,8 @@ class UserRepository {
 
   Future<void> deleteUser(int id) async {
     await dataProvider.deleteUser(id);
+  }
+  Future<void> getUser(String email) async {
+    await dataProvider.getUser(email);
   }
 }

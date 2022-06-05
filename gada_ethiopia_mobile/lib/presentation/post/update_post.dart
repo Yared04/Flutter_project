@@ -1,19 +1,19 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gada_ethiopia_mobile/application/post/post.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
 
-import 'homepage.dart';
-import 'screens.dart';
+import '../../application/auth/login/shared_preferences.dart';
 
 
 class UpdateCampaign extends StatelessWidget {
+  final SharedPreference sharedPreference = SharedPreference();
   final int? id;
   UpdateCampaign({Key? key, this.id}) : super(key: key);
 
@@ -38,19 +38,43 @@ class UpdateCampaign extends StatelessWidget {
           backgroundColor: Colors.white,
           elevation: 0,
           foregroundColor: Colors.black,
-          // backgroundColor: Color.fromARGB(68, 205, 205, 205),
-          title: const Text("Create Campaign"),
+          // backgroundColor: Color.fromARGB(68, 255, 255, 255),
+          // title: Text("ጋዳ"),
           // centerTitle: true,
           actions: [
             IconButton(
                 onPressed: () {
                   showSearch(context: context, delegate: MySearchDelegete());
                 },
+                // if(await jsonDecode(sharedPreference.getCatch().toString())['is_staff'] == true){}
                 icon: const Icon(Icons.search)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+            IconButton(
+              onPressed: () async {
+                var obj = await sharedPreference.getCatch();
+                if (obj != null) {
+                  // var mem = (jsonDecode());
+                  var mem = json.decode(obj.toString());
+
+                  print(mem);
+                  if (await sharedPreference.isEmpty()) {
+                    return null;
+                  }
+                  if (mem["is_client"] == true || mem["is_admin"] == true) {
+                    context.pushNamed('create-post');
+                  } else {
+                    context.pushNamed('login');
+                  }
+                }
+              },
+              icon: Icon(Icons.add),
+            ),
             GestureDetector(
-              onTap: () {
-                context.pushNamed('profile');
+              onTap: () async {
+                if (await sharedPreference.isEmpty()) {
+                  context.push('/login');
+                } else {
+                  context.push('/profile');
+                }
               },
               child: const CircleAvatar(
                 backgroundImage: AssetImage('assets/profile_picture.jpg'),
@@ -59,7 +83,7 @@ class UpdateCampaign extends StatelessWidget {
             ),
             const SizedBox(
               width: 10,
-            ),
+            )
           ],
         ),
         // floatingActionButton: FloatingActionButton(onPressed: () {}) ,
@@ -242,7 +266,7 @@ class UpdateCampaign extends StatelessWidget {
                                             title: title_ct.text,
                                             description: description_ct.text,
                                             goal: int.parse(goal_ct.text),
-                                            image: File(uploaded!.path)));
+                                            image: File(uploaded.path)));
                                       } else {
                                         return;
                                       }

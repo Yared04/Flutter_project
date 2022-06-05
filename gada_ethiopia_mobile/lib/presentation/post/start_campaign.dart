@@ -5,13 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/application/post/post.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:image_picker/image_picker.dart';
 
-import 'homepage.dart';
-import 'screens.dart';
+import '../../application/auth/login/shared_preferences.dart';
 
 class CreateCampaign extends StatelessWidget {
+  final SharedPreference sharedPreference = SharedPreference();
   CreateCampaign({Key? key}) : super(key: key);
 
   final form_key = GlobalKey<FormState>();
@@ -30,29 +29,10 @@ class CreateCampaign extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         foregroundColor: Colors.black,
-        // backgroundColor: Color.fromARGB(68, 205, 205, 205),
-        title: const Text("Create Campaign"),
+        // backgroundColor: Color.fromARGB(68, 255, 255, 255),
+        // title: Text("ጋዳ"),
         // centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () {
-                showSearch(context: context, delegate: MySearchDelegete());
-              },
-              icon: const Icon(Icons.search)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
-          GestureDetector(
-            onTap: () {
-              context.pushNamed('profile');
-            },
-            child: const CircleAvatar(
-              backgroundImage: AssetImage('assets/profile_picture.jpg'),
-              maxRadius: 20,
-            ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-        ],
+        
       ),
       // floatingActionButton: FloatingActionButton(onPressed: () {}) ,
       //   final posts3 = {

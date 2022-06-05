@@ -68,7 +68,7 @@ class PostDataProvider {
 
       return ret;
     } else {
-      throw Exception('Failed to load courses');
+      throw Exception('Failed to load users');
     }
   }
 

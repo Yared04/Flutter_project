@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:gada_ethiopia_mobile/lib.dart';
+
 
 class Donation extends Equatable {
   final int donated_amount;

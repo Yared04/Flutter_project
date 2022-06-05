@@ -8,7 +8,7 @@ class AdminState extends Equatable{
   List<Object> get props => [];
 }
 class UsersLoaded extends AdminState{
-  final List<Post> users;
+  final List<User> users;
 
   UsersLoaded([this.users = const []]);
 

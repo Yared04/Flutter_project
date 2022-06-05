@@ -1,14 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/application/auth/login/shared_preferences.dart';
-import 'package:gada_ethiopia_mobile/application/post/post.dart';
-import 'package:gada_ethiopia_mobile/lib.dart';
-import 'package:gada_ethiopia_mobile/widgets/custom.dart';
 
-import 'package:gada_ethiopia_mobile/widgets/home.dart';
+import 'package:gada_ethiopia_mobile/lib.dart';
+
 // import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -19,33 +19,59 @@ class MyHomePage extends StatelessWidget {
     launch.add(GetPosts());
     var myListDict = [];
     var postsList = [];
+    // final String cache = jsonDecode(sharedPreference.getCatch().toString());
+    dynamic icon = SizedBox(width: 0.001,);
+    var obj = pref.getString("email");
+    if (obj != null) {
+      var mem = json.decode(obj.toString());
+
+      if (mem["is_client"] == true || mem["is_admin"] == true) {
+        icon = Icon(Icons.add);
+      } 
+    }
 
     return Scaffold(
-      drawer: const MyDrawer(),
+      drawer: MyDrawer(),
       appBar: AppBar(
         // leading: Icon(Icons.drafts),
         backgroundColor: Colors.white,
         elevation: 0,
         foregroundColor: Colors.black,
         // backgroundColor: Color.fromARGB(68, 255, 255, 255),
-        // title: Text("ጋዳ"),
+        title: Text("Home"),
         // centerTitle: true,
         actions: [
           IconButton(
               onPressed: () {
                 showSearch(context: context, delegate: MySearchDelegete());
               },
+              // if(await jsonDecode(sharedPreference.getCatch().toString())['is_staff'] == true){}
               icon: const Icon(Icons.search)),
           IconButton(
-              onPressed: () {
-                context.pushNamed('create-post');
-              },
-              icon: sharedPreference.getCatch() != null
-                  ? Icon(Icons.add)
-                  : Icon(Icons.mail)),
+            onPressed: () async {
+              if (obj != null) {
+                var mem = json.decode(obj.toString());
+
+                print(mem);
+
+                if (mem["is_client"] == true || mem["is_admin"] == true) {
+                  context.pushNamed('create-post');
+                } else {
+                  context.pushNamed('login');
+                }
+              }
+            },
+            icon: icon,
+          ),
           GestureDetector(
-            onTap: () {
-              context.push('/profile');
+            onTap: () async {
+              var obj = await sharedPreference.getCatch();
+              print(json.decode(obj.toString()));
+              if (await sharedPreference.isEmpty()) {
+                context.push('/login');
+              } else {
+                context.push('/profile');
+              }
             },
             child: const CircleAvatar(
               backgroundImage: AssetImage('assets/profile_picture.jpg'),

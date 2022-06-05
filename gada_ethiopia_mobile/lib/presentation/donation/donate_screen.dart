@@ -1,11 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
+
+import '../../application/auth/login/shared_preferences.dart';
 
 class Donation_screen extends StatelessWidget {
   final donationBloc = DonationBloc(
@@ -27,6 +28,7 @@ class Donation_screen extends StatelessWidget {
 }
 
 class DonationScafold extends StatelessWidget {
+  final SharedPreference sharedPreference = SharedPreference();
   final post;
   final int post_id;
 
@@ -40,33 +42,49 @@ class DonationScafold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Donate",
-          style: TextStyle(color: Colors.green),
-        ),
+      
+      appBar:  AppBar(
+        // leading: Icon(Icons.drafts),
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: GestureDetector(
-            onTap: () {
-              context.pop();
-            },
-            child: Icon(Icons.arrow_back_rounded)),
         foregroundColor: Colors.black,
+        // backgroundColor: Color.fromARGB(68, 255, 255, 255),
+        title: Text("Home"),
+        // centerTitle: true,
         actions: [
           IconButton(
               onPressed: () {
                 showSearch(context: context, delegate: MySearchDelegete());
               },
+              // if(await jsonDecode(sharedPreference.getCatch().toString())['is_staff'] == true){}
               icon: const Icon(Icons.search)),
           IconButton(
-              onPressed: () {
-                context.pushNamed('create-post');
-              },
-              icon: const Icon(Icons.add)),
+            onPressed: () async {
+              var obj = await sharedPreference.getCatch();
+              print(json.decode(obj.toString()));
+              if (obj != null) {
+                var mem = json.decode(obj.toString());
+
+                print(mem);
+
+                if (mem["is_client"] == true || mem["is_admin"] == true) {
+                  context.pushNamed('create-post');
+                } else {
+                  context.pushNamed('login');
+                }
+              }
+            },
+            icon: Icon(Icons.add),
+          ),
           GestureDetector(
-            onTap: () {
-              context.pushNamed('profile');
+            onTap: () async {
+              var obj = await sharedPreference.getCatch();
+              print(json.decode(obj.toString()));
+              if (await sharedPreference.isEmpty()) {
+                context.push('/login');
+              } else {
+                context.push('/profile');
+              }
             },
             child: const CircleAvatar(
               backgroundImage: AssetImage('assets/profile_picture.jpg'),
@@ -197,10 +215,8 @@ class DonationScafold extends StatelessWidget {
                       return c is DonationSuccessfull;
                     },
                     listener: (_, DonationStates state) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => Thankyou_Screen()),
-                      );
+                      context.pushNamed('thankYou');
+                    
                     },
                     builder: (_, DonationStates state) {
                       Widget buttonChild = const Text("Donate");
@@ -229,10 +245,24 @@ class DonationScafold extends StatelessWidget {
                             primary: Colors.green),
                         onPressed: state is Donating
                             ? null
-                            : () {
+                            : () async {
+                                if ((await sharedPreference.isEmpty())) {
+                                  return context.pushNamed("login");
+                                }
+
                                 final formValid =
                                     formKey.currentState!.validate();
+
                                 if (!formValid) return;
+                                var obj = await sharedPreference.getCatch();
+
+                                if (obj == null) {
+                                  return context.pushNamed("login");
+                                }
+                                // var mem = (jsonDecode());
+                                var mem = json.decode(obj.toString());
+
+                                print(mem);
 
                                 final authBloc =
                                     BlocProvider.of<DonationBloc>(context);
@@ -241,8 +271,9 @@ class DonationScafold extends StatelessWidget {
                                       creditController.text.toString(),
                                       int.parse(
                                           amountController.text.toString()),
+                                          mem['id'],
                                       post_id,
-                                      1),
+                                      ),
                                 );
                               },
                         child: buttonChild,

@@ -2,14 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gada_ethiopia_mobile/application/post/campaign_event.dart';
-import 'package:gada_ethiopia_mobile/application/post/post.dart';
+
 import 'package:gada_ethiopia_mobile/lib.dart';
+
 import 'package:go_router/go_router.dart';
+
+import '../../application/auth/login/shared_preferences.dart';
 
 class PostDetail extends StatelessWidget {
   final int id;
   PostDetail({Key? key, required this.id}) : super(key: key);
+  final SharedPreference sharedPreference = SharedPreference();
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +29,8 @@ class PostDetail extends StatelessWidget {
               backgroundColor: Colors.white,
               elevation: 0,
               foregroundColor: Colors.black,
-              // backgrdataoundColor: Color.fromARGB(68, 255, 255, 255),
-              // title: Text(id.toString()),
+              // backgroundColor: Color.fromARGB(68, 255, 255, 255),
+              title: Text(state.post!.title),
               // centerTitle: true,
               actions: [
                 IconButton(
@@ -35,15 +38,35 @@ class PostDetail extends StatelessWidget {
                       showSearch(
                           context: context, delegate: MySearchDelegete());
                     },
+                    // if(await jsonDecode(sharedPreference.getCatch().toString())['is_staff'] == true){}
                     icon: const Icon(Icons.search)),
                 IconButton(
-                    onPressed: () {
-                      context.pushNamed('create-post');
-                    },
-                    icon: const Icon(Icons.add)),
+                  onPressed: () async {
+                    var obj = await sharedPreference.getCatch();
+                    print(json.decode(obj.toString()));
+                    if (obj != null) {
+                      var mem = json.decode(obj.toString());
+
+                      print(mem);
+
+                      if (mem["is_client"] == true || mem["is_admin"] == true) {
+                        context.pushNamed('create-post');
+                      } else {
+                        context.pushNamed('login');
+                      }
+                    }
+                  },
+                  icon: Icon(Icons.add),
+                ),
                 GestureDetector(
-                  onTap: () {
-                    context.pushNamed('profile');
+                  onTap: () async {
+                    var obj = await sharedPreference.getCatch();
+                    print(json.decode(obj.toString()));
+                    if (await sharedPreference.isEmpty()) {
+                      context.push('/login');
+                    } else {
+                      context.push('/profile');
+                    }
                   },
                   child: const CircleAvatar(
                     backgroundImage: AssetImage('assets/profile_picture.jpg'),
@@ -55,7 +78,7 @@ class PostDetail extends StatelessWidget {
                 )
               ],
             ),
-            drawer: const MyDrawer(),
+            drawer: MyDrawer(),
             body: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -179,10 +202,14 @@ class PostDetail extends StatelessWidget {
                           fixedSize: const Size(1000, 40),
                         ),
                         onPressed: () {
-                          context.pushNamed('donate', params: {
-                            'id': state.post!.id.toString(),
-                            'post': state.post.toString()
-                          });
+                          if (pref.containsKey("email")) {
+                            context.pushNamed('donate', params: {
+                              'id': state.post!.id.toString(),
+                              'post': state.post.toString()
+                            });
+                          } else {
+                            context.pushNamed("login");
+                          }
                         },
                         child: Text(
                           "Donate Now",
@@ -195,7 +222,8 @@ class PostDetail extends StatelessWidget {
           );
         } else {
           return Scaffold(
-            body: Center(child: CircularProgressIndicator(),
+            body: Center(
+              child: CircularProgressIndicator(),
             ),
           );
         }

@@ -1,20 +1,25 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gada_ethiopia_mobile/infrastructure/auth/data_provider.dart';
+import 'package:http/http.dart';
+
+import '../../../main.dart';
 
 class SharedPreference {
-  Future createCatch(String email) async {
-    SharedPreferences _preference = await SharedPreferences.getInstance();
-    _preference.clear();
-    
-    _preference.setString("email", email);
+  final UserDataProvider dataProvider = UserDataProvider(client: Client());
+
+  String? getCatch() {
+    return pref.getString("email");
+
+  }
+  void clearup() async {
+    pref.clear();
   }
 
-  Future<String?> getCatch() async {
-    final SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getString("email");
+  Future<bool> isEmpty() async {
+    return !(pref.containsKey('email'));
   }
 
   Future removeCatch(String email) async {
-    SharedPreferences _preference = await SharedPreferences.getInstance();
-    _preference.remove("email");
+
+    pref.remove("email");
   }
 }

@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'campaign_event.dart';
-import 'post.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
+
 
 class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
   final PostRepository postRepository;
@@ -27,12 +26,6 @@ class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
       emit(UpdatingPost());
       await Future.delayed(Duration(seconds: 1));
 
-      final instance = Post(
-          description: event.description,
-          title: event.title,
-          goal: event.goal,
-          image: event.image,
-          created: DateTime.now());
       var post = null;
       try {
         post = await postRepository.updatePost;

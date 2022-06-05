@@ -1,8 +1,7 @@
 import 'package:bloc/bloc.dart';
-// import 'package:flutter/foundation.dart';
+
 import 'package:gada_ethiopia_mobile/lib.dart';
-// import '../../Auth/infrastructure/data_provider.dart';
-import 'admin.dart';
+
 
 class AdminBloc extends Bloc<AdminEvents, AdminState> {
   final PostRepository postRepo;
@@ -17,21 +16,31 @@ class AdminBloc extends Bloc<AdminEvents, AdminState> {
   }
 
   void _delete_user(DeleteUser event, Emitter emit) async {
+     print("hereee***********");
     try {
       await userRepo.deleteUser(event.id);
-      final users = await userRepo.getUsers();
-      emit(UsersLoaded());
-    } catch (_) {
-      emit(UsersLoadFailure());
+    } catch (e) {
+      print("fail");
+      emit(DeleteFailure);
+      return;
     }
+    print("success");
+    emit(DeleteSuccess());
   }
 
   void _loading_users(LoadUsers event, Emitter emit) async {
+
+    print("ama i even here again");
     emit(Loading());
+    var users;
     try {
-      final users = await userRepo.getUsers();
-      emit(UsersLoaded());
+      users = await userRepo.getUsers();
     } catch (_) {
+      emit(UsersLoadFailure());
+    }
+    if (users != null) {
+      emit(UsersLoaded(users));
+    } else {
       emit(UsersLoadFailure());
     }
   }
