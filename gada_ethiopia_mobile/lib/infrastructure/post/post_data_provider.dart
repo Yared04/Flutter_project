@@ -1,15 +1,14 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:gada_ethiopia_mobile/domain/post/post_model.dart';
 
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
 class PostDataProvider {
-  final _baseUri = 'http://192.168.56.1:3000/';
+  final _baseUri = 'http://10.5.224.216:3000/';
   final Client client;
   final MultipartRequest request;
-  final req =
-      MultipartRequest("PUT", Uri.parse('http://192.168.56.1:3000/posts'));
   PostDataProvider({required this.request, required this.client});
 
   Future<Post?> createPost(Post post) async {
@@ -25,13 +24,10 @@ class PostDataProvider {
       'Content-Type': 'multipart/form-data',
       //authorization reque
     });
-    print(post.image.path);
     request.files
         .add(await http.MultipartFile.fromPath("image", post.image.path));
 
-    print('passed it');
     var response = await request.send();
-    print(response);
     if (response.statusCode == 201) {
       return post;
     } else {
@@ -50,15 +46,11 @@ class PostDataProvider {
   }
 
   Future<List<Post>> getPosts() async {
-    print("tried");
     var response = await get(Uri.parse("${_baseUri}posts"), headers: {
       "Accept": "application/json",
       "Access-Control_Allow_Origin": "*"
     });
-
-    print(response.statusCode);
     if (response.statusCode == 200) {
-      print('inside');
       final posts = jsonDecode(response.body) as List;
       List<Post> ret = [];
 
@@ -68,7 +60,7 @@ class PostDataProvider {
 
       return ret;
     } else {
-      throw Exception('Failed to load courses');
+      throw Exception('Failed to load users');
     }
   }
 
@@ -96,21 +88,25 @@ class PostDataProvider {
   Future<Post?> updatePost(int id, Post post) async {
     // final uri = Uri.parse(_baseUri);
     // var request = MultipartRequest("POST", uri);
+     final req = MultipartRequest(
+                          "PUT", Uri.parse('${_baseUri}posts/$id'));
     req.fields.addAll({
       'title': post.title,
       'description': post.description,
       'goal': post.goal.toString(),
+      'donated':post.donated.toString(),
+      'donator_count':post.donator_count.toString(),
+      'created': DateTime.now().toString(),
+
     });
     req.headers.addAll({
       'Content-Type': 'multipart/form-data',
       //authorization reque
     });
-    print(post.image.path);
-    req.files.add(await http.MultipartFile.fromPath("image", post.image.path));
-
-    print('passed it');
+      req.files.add(await http.MultipartFile.fromPath("image", post.image.path));
+    // req.files.add(MultipartFile.fromString("image",post.image.toString()));
+  
     var response = await req.send();
-    print(response);
     if (response.statusCode == 201) {
       return post;
     } else {

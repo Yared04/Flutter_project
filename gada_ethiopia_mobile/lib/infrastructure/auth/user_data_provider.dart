@@ -5,16 +5,16 @@ import 'package:http/http.dart' as http;
 import '../../domain/auth/user_model.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
 
-class UserDataProvider {
-  // final _baseUri = 'http://192.168.56.1:3000/';
+
+class UserDataProvider{
+  // final _baseUri = 'http://10.5.224.216:3000/';
 // class UserDataProvider {
-  final _baseUri = 'http://192.168.56.1:3000/';
+  final _baseUri = 'http://10.5.224.216:3000/';
   final http.Client client;
 
   UserDataProvider({required this.client});
 
   Future<User?> createUser(User user) async {
-    print("here create usr");
     var response = await client.post(Uri.parse("${_baseUri}users"),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
@@ -24,15 +24,14 @@ class UserDataProvider {
           'last_name': user.last_name,
           'email': user.email,
           'password': user.password,
+          'is_admin' : true,
         }));
     // ))
-    print(response.statusCode);
 
     if (response.statusCode == 201) {
-      print("finally");
       return user;
     } else {
-      return null;
+      throw Exception("user create failed");
     }
 
     // try {
@@ -54,40 +53,48 @@ class UserDataProvider {
   }
 
   Future<List<User>> getUsers() async {
-    final response = await client.get(Uri.http(_baseUri, '/users'));
+    var response = await http.get(Uri.parse("${_baseUri}users"), headers: {
+      "Accept": "application/json",
+      "Access-Control_Allow_Origin": "*"
+    });
 
+    print(response.statusCode);
     if (response.statusCode == 200) {
+      print('inside');
       final users = jsonDecode(response.body) as List;
       List<User> ret = [];
 
       for (var user in users) {
-        try {
-          ret.add(User.fromJson(user));
-        } catch (e) {
-          throw Exception('Failed to load courses');
-        }
+        ret.add(User.fromJson(user));
       }
+
       return ret;
     } else {
-      throw ("Failed to load users.");
+      throw Exception('Failed to load users');
     }
   }
 
   Future<void> deleteUser(int id) async {
-    final http.Response response = await client.delete(
-      Uri.parse('$_baseUri/user-detail/$id'),
-      headers: <String, String>{
-        'Type': 'application/json; charset = UTF-8',
-      },
-    );
-    if (response.statusCode != 204) {
+    print("came to delete");
+    try {
+      final http.Response response = await client.delete(
+        Uri.parse("${_baseUri}usersDetail/$id"),
+        headers: <String, String>{
+          'Type': 'application/json; charset = UTF-8',
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
+    var response;
+    if (response.statusCode != 204 || response.statusCode != 200) {
       throw Exception('Failed to delete user');
     }
   }
 
   Future<void> updateUser(User user) async {
     final http.Response response = await client.put(
-      Uri.http(_baseUri, 'users/${user.id}'),
+      Uri.parse('${_baseUri}users/${user.id}'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -125,11 +132,11 @@ class UserDataProvider {
     }
   }
 
-  Future<User> getUser(int id) async {
-    final response = await client.get(Uri.parse("${_baseUri}users/$id"));
+  Future<User> getUser(String email) async {
+    final response = await client.get(Uri.parse("${_baseUri}usersDetail/$email"));
     if (response.statusCode == 200) {
-      final post = jsonDecode(response.body);
-      return Post.fromJson(post);
+      final user = jsonDecode(response.body);
+      return User.fromJson(user);
     } else {
       throw Exception('Post not found.');
     }

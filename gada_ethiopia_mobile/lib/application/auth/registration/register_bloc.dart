@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gada_ethiopia_mobile/infrastructure/auth/data_provider.dart';
@@ -19,7 +18,8 @@ class RegBloc extends Bloc<RegEvent, RegState> {
         email: event.email,
         first_name: event.firstName,
         password: event.Password,
-        last_name: event.lastName);
+        last_name: event.lastName,
+        is_admin: true);
     print(event.Password);
     var res = null;
     try {

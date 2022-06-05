@@ -8,8 +8,8 @@ void main() {
   final MockUserRepository mockUserRepository=MockUserRepository();
   final UserRepository userRepository=UserRepository(dataProvider: mockUserRepository);
 
-  User user=User(first_name: 'Ayele', email: 'Ayele@gmail.com', password: 'Ayele1234');
-  test("if user is created", ()async {
+  User user=User(first_name: 'Ayele', last_name: "bekele" , email: 'Ayele@gmail.com', password: 'Ayele1234');
+  test("if user is created", () async {
     when(mockUserRepository.createUser(user)).thenAnswer((_) async=>user );
     expect(await userRepository.createUser(user), user);
   } );  

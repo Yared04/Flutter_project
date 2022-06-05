@@ -4,6 +4,7 @@ from telnetlib import STATUS
 from webbrowser import get
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse , JsonResponse
+from matplotlib.pyplot import title
 
 from rest_framework.parsers import JSONParser , MultiPartParser , FormParser
 from django.views.decorators.csrf import csrf_exempt
@@ -50,17 +51,26 @@ class DetailPost(APIView):
 
     def put(self , request , pk):
         data = request.data
+        tit = data["title"]
+        print(data["donated"])
+        print(data["donator_count"])
+        print(data["image"])
+        print(data["goal"])
+        print(data["description"])
         try:
             post = Post.objects.get(pk = pk)
+            image = post.data.i
         except:
-            return HttpResponse(status = 400)
 
+            return HttpResponse(status = 400)
         serialized = PostSerializer(instance = post , data=data)
         if serialized.is_valid():
             serialized.save()
             
             return JsonResponse(serialized.data, status=201)
-        
+        print(serialized.errors)
+
+        print("or here")
         return JsonResponse(serialized.errors, status=400)
         
 
@@ -72,16 +82,7 @@ class DetailPost(APIView):
         post.delete()
         return HttpResponse(status = 200)
         
-class DeleteOrViewUser(APIView):
-  
 
-    def delete(self , request , pk):
-        try:
-            user = Member.objects.get(pk = pk)
-        except:
-            return HttpResponse(status = 204)
-        user.delete()
-        return HttpResponse(status = 200)
 
 class ViewUser(APIView):
     serializer_class = MemberSerializer
@@ -108,7 +109,6 @@ class MemberDetail(APIView):
     serializer_class = MemberSerializer
     parser_classes = [JSONParser]
     def get(self, request , pk):
-        print("getting")
         try:
             users = Member.objects.get(email = pk)
         except:
@@ -144,7 +144,7 @@ class MemberDetail(APIView):
 
 
 class DonationCreate(APIView):
-    # parser_classes = [JSONParser]
+    parser_classes = [JSONParser]
     def get(self, request):
         print("here")
         donations = Donation.objects.all()
@@ -153,7 +153,7 @@ class DonationCreate(APIView):
 
     def post(self,request):
         data = request.data
-        print("hehe#######")
+        print(data , "what???")
     
         serialized = DonationSerializer(data=data)
         

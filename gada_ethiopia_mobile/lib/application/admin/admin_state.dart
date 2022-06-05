@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:gada_ethiopia_mobile/domain/auth/user_model.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
 
 class AdminState extends Equatable{
@@ -8,7 +9,7 @@ class AdminState extends Equatable{
   List<Object> get props => [];
 }
 class UsersLoaded extends AdminState{
-  final List<Post> users;
+  final List<User> users;
 
   UsersLoaded([this.users = const []]);
 

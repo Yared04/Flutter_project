@@ -1,14 +1,21 @@
+
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gada_ethiopia_mobile/application/admin/admin.dart';
-import 'package:gada_ethiopia_mobile/application/application.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../application/auth/login/shared_preferences.dart';
+import '../../lib.dart';
 import 'package:gada_ethiopia_mobile/application/post/campaign_state.dart';
 import 'package:go_router/go_router.dart';
 
 class ListDonations extends StatelessWidget {
+
   final int id;
   const ListDonations({Key? key, required this.id}) : super(key: key);
+
 
   Widget _buildPopup(BuildContext context, id) {
     return BlocConsumer<UserDonationBloc, UserDonationState>(
@@ -132,4 +139,5 @@ class ListDonations extends StatelessWidget {
           },
         ));
   }
+
 }

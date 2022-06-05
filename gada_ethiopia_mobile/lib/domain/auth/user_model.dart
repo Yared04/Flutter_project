@@ -23,8 +23,7 @@ class User extends Equatable {
   
   @override
   String toString() =>
-      'Course { id: $id, first_name: $first_name, last_name: $last_name , email: $email, is_client : $is_client, is_admin : $is_admin }';
-
+      '{ "id": $id, "first_name": "$first_name", "last_name": "$last_name" , "email": "$email", "is_client" : $is_client, "is_admin": $is_admin }';
   @override
   List<Object?> get props =>
       [id, first_name, last_name, email,is_client, is_admin];

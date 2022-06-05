@@ -25,4 +25,7 @@ class UserRepository {
   Future<void> deleteUser(int id) async {
     await dataProvider.deleteUser(id);
   }
+  Future<void> getUser(String email) async {
+    await dataProvider.getUser(email);
+  }
 }
