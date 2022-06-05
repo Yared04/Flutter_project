@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-class Information{
+class Information {
     Widget title;
     Widget icon;
     String goto;

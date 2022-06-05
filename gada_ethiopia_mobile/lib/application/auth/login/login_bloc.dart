@@ -1,14 +1,19 @@
-import 'dart:async';
+
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gada_ethiopia_mobile/application/auth/login/shared_preferences.dart';
 
-import '../../../domain/auth/user_model.dart';
-import '../../../infrastructure/auth/data_provider.dart';
-import 'bloc.dart';
+
+import '../../../domain/domain.dart';
+import '../../../infrastructure/infrastracture.dart';
+import '../../../main.dart';
+import 'loginState.dart';
+import 'package:http/http.dart';
+
+import 'login_event.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final SharedPreference sharedPreference = SharedPreference();
+  // final SharedPreference sharedPreference = SharedPreference();
+  final UserDataProvider dataProvider = UserDataProvider(client: Client());
   UserRepository userRepository;
   LoginBloc({required this.userRepository}) : super(NoAttempt()) {
     on<LoginEvent>(_loginAttempt);
@@ -28,8 +33,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (res == null) {
       emit(LoginFailed());
     } else {
-      print(res);
-      sharedPreference.createCatch(event.email);
+      print(event.email);
+      pref.clear();
+      User user = await dataProvider.getUser(event.email);
+      pref.setString("email", user.toString());
       emit(LoginSuccesful());
     }
   }

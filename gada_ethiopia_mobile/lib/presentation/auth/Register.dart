@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gada_ethiopia_mobile/application/auth/login/shared_preferences.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gada_ethiopia_mobile/application/auth/registration/bloc.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
-
 
 class Register extends StatelessWidget {
   final firstnameController = TextEditingController();
@@ -14,14 +14,31 @@ class Register extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   bool isObscure = true;
   bool _isObscure = true;
+  final SharedPreference sharedPreference = SharedPreference();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        // leading: Icon(Icons.drafts),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: GestureDetector(
+          child:Icon(Icons.arrow_back),
+          onTap:(){
+            context.goNamed("home");
+          }
+        ),
+        foregroundColor: Colors.black,
+        // backgroundColor: Color.fromARGB(68, 255, 255, 255),
+        title: Text("Register"),
+        // centerTitle: true,
+        
+      ),
       resizeToAvoidBottomInset: false,
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.purple,
+          color: Colors.green,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -269,12 +286,24 @@ class Register extends StatelessWidget {
                             SizedBox(
                               height: 20,
                             ),
+                            InkWell(
+                                  onTap: () {
+                                    context.pushNamed('login');
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(115,8,8,10),
+                                    child: Text(
+                                      "Login",
+                                      style: TextStyle(color: Colors.green),
+                                    ),
+                                  ),
+                                ),
                             BlocConsumer<RegBloc, RegState>(
                               listenWhen: (_, current) {
                                 return current is Registerd;
                               },
                               listener: (_, RegState state) {
-                                context.pushNamed("home");
+                                context.pushNamed("login");
                               },
                               builder: (_, RegState state) {
                                 Widget buttonChild = Text("Register");
@@ -309,7 +338,7 @@ class Register extends StatelessWidget {
                                               newPasswordController.text));
                                         },
                                   style: ElevatedButton.styleFrom(
-                                    primary: Colors.purple,
+                                    primary: Colors.green,
                                     onPrimary: Colors.white,
                                     fixedSize: Size(275, 20),
                                   ),

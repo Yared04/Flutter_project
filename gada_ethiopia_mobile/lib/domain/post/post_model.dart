@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:gada_ethiopia_mobile/infrastructure/infrastracture.dart';
 import 'package:http/src/client.dart';
 
-
 @immutable
 class Post extends Equatable {
   final int? id;
@@ -17,7 +16,7 @@ class Post extends Equatable {
   final int? donator_count;
   final DateTime created;
   Post(
-      { this.id,
+      {this.id,
       required this.title,
       required this.description,
       required this.goal,
@@ -30,12 +29,10 @@ class Post extends Equatable {
   String toString() =>
       '{"id" : "$id", "title": "$title", "goal": "$goal", "description": "$description" , "donated": "$donated" , "donator_count": "$donator_count", "created": "$created", "image": "$image" }';
 
-  
   @override
   List<Object?> get props =>
       [id, title, description, goal, image, donated, donator_count, created];
 
-  
   static fromJson(Map<String, dynamic> json) {
     try {
       var post = Post(
@@ -62,6 +59,4 @@ class Post extends Equatable {
      ));
     return postRepo.getPostDetail(id);
   }
-
- 
 }

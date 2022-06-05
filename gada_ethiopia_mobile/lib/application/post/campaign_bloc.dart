@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'post.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
+
 
 class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
   final PostRepository postRepository;

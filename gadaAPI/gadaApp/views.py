@@ -82,16 +82,7 @@ class DetailPost(APIView):
         post.delete()
         return HttpResponse(status = 200)
         
-# class DeleteOrViewUser(APIView):
-  
 
-#     def delete(self , request , pk):
-#         try:
-#             user = Member.objects.get(pk = pk)
-#         except:
-#             return HttpResponse(status = 204)
-#         user.delete()
-#         return HttpResponse(status = 200)
 
 class ViewUser(APIView):
     serializer_class = MemberSerializer
@@ -119,7 +110,7 @@ class MemberDetail(APIView):
     parser_classes = [JSONParser]
     def get(self, request , pk):
         try:
-            users = Member.objects.get(id = pk)
+            users = Member.objects.get(email = pk)
         except:
             return HttpResponse(status = 404)
 
@@ -153,7 +144,7 @@ class MemberDetail(APIView):
 
 
 class DonationCreate(APIView):
-    # parser_classes = [JSONParser]
+    parser_classes = [JSONParser]
     def get(self, request):
         print("here")
         donations = Donation.objects.all()
@@ -162,7 +153,7 @@ class DonationCreate(APIView):
 
     def post(self,request):
         data = request.data
-        print("hehe#######")
+        print(data , "what???")
     
         serialized = DonationSerializer(data=data)
         
@@ -227,7 +218,6 @@ class Verify(APIView):
             return HttpResponse(status = 404)
         if mem: 
             return HttpResponse(status = 200)
-        return HttpResponse(status = 400)
 
 
 

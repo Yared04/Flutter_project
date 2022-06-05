@@ -23,14 +23,14 @@ class UserDataProvider{
           'last_name': user.last_name,
           'email': user.email,
           'password': user.password,
+          'is_admin' : true,
         }));
     // ))
 
     if (response.statusCode == 201) {
       return user;
-
     } else {
-      return null;
+      throw Exception("user create failed");
     }
 
     // try {
@@ -52,33 +52,41 @@ class UserDataProvider{
   }
 
   Future<List<User>> getUsers() async {
-    final response = await client.get(Uri.parse('${_baseUri}users'));
+    var response = await http.get(Uri.parse("${_baseUri}users"), headers: {
+      "Accept": "application/json",
+      "Access-Control_Allow_Origin": "*"
+    });
 
+    print(response.statusCode);
     if (response.statusCode == 200) {
+      print('inside');
       final users = jsonDecode(response.body) as List;
       List<User> ret = [];
 
       for (var user in users) {
-        try {
-          ret.add(User.fromJson(user));
-        } catch (e) {
-          throw Exception('Failed to load courses');
-        }
+        ret.add(User.fromJson(user));
       }
+
       return ret;
     } else {
-      throw ("Failed to load users.");
+      throw Exception('Failed to load users');
     }
   }
 
   Future<void> deleteUser(int id) async {
-    final http.Response response = await client.delete(
-      Uri.parse('{$_baseUri}users/$id'),
-      headers: <String, String>{
-        'Type': 'application/json; charset = UTF-8',
-      },
-    );
-    if (response.statusCode != 204) {
+    print("came to delete");
+    try {
+      final http.Response response = await client.delete(
+        Uri.parse("${_baseUri}usersDetail/$id"),
+        headers: <String, String>{
+          'Type': 'application/json; charset = UTF-8',
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
+    var response;
+    if (response.statusCode != 204 || response.statusCode != 200) {
       throw Exception('Failed to delete user');
     }
   }
@@ -101,7 +109,7 @@ class UserDataProvider{
       throw Exception('Operation Failed.');
     }
   }
-  
+
   Future<User?> searchUser(User user) async {
     print("search usr");
     var response = await client.post(Uri.parse("${_baseUri}email-password"),
@@ -120,6 +128,16 @@ class UserDataProvider{
       return user;
     } else {
       return null;
+    }
+  }
+
+  Future<User> getUser(String email) async {
+    final response = await client.get(Uri.parse("${_baseUri}usersDetail/$email"));
+    if (response.statusCode == 200) {
+      final user = jsonDecode(response.body);
+      return User.fromJson(user);
+    } else {
+      throw Exception('Post not found.');
     }
   }
 }

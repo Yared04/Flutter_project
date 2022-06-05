@@ -1,4 +1,3 @@
-import 'package:gada_ethiopia_mobile/lib.dart';
 
 class DonationEvents {}
 

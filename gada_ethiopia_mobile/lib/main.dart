@@ -1,25 +1,17 @@
-import 'dart:convert';
-import 'package:gada_ethiopia_mobile/application/auth/registration/register_bloc.dart';
-import 'package:gada_ethiopia_mobile/presentation/auth/list_of_donations.dart';
-import 'package:gada_ethiopia_mobile/presentation/admin/list_of_posts.dart';
-import 'package:gada_ethiopia_mobile/presentation/admin/list_of_users.dart';
-import 'package:gada_ethiopia_mobile/presentation/auth/Register.dart';
-import 'package:gada_ethiopia_mobile/presentation/post/screens.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'application/auth/login/bloc.dart';
-
-import 'package:gada_ethiopia_mobile/application/auth/registration/bloc.dart';
 import 'lib.dart';
-import 'presentation/post/post_detail.dart';
 
+late final SharedPreferences pref;
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await SharedPreferences.init();
-
+  WidgetsFlutterBinding.ensureInitialized();
+ pref =  await SharedPreferences.getInstance();
+  
   runApp(Gada());
 }
 
@@ -52,14 +44,15 @@ class Gada extends StatelessWidget {
                   return Donation_screen(pid: pid, post: post);
 
                 },
-                routes:[
-                  GoRoute(path: 'thanks',
-                  name:'thankYou',
-                  builder: (context, state) => Thankyou_Screen())
-                ]
+               
                  )]),
+                 
         ]
         ),
+      
+        GoRoute(path: '/thanks',
+                  name:'thankYou',
+                  builder: (context, state) => Thankyou_Screen()),
 
       GoRoute(
         path: '/create-post', 
@@ -68,11 +61,11 @@ class Gada extends StatelessWidget {
       GoRoute(
         path: '/users-list',
         name:'ListOfUsers',
-        builder: (context, state) => const ListUsers() ),
+        builder: (context, state) => ListUsers() ),
       GoRoute(
         path: '/posts-list',
         name:'ListOfPosts',
-        builder: (context, state) => const ListPosts(),
+        builder: (context, state) => ListPosts(),
         routes:[
           GoRoute(
             path:':id',
@@ -104,7 +97,7 @@ class Gada extends StatelessWidget {
                   path: 'donations',
                   name: 'myDonations',
                   builder: (context, state) {
-                    return const ListDonations();
+                    return ListDonations();
 
                     //the _dependents.isEmpty
                   })
