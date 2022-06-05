@@ -26,7 +26,7 @@ void main() {
     // verifyNoMoreInteractions(mockUserRepository);
   } ); 
   
-  test("if user is not created", ()async {
+  test("if user is not created and throws an exception", ()async {
     //arrange
     when(mockUserRepository.createUser(user)).thenAnswer((_) async=>null );
     //act
@@ -50,11 +50,17 @@ void main() {
      
   } );
 
-  //  test("if it failed return list of users in the system", ()async{
-  //   //assert
-  //    expect(throwsA(Exception('Failed to load courses')),throwsException );
+ test("if it failed to return list of users in the system", (){
+    //arrange
+    when(mockUserRepository.getUsers()).thenAnswer((_) async => throw Exception('Failed to load courses'));
+
+    //act
+    final obtain=userRepository.getUsers();
+
+    //assert
+     expect(obtain,throwsException );
      
-  // } );
+  } );   
 
 //  test("if it deletes a user in the system", ()async{
 //     //arrange
@@ -79,4 +85,28 @@ void main() {
 //      expect(obtain, Void);
      
 //   } );
+  test("if it fails to delete a user in the system ", (){
+    //arrange
+    when(mockUserRepository.deleteUser(10)).thenAnswer((_)async => throw Exception('Failed to delete user'));
+
+    //act
+    final obtain= userRepository.deleteUser(10);
+
+    //assert
+     expect( obtain , throwsException);
+     
+  } );
+
+  test("if it fails to update a user in the system ", (){
+    //arrange
+    when(mockUserRepository.updateUser(user)).thenAnswer((_)async => throw Exception('Failed to delete user'));
+
+    //act
+    final obtain= userRepository.updateUser(user);
+
+    //assert
+     expect( obtain , throwsException);
+     
+  } );
+
 }
