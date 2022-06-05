@@ -16,7 +16,6 @@ class CreateCampaign extends StatelessWidget {
 
   final form_key = GlobalKey<FormState>();
   final title_ct = TextEditingController();
-
   final description_ct = TextEditingController();
   final goal_ct = TextEditingController();
   final account_ct = TextEditingController();

@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
 
 class DonationDataProvider {
-  final _baseUri = 'http://192.168.56.1:3000/';
+  final _baseUri = 'http://10.5.224.216:3000/';
   final Client client;
   // final MultipartRequest request;
 

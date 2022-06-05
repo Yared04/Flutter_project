@@ -28,16 +28,21 @@ class AdminBloc extends Bloc<AdminEvents, AdminState> {
 
   void _loading_users(LoadUsers event, Emitter emit) async {
     emit(Loading());
+    var users;
     try {
-      final users = await userRepo.getUsers();
-      emit(UsersLoaded());
+      users = await userRepo.getUsers();
     } catch (_) {
+      emit(UsersLoadFailure());
+    }
+    if(users != null){
+      emit(UsersLoaded(users));
+    }
+    else{
       emit(UsersLoadFailure());
     }
   }
 
   void _loading_posts(LoadPost event, Emitter emit) async {
-    print("ama i even here");
     emit(Loading());
     var posts;
     try {
@@ -53,15 +58,12 @@ class AdminBloc extends Bloc<AdminEvents, AdminState> {
   }
 
   void _delete_post(DeletePost event, Emitter emit) async {
-    print("hereeerererere");
     try {
       await postRepo.deletePost(event.id);
     } catch (e) {
-      print("fail");
       emit(DeleteFailure);
       return;
     }
-    print("success");
     emit(DeleteSuccess());
   }
 }

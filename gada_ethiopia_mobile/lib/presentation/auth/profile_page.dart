@@ -13,7 +13,7 @@ class Profile extends StatelessWidget{
   // String profile_name;
   List<Information> details = [
     Information(icon:Icon(Icons.support,color: Colors.purple,) , title: Text("Donation",style: TextStyle(fontSize: 18.7),), goto: "myDonations"),
-     Information(icon: Icon(Icons.edit_note, color: Colors.purple,) , title: Text("List of Posts",style: TextStyle(fontSize: 18.7),), goto: "ListOfPosts"),
+    //  Information(icon: Icon(Icons.edit_note, color: Colors.purple,) , title: Text("List of Posts",style: TextStyle(fontSize: 18.7),), goto: "ListOfPosts"),
     Information(icon: Icon(Icons.logout, color: Colors.red,) , title:Text( "Logout",style: TextStyle(fontSize: 18.7,color: Colors.red),), goto: "login"),
   ];
 

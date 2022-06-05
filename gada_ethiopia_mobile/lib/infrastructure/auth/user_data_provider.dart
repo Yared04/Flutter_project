@@ -6,15 +6,14 @@ import '../../domain/auth/user_model.dart';
 
 
 class UserDataProvider{
-  // final _baseUri = 'http://10.5.232.114:3000/';
+  // final _baseUri = 'http://10.5.224.216:3000/';
 // class UserDataProvider {
-  final _baseUri = 'http://192.168.56.1:3000/';
+  final _baseUri = 'http://10.5.224.216:3000/';
   final http.Client client;
 
   UserDataProvider({required this.client});
 
   Future<User?> createUser(User user) async {
-    print("here create usr");
     var response = await client.post(Uri.parse("${_baseUri}users"),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
@@ -26,10 +25,8 @@ class UserDataProvider{
           'password': user.password,
         }));
     // ))
-    print(response.statusCode);
 
     if (response.statusCode == 201) {
-      print("finally");
       return user;
 
     } else {
@@ -55,7 +52,7 @@ class UserDataProvider{
   }
 
   Future<List<User>> getUsers() async {
-    final response = await client.get(Uri.http(_baseUri, '/users'));
+    final response = await client.get(Uri.parse('${_baseUri}users'));
 
     if (response.statusCode == 200) {
       final users = jsonDecode(response.body) as List;
@@ -76,7 +73,7 @@ class UserDataProvider{
 
   Future<void> deleteUser(int id) async {
     final http.Response response = await client.delete(
-      Uri.parse('$_baseUri/user-detail/$id'),
+      Uri.parse('{$_baseUri}users/$id'),
       headers: <String, String>{
         'Type': 'application/json; charset = UTF-8',
       },
@@ -88,7 +85,7 @@ class UserDataProvider{
 
   Future<void> updateUser(User user) async {
     final http.Response response = await client.put(
-      Uri.http(_baseUri, 'users/${user.id}'),
+      Uri.parse('${_baseUri}users/${user.id}'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

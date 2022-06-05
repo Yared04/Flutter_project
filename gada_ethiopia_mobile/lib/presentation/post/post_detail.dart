@@ -66,7 +66,7 @@ class PostDetail extends StatelessWidget {
                     height:350,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
-                      image: DecorationImage(image: NetworkImage("http://10.5.232.114:3000/images/uploaded/${state.post!.image.path.split('/').last}"),
+                      image: DecorationImage(image: NetworkImage("http://10.5.224.216:3000/images/uploaded/${state.post!.image.path.split('/').last}"),
                       fit:BoxFit.cover)
                     ),
                    

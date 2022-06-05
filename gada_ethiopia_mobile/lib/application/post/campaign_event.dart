@@ -27,3 +27,22 @@ class FindPost extends CampaignEvent {
   int id;
   FindPost({required this.id});
 }
+class GetCampaignEvent extends CampaignEvent{
+  final int id;
+
+  GetCampaignEvent({required this.id});
+}
+
+class UpdateCampaignEvent extends CampaignEvent{
+  final String description;
+  final String title;
+  final File image;
+  final int goal;
+  final int id;
+  final int donated;
+  final int donator_count;
+
+
+  UpdateCampaignEvent({required this.donated, required this.donator_count, required this.id, required this.description, required this.title, required this.image, required this.goal});
+  
+}

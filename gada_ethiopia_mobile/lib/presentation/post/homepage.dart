@@ -5,20 +5,17 @@ import 'package:gada_ethiopia_mobile/application/post/post.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
 import 'package:gada_ethiopia_mobile/widgets/custom.dart';
 
-import 'package:gada_ethiopia_mobile/widgets/home.dart';
-// import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
   final SharedPreference sharedPreference = SharedPreference();
   @override
   Widget build(BuildContext context) {
-    // var launch = BlocProvider.of<CampaignBloc>(context);
-    // launch.add(GetPosts());
+    var launch = BlocProvider.of<CampaignBloc>(context);
+    launch.add(GetPosts());
     var myListDict = [];
-    List<MyContainer> postsList = [];
+    List<Widget> postsList = [];
 
     return Scaffold(
       drawer: const MyDrawer(),
@@ -56,10 +53,10 @@ class MyHomePage extends StatelessWidget {
         child: BlocConsumer<CampaignBloc, CampaignState>(
             listener: ((_, state) {}),
             builder: (_, state) {
-              if (state is LoadingHome) {
-                var launch = BlocProvider.of<CampaignBloc>(context);
-                launch.add(GetPosts());
-              }
+              // if (statee) {
+              //   var launch = BlocProvide is LoadingHomr.of<CampaignBloc>(context);
+              //   launch.add(GetPosts());
+              // }
               if (state is LoadFailed) {
                 return Center(
                   child: Image(image: AssetImage('assets/ngoImage.png')),
@@ -67,13 +64,18 @@ class MyHomePage extends StatelessWidget {
               }
               if (state is LoadSuccess) {
                 for (var post in state.posts) {
-                  postsList.add(MyContainer(
-                      pic: post.image,
-                      goal: post.goal,
-                      raised: post.donated,
-                      created: post.created,
-                      donatorCount: post.donator_count,
-                      title: post.title));
+                  postsList.add(GestureDetector(
+                    onTap: (){
+                      context.pushNamed('post-detail', params: {'id': post.id.toString()});
+                    },
+                    child: MyContainer(
+                        pic: post.image,
+                        goal: post.goal,
+                        raised: post.donated,
+                        created: post.created,
+                        donatorCount: post.donator_count,
+                        title: post.title),
+                  ));
                   myListDict.add(post);
                 }
                 myListDict = myListDict.reversed.toList();
@@ -121,7 +123,7 @@ class MyHomePage extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                          "http://192.168.56.1:3000/images/uploaded/${myListDict[index].image.uri.toString().split("/").last}"),
+                                          "http://10.5.224.216:3000/images/uploaded/${myListDict[index].image.uri.toString().split("/").last}"),
                                       fit: BoxFit.cover,
                                     ),
                                     borderRadius: BorderRadius.circular(40),
@@ -178,8 +180,11 @@ class MyHomePage extends StatelessWidget {
               } else {
                 return Container(
                   height: 500,
-                  child: Center(child: CircularProgressIndicator()),
-                );
+                  child: Center(child: ElevatedButton(child: Text("Reload"),
+                  onPressed:(){
+                    context.goNamed('home');
+                  }),
+                ));
               }
             }),
       ),

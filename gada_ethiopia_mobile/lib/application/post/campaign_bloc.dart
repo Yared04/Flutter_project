@@ -12,11 +12,15 @@ class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
   void _createcampaign(CampaignEvent event, Emitter emit) async {
   
     if (event is GetCampaignEvent) {
-      emit(LoadingPost());
+      var posted = null;
       try {
-        final post = await postRepository.getPostDetail(event.id);
-        emit(LoadPostSuccessfull(post: post));
+        print("we are here and we are great");
+        posted = await postRepository.getPostDetail(event.id);
+        print(posted);
+        emit(LoadPostSuccessfull(post: posted));
+        print("also i have been here");
       } catch (e) {
+        print("we are not great");
         emit(LoadPostFailed());
       }
     }
@@ -32,21 +36,19 @@ class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
           goal: event.goal,
           image: event.image,
           created: DateTime.now());
-      var post = null;
+      var posted = null;
       try {
-        post = await postRepository.updatePost;
+        posted = await postRepository.updatePost(event.id,instance);
       } catch (e) {
-        print(e);
         emit(UpdatePostFailed());
       }
-      if (post != null) {
+      if (posted != null) {
         emit(UpdatePostSuccessfull());
       }
     }
 
     if (event is CreatePost) {
-      // print(event.title);
-      // print(event.goal);
+
       if (event.image == null) {
         emit(CreateFailed());
         return;
@@ -64,7 +66,6 @@ class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
       try {
         post = await postRepository.createPost(instance);
       } catch (e) {
-        print(e);
         emit(CreateFailed());
       }
       if (post != null) {
@@ -73,11 +74,9 @@ class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
         try {
           posts = await postRepository.getPosts();
         } catch (e) {
-          // print("failed?");
           emit(LoadFailed());
         }
         if (posts != null) {
-          // print(posts.toString());
           emit(LoadSuccess(posts: posts));
         }
 
@@ -92,17 +91,12 @@ class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
     }
 
     if (event is GetPosts) {
-      // print("been here");
       var posts = null;
       try {
         posts = await postRepository.getPosts();
+         emit(LoadSuccess(posts: posts));
       } catch (e) {
-        // print("failed?");
         emit(LoadFailed());
-      }
-      if (posts != null) {
-        // print(posts.toString());
-        emit(LoadSuccess(posts: posts));
       }
     }
 
@@ -110,7 +104,6 @@ class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
       Post? post;
       try {
         post = await postRepository.getPostDetail(event.id);
-
       }
       catch (e) {
         emit(LoadFail());

@@ -89,7 +89,7 @@ class DonationScafold extends StatelessWidget {
                       Container(
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image:  NetworkImage("http://10.5.232.114:3000/images/uploaded/${post['image'].split('/').last.split("'").first}"),
+                                image:  NetworkImage("http://10.5.224.216:3000/images/uploaded/${post['image'].split('/').last.split("'").first}"),
                                 fit: BoxFit.cover)),
                       ),
                       Container(

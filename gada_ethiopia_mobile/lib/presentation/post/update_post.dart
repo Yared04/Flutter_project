@@ -12,26 +12,25 @@ import 'package:gada_ethiopia_mobile/lib.dart';
 import 'homepage.dart';
 import 'screens.dart';
 
-
 class UpdateCampaign extends StatelessWidget {
-  final int? id;
-  UpdateCampaign({Key? key, this.id}) : super(key: key);
+  final int id;
+  UpdateCampaign({Key? key, required this.id}) : super(key: key);
 
-  final form_key = GlobalKey<FormState>();
-  final title_ct = TextEditingController();
-
-  final description_ct = TextEditingController();
-  final goal_ct = TextEditingController();
-  final account_ct = TextEditingController();
+  // final account_ct = TextEditingController();
   File? uploaded;
 
+  String previousTitle = "";
+  String previousDescription = "";
+  String previousGoal = "";
+ String donated = "";
+  String donators = "";
 
 
- 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<CampaignBloc>(context).add(GetCampaignEvent(id: id!));
-
+    var launch = BlocProvider.of<CampaignBloc>(context);
+    launch.add(GetCampaignEvent(id: id));
+    var post = null;
     return Scaffold(
         appBar: AppBar(
           // leading: Icon(Icons.drafts),
@@ -39,7 +38,7 @@ class UpdateCampaign extends StatelessWidget {
           elevation: 0,
           foregroundColor: Colors.black,
           // backgroundColor: Color.fromARGB(68, 205, 205, 205),
-          title: const Text("Create Campaign"),
+          title: const Text("Update Campaign"),
           // centerTitle: true,
           actions: [
             IconButton(
@@ -72,20 +71,56 @@ class UpdateCampaign extends StatelessWidget {
         //   'donatorCount': 37888,
         //   'created': '40 days'
         // };
-        body: BlocConsumer(
-          listener: (_,__) {},
-          builder: (BuildContext context, Object? state) {
-          
+        body: BlocConsumer<CampaignBloc, CampaignState>(
+          listener: (_, __) {},
+          builder: (_, state) {
+            
+            final form_key = GlobalKey<FormState>();
+            late final title_ct;
+            late final description_ct;
+            late final goal_ct;
+            late final donated_ct;
+            late final donators_ct;
             Widget scafoldBody;
+            print(state);
+            print("oyw");
             if (state is LoadingPost) {
               scafoldBody = CircularProgressIndicator();
-            }
-            if (state is! LoadingPost && state is! LoadPostFailed) {
-              state = state as LoadPostSuccessfull;
-              String previousTitle = state.post.title;
-              String previousDescription = state.post.description;
-              int previousGoal = state.post.goal;
-              File uploaded = state.post.image;
+            } else if (state is LoadPostFailed) {
+              scafoldBody = Center(
+                child: Column(children: [
+                  Text("Could not load post"),
+                  ElevatedButton(onPressed: () {}, child: Text("Return Home"))
+                ]),
+              );
+            } else {
+              if (state is LoadSuccess){
+                return Center(child: ElevatedButton(child: Text("Reload"),
+                  onPressed:(){
+                    context.goNamed('edit-post', params: {'id':id.toString()});
+                  }),
+                );
+              }
+              
+              if (state is LoadPostSuccessfull) {
+                post = state.post;
+              }
+                File? uploaded;
+                previousTitle = post.title;
+                previousDescription = post.description;
+                previousGoal = post.goal.toString();
+                uploaded = post.image;
+                donated = post.donated.toString();
+                donators = post.donator_count.toString();
+                final form_key = GlobalKey<FormState>();
+                title_ct = TextEditingController(text: previousTitle);
+                description_ct = TextEditingController(text: previousDescription);
+                goal_ct = TextEditingController(text: previousGoal);
+                donated_ct = TextEditingController(text: donated);
+                donators_ct = TextEditingController(text: donators);
+                // final account_ct = TextEditingController();
+
+              
 
               scafoldBody = Center(
                 child: Form(
@@ -96,7 +131,7 @@ class UpdateCampaign extends StatelessWidget {
                       child: Column(
                         children: [
                           TextFormField(
-                            initialValue: previousTitle,
+                            // initialValue: previousTitle,
                             controller: title_ct,
                             decoration: const InputDecoration(
                                 hintText: "Title",
@@ -119,7 +154,7 @@ class UpdateCampaign extends StatelessWidget {
                             height: 20,
                           ),
                           TextFormField(
-                            initialValue: previousDescription,
+                            // initialValue: previousDescription,
                             controller: description_ct,
                             decoration: const InputDecoration(
                               hintText: "Description",
@@ -147,7 +182,7 @@ class UpdateCampaign extends StatelessWidget {
                           ),
                           TextFormField(
                             controller: goal_ct,
-                            initialValue: previousGoal.toString(),
+                            // initialValue: previousGoal.toString(),
                             decoration: const InputDecoration(
                                 hintText: "Goal",
                                 focusColor: Colors.green,
@@ -193,7 +228,7 @@ class UpdateCampaign extends StatelessWidget {
                               }
                               if (state is UpdatePostFailed) {
                                 buttonState = const Text(
-                                  "Update Faild retry",
+                                  "Update Failed retry",
                                 );
                               }
                               if (state is PickSuccess || uploaded != null) {
@@ -239,10 +274,14 @@ class UpdateCampaign extends StatelessWidget {
                                                 context);
 
                                         post.add(UpdateCampaignEvent(
+                                            id: id,
                                             title: title_ct.text,
                                             description: description_ct.text,
                                             goal: int.parse(goal_ct.text),
+                                            donated: int.parse(donated_ct.text),
+                                            donator_count: int.parse(donators_ct.text),
                                             image: File(uploaded!.path)));
+                                          
                                       } else {
                                         return;
                                       }
@@ -256,17 +295,10 @@ class UpdateCampaign extends StatelessWidget {
                                 (current is UpdatePostSuccessfull),
                             listener: (_, CampaignState state) {
                               context.push('home');
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (_) => const MyHomePage()));
                             },
                           ),
 
-                          // TextFormField(),
-                          // TextFormField(),
-                          // TextFormField(),
-                          //imagefield
+                         
                         ],
                       ),
                     ),
@@ -274,26 +306,7 @@ class UpdateCampaign extends StatelessWidget {
                 ),
               );
             }
-            if (state == LoadPostFailed) {
-              scafoldBody = Center(
-                child: Column(children: [
-                  Text("Could not load post"),
-                  ElevatedButton(onPressed: () {}, 
-                  child: Text("Return Home"))
-                ]),
-              );
-            }
-            else{
-              scafoldBody = Center(
-                child: Column(
-                  children: [
-                    Text("error has occured"),
-                    ElevatedButton(onPressed: (){}, 
-                    child: Text("Return Home"))
-                  ]
-                  )
-              ,);
-            }
+
             return scafoldBody;
           },
         ));

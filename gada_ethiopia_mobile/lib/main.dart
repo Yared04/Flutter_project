@@ -5,7 +5,6 @@ import 'package:gada_ethiopia_mobile/presentation/admin/list_of_posts.dart';
 import 'package:gada_ethiopia_mobile/presentation/admin/list_of_users.dart';
 import 'package:gada_ethiopia_mobile/presentation/auth/Register.dart';
 import 'package:gada_ethiopia_mobile/presentation/post/screens.dart';
-import 'package:gada_ethiopia_mobile/presentation/post/start_campaign.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +14,6 @@ import 'application/auth/login/bloc.dart';
 
 import 'package:gada_ethiopia_mobile/application/auth/registration/bloc.dart';
 import 'lib.dart';
-import 'application/post/post.dart';
 import 'presentation/post/post_detail.dart';
 
 void main() async {
@@ -123,8 +121,8 @@ class Gada extends StatelessWidget {
               postRepository: PostRepository(
                 dataProvider: PostDataProvider(
                   request: MultipartRequest(
-                      "Post", Uri.parse('http://192.168.56.1:3000/posts')),
-                  // "Post", Uri.parse('http://192.168.56.1:3000/posts')),
+                      "Post", Uri.parse('http://10.5.224.216:3000/posts')),
+                  // "Post", Uri.parse('http://10.5.224.216:3000/posts')),
                   client: Client(),
                 ),
               ),
@@ -139,12 +137,13 @@ class Gada extends StatelessWidget {
                   userRepository: UserRepository(
                       dataProvider: UserDataProvider(client: Client())))),
           BlocProvider(create: (BuildContext context) => PassBloc()),
+          
           BlocProvider(
               create: (BuildContext context) => AdminBloc(
                   postRepo: PostRepository(
                       dataProvider: PostDataProvider(
                           request: MultipartRequest("Post",
-                              Uri.parse('http://192.168.56.1:3000/posts')),
+                              Uri.parse('http://10.5.224.216:3000/posts')),
                           client: Client())),
                   userRepo: UserRepository(
                       dataProvider: UserDataProvider(client: Client())))),

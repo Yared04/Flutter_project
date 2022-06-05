@@ -67,7 +67,9 @@ class ListPosts extends StatelessWidget {
                   itemCount: posts.length > 0 ? posts.length : 1,
                   itemBuilder: (_, index) => posts.length > 0 ? Card(
                     child: ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          context.pushNamed('edit-post', params: {'id':posts[index].id.toString()});
+                        },
                         subtitle: Text("Goal: ${posts[index].goal}"),
                         trailing: GestureDetector(
                           child: const Icon(

@@ -1,4 +1,4 @@
-import 'package:get/get_connect/http/src/request/request.dart';
+// import 'package:get/get_connect/http/src/request/request.dart';
 
 import '../../lib.dart';
 
@@ -32,3 +32,20 @@ class LoadNotFail extends CampaignState{
   Post? post;
   LoadNotFail({required this.post});
 }
+
+// class UpdateCampaignState extends CampaignState{}
+
+class LoadingPost extends CampaignState {}
+
+class LoadPostSuccessfull extends CampaignState {
+  final Post post;
+  LoadPostSuccessfull({required this.post});
+}
+
+class LoadPostFailed extends CampaignState {}
+
+class UpdatingPost extends CampaignState{}
+
+class UpdatePostSuccessfull extends CampaignState{}
+
+class UpdatePostFailed extends CampaignState{}
