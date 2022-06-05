@@ -34,16 +34,50 @@ test('if a donation is not created and it throws an exception',(() {
     
   }));
 
-  test('if a donation is not created and it throws an exception',(() {
+  final id=10;
+List<Donation> temp=[];
+  test('if a list of donation is succesfuly retrived by using user id ',(() async{
     //arrange
-    when(mockDonationRepository.createDonation(donation)).thenAnswer((_)async=>throw Exception('Failed to create Donation.'));
+    when(mockDonationRepository.getDonationsByUser(id)).thenAnswer((_)async=>temp);
     //act
-     final obtain= donationRepository.createDonation(donation);
+     final obtain= await donationRepository.getDonationsByUser(id);
+    //assert
+    expect(obtain, temp);
+    
+  }));
+
+   test('if a list of donation is not retrived by using user id and throws exception ',(() {
+    //arrange
+    when(mockDonationRepository.getDonationsByUser(id)).thenAnswer((_)async=>throw Exception("could not get donations"));
+    //act
+     final obtain= donationRepository.getDonationsByUser(id);
     //assert
     expect(obtain, throwsException);
     
   }));
-final id=10;
+   
+test('if a list of donation is succesfuly updated ',(() async{
+    //arrange
+    when(mockDonationRepository.updateDonation(id, donation)).thenAnswer((_)async=>donation);
+    //act
+     final obtain= await donationRepository.updateDonation(id, donation);
+    //assert
+    expect(obtain, donation);
+    
+  }));
+
+   test('if a list of donation is not updated and throws exception ',(() {
+    //arrange
+    when(mockDonationRepository.updateDonation(id, donation)).thenAnswer((_)async=>throw Exception("could not update donation"));
+    //act
+     final obtain= donationRepository.updateDonation(id, donation);
+    //assert
+    expect(obtain, throwsException);
+    
+  }));
+
+
+
   test('if a donation is not deleted and it throws an exception',(() {
     //arrange
     when(mockDonationRepository.deleteDonation(id)).thenAnswer((_)async=>throw Exception('deletion failed'));
