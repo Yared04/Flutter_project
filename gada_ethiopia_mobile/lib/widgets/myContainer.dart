@@ -37,7 +37,7 @@ class MyContainer extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
-                    "http://10.5.224.216:3000/images/uploaded/${pic.uri.toString().split("/").last}"),
+                    "http://192.168.56.1:3000/images/uploaded/${pic.uri.toString().split("/").last}"),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(16),

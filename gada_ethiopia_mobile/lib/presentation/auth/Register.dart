@@ -44,7 +44,7 @@ class Register extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(
-              height: 50,
+              height: 5,
             ),
             Center(
               child: CircleAvatar(
@@ -53,7 +53,7 @@ class Register extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 5,
             ),
             Center(
               child: Text(
@@ -62,7 +62,7 @@ class Register extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 25,
+              height: 5,
             ),
             Expanded(
               child: Container(
@@ -78,7 +78,7 @@ class Register extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(
-                        height: 50,
+                        height: 5,
                       ),
                       Form(
                         key: formKey,
@@ -123,7 +123,7 @@ class Register extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              height: 15,
+                              height: 5,
                             ),
                             Container(
                               width: 275,
@@ -157,7 +157,7 @@ class Register extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              height: 15,
+                              height: 5,
                             ),
                             Container(
                               width: 275,

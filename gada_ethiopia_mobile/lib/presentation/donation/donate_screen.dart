@@ -42,8 +42,7 @@ class DonationScafold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-      appBar:  AppBar(
+      appBar: AppBar(
         // leading: Icon(Icons.drafts),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -112,7 +111,8 @@ class DonationScafold extends StatelessWidget {
                       Container(
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image:  NetworkImage("http://10.5.224.216:3000/images/uploaded/${post['image'].split('/').last.split("'").first}"),
+                                image: NetworkImage(
+                                    "http://192.168.56.1:3000/images/uploaded/${post['image'].split('/').last.split("'").first}"),
                                 fit: BoxFit.cover)),
                       ),
                       Container(
@@ -215,7 +215,6 @@ class DonationScafold extends StatelessWidget {
                     },
                     listener: (_, DonationStates state) {
                       context.pushNamed('thankYou');
-                    
                     },
                     builder: (_, DonationStates state) {
                       Widget buttonChild = const Text("Donate");
@@ -267,12 +266,11 @@ class DonationScafold extends StatelessWidget {
                                     BlocProvider.of<DonationBloc>(context);
                                 authBloc.add(
                                   Donate(
-                                      creditController.text.toString(),
-                                      int.parse(
-                                          amountController.text.toString()),
-                                          mem['id'],
-                                      post_id,
-                                      ),
+                                    creditController.text.toString(),
+                                    int.parse(amountController.text.toString()),
+                                    mem['id'],
+                                    post_id,
+                                  ),
                                 );
                               },
                         child: buttonChild,

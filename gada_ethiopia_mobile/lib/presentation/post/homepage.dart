@@ -18,14 +18,16 @@ class MyHomePage extends StatelessWidget {
     var myListDict = [];
     List<Widget> postsList = [];
     // final String cache = jsonDecode(sharedPreference.getCatch().toString());
-    dynamic icon = SizedBox(width: 0.001,);
+    dynamic icon = SizedBox(
+      width: 0.001,
+    );
     var obj = pref.getString("email");
     if (obj != null) {
       var mem = json.decode(obj.toString());
 
       if (mem["is_client"] == true || mem["is_admin"] == true) {
         icon = Icon(Icons.add);
-      } 
+      }
     }
 
     return Scaffold(
@@ -97,8 +99,9 @@ class MyHomePage extends StatelessWidget {
               if (state is LoadSuccess) {
                 for (var post in state.posts) {
                   postsList.add(GestureDetector(
-                    onTap: (){
-                      context.pushNamed('post-detail', params: {'id': post.id.toString()});
+                    onTap: () {
+                      context.pushNamed('post-detail',
+                          params: {'id': post.id.toString()});
                     },
                     child: MyContainer(
                         pic: post.image,
@@ -140,10 +143,11 @@ class MyHomePage extends StatelessWidget {
                       itemCount: myListDict.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (BuildContext context, int index) {
-                        
                         return GestureDetector(
-                          onTap: (){
-                            context.goNamed('post-detail', params: {'id': myListDict[index].id.toString()});
+                          onTap: () {
+                            context.goNamed('post-detail', params: {
+                              'id': myListDict[index].id.toString()
+                            });
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -155,7 +159,7 @@ class MyHomePage extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                          "http://10.5.224.216:3000/images/uploaded/${myListDict[index].image.uri.toString().split("/").last}"),
+                                          "http://192.168.56.1:3000/images/uploaded/${myListDict[index].image.uri.toString().split("/").last}"),
                                       fit: BoxFit.cover,
                                     ),
                                     borderRadius: BorderRadius.circular(40),
@@ -211,16 +215,17 @@ class MyHomePage extends StatelessWidget {
                 ]);
               } else {
                 return Container(
-                  height: 500,
-                  child: Center(child: ElevatedButton(child: Text("Reload"),
-                  onPressed:(){
-                    context.goNamed('home');
-                  }),
-                ));
+                    height: 500,
+                    child: Center(
+                      child: ElevatedButton(
+                          child: Text("Reload"),
+                          onPressed: () {
+                            context.goNamed('home');
+                          }),
+                    ));
               }
             }),
       ),
     );
-    
   }
 }

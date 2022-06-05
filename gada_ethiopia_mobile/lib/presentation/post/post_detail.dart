@@ -30,11 +30,10 @@ class PostDetail extends StatelessWidget {
               elevation: 0,
               foregroundColor: Colors.black,
               leading: GestureDetector(
-                onTap:(){
-                  context.goNamed('home');
-                },
-                child:Icon(Icons.arrow_back)
-              ),
+                  onTap: () {
+                    context.goNamed('home');
+                  },
+                  child: Icon(Icons.arrow_back)),
               // backgroundColor: Color.fromARGB(68, 255, 255, 255),
               title: Text(state.post!.title),
               // centerTitle: true,
@@ -100,7 +99,7 @@ class PostDetail extends StatelessWidget {
                                   BorderRadius.all(Radius.circular(15)),
                               image: DecorationImage(
                                   image: NetworkImage(
-                                      "http://10.5.224.216:3000/images/uploaded/${state.post!.image.path.split('/').last}"),
+                                      "http://192.168.56.1:3000/images/uploaded/${state.post!.image.path.split('/').last}"),
                                   fit: BoxFit.cover)),
                         ),
                         Align(

@@ -51,12 +51,13 @@ class Post extends Equatable {
     }
   }
 
-  static PostOfId(int id){
-   final postRepo = PostRepository(dataProvider: PostDataProvider(
-                    request: MultipartRequest(
-                          "Post", Uri.parse('http://10.5.224.216:3000/posts')),
-                      client: Client(),
-     ));
+  static PostOfId(int id) {
+    final postRepo = PostRepository(
+        dataProvider: PostDataProvider(
+      request:
+          MultipartRequest("Post", Uri.parse('http://192.168.56.1:3000/posts')),
+      client: Client(),
+    ));
     return postRepo.getPostDetail(id);
   }
 }

@@ -5,11 +5,10 @@ import 'package:http/http.dart' as http;
 import '../../domain/auth/user_model.dart';
 import 'package:gada_ethiopia_mobile/lib.dart';
 
-
-class UserDataProvider{
-  // final _baseUri = 'http://10.5.224.216:3000/';
+class UserDataProvider {
+  // final _baseUri = 'http://192.168.56.1:3000/';
 // class UserDataProvider {
-  final _baseUri = 'http://10.5.224.216:3000/';
+  final _baseUri = 'http://192.168.56.1:3000/';
   final http.Client client;
 
   UserDataProvider({required this.client});
@@ -24,7 +23,7 @@ class UserDataProvider{
           'last_name': user.last_name,
           'email': user.email,
           'password': user.password,
-          'is_admin' : true,
+          'is_admin': true,
         }));
     // ))
 
@@ -133,7 +132,8 @@ class UserDataProvider{
   }
 
   Future<User> getUser(String email) async {
-    final response = await client.get(Uri.parse("${_baseUri}usersDetail/$email"));
+    final response =
+        await client.get(Uri.parse("${_baseUri}usersDetail/$email"));
     if (response.statusCode == 200) {
       final user = jsonDecode(response.body);
       return User.fromJson(user);

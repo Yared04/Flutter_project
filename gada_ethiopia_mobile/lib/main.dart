@@ -1,3 +1,4 @@
+import 'dart:convert';
 
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +8,13 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'application/auth/login/bloc.dart';
 import 'lib.dart';
+import 'presentation/donation/update_donation_screen.dart';
 
 late final SharedPreferences pref;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
- pref =  await SharedPreferences.getInstance();
-  
+  pref = await SharedPreferences.getInstance();
+
   runApp(Gada());
 }
 
@@ -33,43 +35,34 @@ class Gada extends StatelessWidget {
                 return PostDetail(id: pid);
               },
               routes: [
-
-                
-              GoRoute(
-                path:'donate/:post',
-                name: 'donate',
-                builder: (context, state) {
-
-                  final pid = (int.parse(state.params['id']!));
-                  final post = state.params['post']!;
-                  return Donation_screen(pid: pid, post: post);
-
-                },
-               
-                 )]),
-                 
-        ]
-        ),
-      
-        GoRoute(path: '/thanks',
-                  name:'thankYou',
-                  builder: (context, state) => Thankyou_Screen()),
-
-      GoRoute(
-        path: '/create-post', 
-        name:'create-post',
-
+                GoRoute(
+                  path: 'donate/:post',
+                  name: 'donate',
+                  builder: (context, state) {
+                    final pid = (int.parse(state.params['id']!));
+                    final post = state.params['post']!;
+                    return Donation_screen(pid: pid, post: post);
+                  },
+                )
+              ]),
+        ]),
+    GoRoute(
+        path: '/thanks',
+        name: 'thankYou',
+        builder: (context, state) => Thankyou_Screen()),
+    GoRoute(
+        path: '/create-post',
+        name: 'create-post',
         builder: (context, state) => CreateCampaign()),
     GoRoute(
         path: '/users-list',
-
-        name:'ListOfUsers',
-        builder: (context, state) => ListUsers() ),
-      GoRoute(
+        name: 'ListOfUsers',
+        builder: (context, state) => ListUsers()),
+    GoRoute(
         path: '/posts-list',
-        name:'ListOfPosts',
+        name: 'ListOfPosts',
         builder: (context, state) => ListPosts(),
-        routes:[
+        routes: [
           GoRoute(
               path: ':id',
               name: 'edit-post',
@@ -96,38 +89,43 @@ class Gada extends StatelessWidget {
         builder: (context, state) => Profile(),
         routes: [
           GoRoute(
-            path: 'donations',
-            name: 'myDonations',
-            builder: (context, state) {
-              return const ListDonations(
-                id: 1,
-              );
-              
-              //the _dependents.isEmpty
-            },
-            routes: [
-
-          GoRoute(
-              path: ':id',
-              name: 'edit-donation',
+              path: 'donations',
+              name: 'myDonations',
               builder: (context, state) {
-                final did = int.parse(state.params['id']!);
-                return Update_Donation_Screen(
-                  donationId: did,
+                var theid = 1;
+                var obj = pref.getString("email");
+                if (obj != null) {
+                  var mem = json.decode(obj.toString());
+                  theid = mem['id'];
+                }
+                return ListDonations(
+                  id: theid,
                 );
-              })
-        ]
-            // routes: [
-            //   GoRoute(
-            //     path: '/:id',
-            //     name: 'updateMyDonations',
-            //     builder: (context,state){
-            //       final pid = int.parse(state.params['id']!);
-            //       return UpdateDonation(id:pid);
-            //     }
-            //   )
-            // ]
-          ),
+
+                //the _dependents.isEmpty
+              },
+              routes: [
+                GoRoute(
+                    path: ':id',
+                    name: 'edit-donation',
+                    builder: (context, state) {
+                      final did = int.parse(state.params['id']!);
+                      return Update_Donation_Screen(
+                        donationId: did,
+                      );
+                    })
+              ]
+              // routes: [
+              //   GoRoute(
+              //     path: '/:id',
+              //     name: 'updateMyDonations',
+              //     builder: (context,state){
+              //       final pid = int.parse(state.params['id']!);
+              //       return UpdateDonation(id:pid);
+              //     }
+              //   )
+              // ]
+              ),
         ]),
   ]);
 
@@ -141,8 +139,8 @@ class Gada extends StatelessWidget {
               postRepository: PostRepository(
                 dataProvider: PostDataProvider(
                   request: MultipartRequest(
-                      "Post", Uri.parse('http://10.5.224.216:3000/posts')),
-                  // "Post", Uri.parse('http://10.5.224.216:3000/posts')),
+                      "Post", Uri.parse('http://192.168.56.1:3000/posts')),
+                  // "Post", Uri.parse('http://192.168.56.1:3000/posts')),
                   client: Client(),
                 ),
               ),
@@ -157,7 +155,6 @@ class Gada extends StatelessWidget {
                   userRepository: UserRepository(
                       dataProvider: UserDataProvider(client: Client())))),
           BlocProvider(create: (BuildContext context) => PassBloc()),
-          
           BlocProvider(
               create: (BuildContext context) => UserDonationBloc(
                     donationRepo: DonationRepository(
@@ -168,7 +165,7 @@ class Gada extends StatelessWidget {
                   postRepo: PostRepository(
                       dataProvider: PostDataProvider(
                           request: MultipartRequest("Post",
-                              Uri.parse('http://10.5.224.216:3000/posts')),
+                              Uri.parse('http://192.168.56.1:3000/posts')),
                           client: Client())),
                   userRepo: UserRepository(
                       dataProvider: UserDataProvider(client: Client())))),

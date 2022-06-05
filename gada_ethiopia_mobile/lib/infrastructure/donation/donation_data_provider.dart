@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:gada_ethiopia_mobile/lib.dart';
 
 class DonationDataProvider {
-  final _baseUri = 'http://10.5.224.216:3000/';
+  final _baseUri = 'http://192.168.56.1:3000/';
   final Client client;
   // final MultipartRequest request;
 
@@ -37,8 +37,7 @@ class DonationDataProvider {
   Future<Donation> getDonation(int id) async {
     var response = await client.get(Uri.parse("${_baseUri}donationDetail/$id"));
     if (response.statusCode == 200) {
-      final donation =
-          Donation.fromJson(json.decode(response.body));
+      final donation = Donation.fromJson(json.decode(response.body));
       return donation;
     } else {
       throw Exception('Failed to get donation');
@@ -78,19 +77,16 @@ class DonationDataProvider {
   Future<Donation> updateDonation(int id, Donation donation) async {
     print(donation);
     final response = await http.put(Uri.parse("${_baseUri}donations/$id"),
-    
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: json.encode({
-        "id": donation.id,
-        "donated_amount": donation.donated_amount,
-        "account_number": donation.account_number,
-        "user": [
-            donation.user
-        ],
-        "post": [donation.post]
-    }));
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: json.encode({
+          "id": donation.id,
+          "donated_amount": donation.donated_amount,
+          "account_number": donation.account_number,
+          "user": [donation.user],
+          "post": [donation.post]
+        }));
     print("this is this");
     if (response.statusCode == 201 || response.statusCode == 204) {
       return Donation.fromJson(jsonDecode(response.body));

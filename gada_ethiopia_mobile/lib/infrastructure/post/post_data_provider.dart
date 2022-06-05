@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
 class PostDataProvider {
-  final _baseUri = 'http://10.5.224.216:3000/';
+  final _baseUri = 'http://192.168.56.1:3000/';
   final Client client;
   final MultipartRequest request;
   PostDataProvider({required this.request, required this.client});
@@ -88,24 +88,22 @@ class PostDataProvider {
   Future<Post?> updatePost(int id, Post post) async {
     // final uri = Uri.parse(_baseUri);
     // var request = MultipartRequest("POST", uri);
-     final req = MultipartRequest(
-                          "PUT", Uri.parse('${_baseUri}posts/$id'));
+    final req = MultipartRequest("PUT", Uri.parse('${_baseUri}posts/$id'));
     req.fields.addAll({
       'title': post.title,
       'description': post.description,
       'goal': post.goal.toString(),
-      'donated':post.donated.toString(),
-      'donator_count':post.donator_count.toString(),
+      'donated': post.donated.toString(),
+      'donator_count': post.donator_count.toString(),
       'created': DateTime.now().toString(),
-
     });
     req.headers.addAll({
       'Content-Type': 'multipart/form-data',
       //authorization reque
     });
-      req.files.add(await http.MultipartFile.fromPath("image", post.image.path));
+    req.files.add(await http.MultipartFile.fromPath("image", post.image.path));
     // req.files.add(MultipartFile.fromString("image",post.image.toString()));
-  
+
     var response = await req.send();
     if (response.statusCode == 201) {
       return post;

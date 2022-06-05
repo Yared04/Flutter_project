@@ -65,9 +65,10 @@ class Update_Donation_Screen extends StatelessWidget {
         ),
         body: BlocConsumer<UserDonationBloc, UserDonationState>(
           builder: ((_, state) {
+            print(state);
             if (state is GettingDonationToUpdateState) {
               body = CircularProgressIndicator();
-            } else if (state is GetDonationPostFailed) {
+            } else if (state is GetDonationToUpdateFailedState) {
               body = Center(
                 child: Text("Failed to get donation"),
               );
