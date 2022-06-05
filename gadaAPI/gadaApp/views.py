@@ -1,10 +1,8 @@
 
-import http
-from telnetlib import STATUS
-from webbrowser import get
+
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse , JsonResponse
-from matplotlib.pyplot import title
+
 
 from rest_framework.parsers import JSONParser , MultiPartParser , FormParser
 from django.views.decorators.csrf import csrf_exempt
@@ -15,7 +13,20 @@ from .serializers import DonationSerializer, PostSerializer, MemberSerializer
 from .models import Donation, Post, Member
 from django.contrib.auth.models import User
 
+class DonationSingle(APIView):
+    serializer_class = DonationSerializer
+    parser_classes = [JSONParser]
+    def get(self, request , pk):
+      
+        try:
+            users = Donation.objects.get(id = pk)
+        except:
+            return HttpResponse(status = 404)
 
+        serializer = self.serializer_class(instance=users)
+        return JsonResponse(serializer.data , status = 200 )
+
+        
 class PostViewCreate(APIView):
     serializer_class = PostSerializer
     parser_classes = [MultiPartParser, FormParser]

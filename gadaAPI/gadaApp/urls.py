@@ -13,7 +13,8 @@ urlpatterns = [
     # path('single-user/<str:pk>' , DeleteOrViewUser.as_view() , name='single-user'),
     path('donations' , DonationCreate.as_view() , name = 'donations'),
     path('donations/<str:pk>' , DonationDetail.as_view() , name = 'donation-detail'),
-    path('email-password' , Verify.as_view() , name ="verify")
+    path('email-password' , Verify.as_view() , name ="verify"),
+    path('donationDetail/<str:pk>' , DonationSingle.as_view() , name = "donationDetail")
     # path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     # path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
 
