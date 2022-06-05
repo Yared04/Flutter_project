@@ -1,4 +1,5 @@
 
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -7,129 +8,136 @@ import 'package:go_router/go_router.dart';
 
 import '../../application/auth/login/shared_preferences.dart';
 import '../../lib.dart';
-
+import 'package:gada_ethiopia_mobile/application/post/campaign_state.dart';
+import 'package:go_router/go_router.dart';
 
 class ListDonations extends StatelessWidget {
-  
- ListDonations({Key? key}) : super(key: key);
-  final SharedPreference sharedPreference = SharedPreference();
+
+  final int id;
+  const ListDonations({Key? key, required this.id}) : super(key: key);
+
+
   Widget _buildPopup(BuildContext context, id) {
-  return  AlertDialog(
-    title: const Text('Delete donation'),
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-         Text("Are you sure you want to delete this donation?"),
-      ],
-    ),
-    actions: [
-       TextButton(
-        onPressed: () {
-         context.read<AdminBloc>().add(DeletePost(id));
+    return BlocConsumer<UserDonationBloc, UserDonationState>(
+        builder: (context, state) {
+          Widget child;
+          Widget wholeChild;
+           if(state is DeletingDonationState) {
+            child = Text("yes");
+            wholeChild = CircularProgressIndicator();
+          }else if(state is DeleteDonationFailed) {
+            child = Text("Failed retry");
+            wholeChild = Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text("Are you sure you want to delete this donation?"),
+              ],
+            );
+          } else {
+            child = Text("Yes");
+            wholeChild = Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text("Are you sure you want to delete this donation?"),
+              ],
+            );
+          } ;
+          return AlertDialog(
+            title: const Text('Delete donation'),
+            content: wholeChild,
+            actions: [
+              TextButton(
+                onPressed: () {
+                  try {
+                    BlocProvider.of<UserDonationBloc>(context)
+                        .add(DeleteDonationEvent(id: id));
+                    context.pushNamed('myDonations');
+                  } catch (e) {
+                    print(e);
+                  }
+                  // context.pushNamed('listOfPosts');
+                },
+                child: child,
+              ),
+              TextButton(
+                  onPressed: () {
+                    context.pushNamed('myDonations');
+                    // Navigator.of(context).pop();
+                  },
+                  child: const Text("No"))
+            ],
+          );
         },
-        child: const Text('Yes'),
-      ),
-      TextButton(
-        onPressed: (){
-          // Navigator.of(context).pop();
-      },
-       child: const Text("No"))
-    ],
-  );
-}
+        listener: (_, __) {});
+  }
 
   @override
   Widget build(BuildContext context) {
-        return Scaffold(
+    final post = BlocProvider.of<UserDonationBloc>(context);
+    post.add(GetUserDonation(id: id));
+    Widget scafoldBody;
+    return Scaffold(
         appBar: AppBar(
-          // leading: Icon(Icons.drafts),
-          backgroundColor: Colors.white,
-          elevation: 0,
-          foregroundColor: Colors.black,
-          // backgroundColor: Color.fromARGB(68, 255, 255, 255),
-          title: Text("list of donations"),
-          // centerTitle: true,
-          actions: [
-            IconButton(
-                onPressed: () {
-                  showSearch(context: context, delegate: MySearchDelegete());
-                },
-                // if(await jsonDecode(sharedPreference.getCatch().toString())['is_staff'] == true){}
-                icon: const Icon(Icons.search)),
-            IconButton(
-              onPressed: () async {
-                var obj = await sharedPreference.getCatch();
-                if (obj != null) {
-                  // var mem = (jsonDecode());
-                  var mem = json.decode(obj.toString());
-
-                  print(mem);
-                  if (await sharedPreference.isEmpty()) {
-                    return null;
-                  }
-                  if (mem["is_client"] == true || mem["is_admin"] == true) {
-                    context.pushNamed('create-post');
+            title: const Text("List of Donations"),
+            leading: GestureDetector(
+                child: Icon(Icons.arrow_back),
+                onTap: () {
+                  context.goNamed('home');
+                })),
+        body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            return BlocConsumer<UserDonationBloc, UserDonationState>(
+                listener: (_, state) => {
+                      if (state is DeleteSuccess) {context.pushNamed("home")}
+                    },
+                builder: (_, state) {
+                  if (state is GettingUserDonationState) {
+                    scafoldBody = Center(child: CircularProgressIndicator());
+                  } else if (state is GetUserDonationSuccessfull) {
+                    print(state);
+                    final donations = state.donations;
+                    scafoldBody = ListView.builder(
+                      padding: const EdgeInsets.all(8.0),
+                      itemCount: donations.length > 0 ? donations.length : 1,
+                      itemBuilder: (_, index) => donations.length > 0
+                          ? Card(
+                              child: ListTile(
+                                  onTap: () {
+                                    context.pushNamed('edit-donation',params: {'id':donations[index].id.toString()});
+                                  },
+                                  subtitle: Text(
+                                      "Amout: ${donations[index].donated_amount}"),
+                                  trailing: GestureDetector(
+                                    child: const Icon(
+                                      Icons.delete,
+                                    ),
+                                    onTap: () {
+                                      showDialog(
+                                          context: _,
+                                          builder: (_) => _buildPopup(
+                                              context, donations[index].id));
+                                    },
+                                  ),
+                                  title: Text(donations[index].account_number)),
+                            )
+                          : Center(
+                              child: Image(
+                                  image: AssetImage('assets/donate.jpg'))),
+                    );
+                  } else if (state is GetUserDonationFailed) {
+                    scafoldBody = Center(child: Text("Failed."));
                   } else {
-                    context.pushNamed('login');
+                    scafoldBody = Center(
+                      child: Text("Error while fetching data"),
+                    );
                   }
-                }
-              },
-              icon: Icon(Icons.add),
-            ),
-            GestureDetector(
-              onTap: () async {
-                if (await sharedPreference.isEmpty()) {
-                  context.push('/login');
-                } else {
-                  context.push('/profile');
-                }
-              },
-              child: const CircleAvatar(
-                backgroundImage: AssetImage('assets/profile_picture.jpg'),
-                maxRadius: 20,
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            )
-          ],
-        ),
-        body: BlocBuilder<AdminBloc, AdminState>(
-        builder:(_, state){
-          if(state is PostLoadFailure){
-            return const Text("Failed.");
-          }
-          if(state is PostLoaded){
-            final posts = state.posts;
-        return ListView.builder(
-          padding: const EdgeInsets.all(8.0),
-          itemCount: posts.length,
-          itemBuilder: (context, index) => 
-            Card(
-              child: ListTile(
-              onTap: () {
-            
-                },
-              subtitle: Text("Amount: ${posts[index].goal}"),
-              trailing: GestureDetector(
-                child: const Icon(Icons.delete,),
-                onTap: (){
-                showDialog(
-                context: context,
-                builder: (_) => _buildPopup(context, posts[index].id));
-                },),
-              title: Text(posts[index].title)),
-          ),
-             
-          );
-          }
-          return Center(child: const CircularProgressIndicator());
-        }
-        
-    )
-    
-  );
-}
-      
+
+                  return scafoldBody;
+                });
+          },
+        ));
+  }
+
 }

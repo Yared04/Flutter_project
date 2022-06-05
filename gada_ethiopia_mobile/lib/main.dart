@@ -1,3 +1,4 @@
+
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -18,21 +19,21 @@ void main() async {
 class Gada extends StatelessWidget {
   Gada({Key? key}) : super(key: key);
   // final postRepo = PostRepository(dataProvider: dataProvider)
-  final _router = GoRouter(
-    initialLocation: '/posts',
-    routes:[
-      GoRoute(
+  final _router = GoRouter(initialLocation: '/posts', routes: [
+    GoRoute(
         path: '/posts',
         name: 'home',
         builder: (context, state) => MyHomePage(),
         routes: [
           GoRoute(
-            path:':id',
-            name: "post-detail",
-            builder: (context, state){
-              final pid = int.parse(state.params['id']!);
-              return PostDetail(id: pid);},
+              path: ':id',
+              name: "post-detail",
+              builder: (context, state) {
+                final pid = int.parse(state.params['id']!);
+                return PostDetail(id: pid);
+              },
               routes: [
+
                 
               GoRoute(
                 path:'donate/:post',
@@ -57,9 +58,11 @@ class Gada extends StatelessWidget {
       GoRoute(
         path: '/create-post', 
         name:'create-post',
+
         builder: (context, state) => CreateCampaign()),
-      GoRoute(
+    GoRoute(
         path: '/users-list',
+
         name:'ListOfUsers',
         builder: (context, state) => ListUsers() ),
       GoRoute(
@@ -68,41 +71,65 @@ class Gada extends StatelessWidget {
         builder: (context, state) => ListPosts(),
         routes:[
           GoRoute(
-            path:':id',
-            name:'edit-post',
-            builder:(context, state){
-              final pid = int.parse(state.params['id']!);
-              return UpdateCampaign(id: pid,);
-            }
-          )
-        ] ),
-      
-      GoRoute(
-        path: '/login',
-        name: 'login',
-        builder: (context, state) => Login(),
-
-        ),
-        GoRoute(
-          path: '/signup',
-          name: 'register',
-          builder: (context, state) => Register(),
-        ),
-        GoRoute(
-            path: '/profile',
-            name: 'profile',
-            builder: (context, state) => Profile(),
+              path: ':id',
+              name: 'edit-post',
+              builder: (context, state) {
+                final pid = int.parse(state.params['id']!);
+                return UpdateCampaign(
+                  id: pid,
+                );
+              })
+        ]),
+    GoRoute(
+      path: '/login',
+      name: 'login',
+      builder: (context, state) => Login(),
+    ),
+    GoRoute(
+      path: '/signup',
+      name: 'register',
+      builder: (context, state) => Register(),
+    ),
+    GoRoute(
+        path: '/profile',
+        name: 'profile',
+        builder: (context, state) => Profile(),
+        routes: [
+          GoRoute(
+            path: 'donations',
+            name: 'myDonations',
+            builder: (context, state) {
+              return const ListDonations(
+                id: 1,
+              );
+              
+              //the _dependents.isEmpty
+            },
             routes: [
-              GoRoute(
-                  path: 'donations',
-                  name: 'myDonations',
-                  builder: (context, state) {
-                    return ListDonations();
 
-                    //the _dependents.isEmpty
-                  })
-            ]),
-      ]);
+          GoRoute(
+              path: ':id',
+              name: 'edit-donation',
+              builder: (context, state) {
+                final did = int.parse(state.params['id']!);
+                return Update_Donation_Screen(
+                  donationId: did,
+                );
+              })
+        ]
+            // routes: [
+            //   GoRoute(
+            //     path: '/:id',
+            //     name: 'updateMyDonations',
+            //     builder: (context,state){
+            //       final pid = int.parse(state.params['id']!);
+            //       return UpdateDonation(id:pid);
+            //     }
+            //   )
+            // ]
+          ),
+        ]),
+  ]);
 
   // This widget is the root of your application.
   @override
@@ -131,6 +158,11 @@ class Gada extends StatelessWidget {
                       dataProvider: UserDataProvider(client: Client())))),
           BlocProvider(create: (BuildContext context) => PassBloc()),
           
+          BlocProvider(
+              create: (BuildContext context) => UserDonationBloc(
+                    donationRepo: DonationRepository(
+                        dataProvider: DonationDataProvider(client: Client())),
+                  )),
           BlocProvider(
               create: (BuildContext context) => AdminBloc(
                   postRepo: PostRepository(
