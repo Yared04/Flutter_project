@@ -9,4 +9,5 @@ class Donate extends DonationEvents {
   int post;
 
   Donate(this.account_number, this.donated_amount, this.user, this.post);
+
 }
