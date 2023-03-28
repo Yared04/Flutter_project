@@ -27,12 +27,6 @@ To get started with the project, you can follow these steps:
 2. Open the project in your preferred IDE.
 3. Build and run the project on your device or emulator.
 
-## Usage
-
-Here are some screenshots of the application in action:
-
-![Screenshot 1](/screenshots/screenshot1.png)
-![Screenshot 2](/screenshots/screenshot2.png)
 
 ## Contributing
 
