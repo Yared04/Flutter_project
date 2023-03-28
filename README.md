@@ -1,39 +1,55 @@
-# Flutter_project
 
-Project Title: GADA(ጋዳ) ETHIOPIA
-GROUP MEMBERS:
-1. KALEABE NEGUSSIE UGR/3411/12
-2. NATNAEL TADELE UGR/0415/12  
-3. YARED NAMSSI UGR/1548/12 
-4. YARED TEGEGN UGR/7066/12 
+# GADA - Gift Application
 
-The general idea of "GADA"which means gift is to create an application where some users can post a specific issues related to funding and other users can lend a helping hand. currently In our country this is done through ethio telecom using text messages like 8100. And our plan is to modernize this way by developing a mobile application where every thing is direct and easy.
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-For this project we will have 3 type of users;
+## About the Project
 
-1. Administrators
-      1. that have full previlages to all CRUD cpabilities towards all feature like adding/removing clients, donations and posts
-      2. will have managing page which includes authentication and authorization
-2. clients
-      1. have privillages to CRUD posts
-      2. login into their accounts
-      3. have their own profiles and can manage it
-3. users
-      1. login(sign up if first time)
-      2. can only see the posts and provide donations
-      3. will have their own profile pages and can manage it
+GADA is a mobile application that aims to modernize the way funding is provided for specific issues in our country. Currently, this is done through ethio telecom using text messages like 8100. Our plan is to develop a mobile application where everything is direct and easy.
 
-BUSINESS FEATURES 
-1. Posts: specific issues that needs funding
-2. Donations: where a user can provide funds
+The application will have three types of users:
 
+- Administrators: Have full privileges to all CRUD capabilities towards all features like adding/removing clients, donations, and posts. They will have a managing page which includes authentication and authorization.
+- Clients: Have privileges to CRUD posts, login into their accounts, have their own profiles, and can manage them.
+- Users: Can only see the posts and provide donations. They will have their own profile pages and can manage them.
 
-Authentication and Authorization Features
+## Features
 
-1. The admin will be authorized for all CRUD capabilities of both features
-2. The client will have authorization for CRUD capabilities of their own posts
-3. Users will only be authorized to creating,Reading donations
-4. Both clients and users will be able to create, update, read and delete their own profiles
+- Posts: Specific issues that need funding.
+- Donations: Where a user can provide funds.
+- Authentication and Authorization Features: The admin will be authorized for all CRUD capabilities of both features. The client will have authorization for CRUD capabilities of their own posts. Users will only be authorized to creating, reading donations. Both clients and users will be able to create, update, read, and delete their own profiles. Authentication will be added so that no one will be able to access what they aren't authorized to do, and authentication will also be added when logging in.
 
-5. Authentication will be added so that that no one will be able to access what he/she isn't authorized to do so
-6. authentication will also be added when logging in.
+## Getting Started
+
+To get started with the project, you can follow these steps:
+
+1. Clone the repository to your local machine.
+2. Open the project in your preferred IDE.
+3. Build and run the project on your device or emulator.
+
+## Usage
+
+Here are some screenshots of the application in action:
+
+![Screenshot 1](/screenshots/screenshot1.png)
+![Screenshot 2](/screenshots/screenshot2.png)
+
+## Contributing
+
+We would like to thank the following people for their contributions to this project:
+
+- Kaleabe Negussie (UGR/3411/12)
+- Natnael Tadele (UGR/0415/12)
+- Yared Namssi (UGR/1548/12)
+- Yared Tegegn (UGR/7066/12)
+
+We appreciate your time and effort in making this project better!
+Contributions to this project are welcome! If you'd like to contribute, please follow these steps:
+
+1. Fork the project.
+2. Create a new branch with your changes.
+3. Submit a pull request.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
